@@ -1,0 +1,40 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    grid-column: span #{$i};
+  }
+  .row-#{$i} {
+    grid-row: span #{$i};
+  }
+}
+@each $space, $value in $breaking-points {
+  @include media-breakpoint-up($value) {
+    @for $i from 1 through 12 {
+      .col-#{$space}-#{$i} {
+        grid-column: span #{$i};
+      }
+      .row-#{$space}-#{$i} {
+        grid-row: span #{$i};
+      }
+    }
+  }
+}

@@ -1,0 +1,157 @@
+@each $i, $spacing in $spacings {
+  .m-#{$i} {
+    margin: $spacing;
+  }
+  .mx-#{$i} {
+    margin-left: $spacing;
+    margin-right: $spacing;
+  }
+  .my-#{$i} {
+    margin-top: $spacing;
+    margin-bottom: $spacing;
+  }
+  .mt-#{$i} {
+    margin-top: $spacing;
+  }
+  .mb-#{$i} {
+    margin-bottom: $spacing;
+  }
+  .mr-#{$i} {
+    margin-right: $spacing;
+  }
+  .ml-#{$i} {
+    margin-left: $spacing;
+  }
+  .p-#{$i} {
+    padding: $spacing;
+  }
+  .px-#{$i} {
+    padding-left: $spacing;
+    padding-right: $spacing;
+  }
+  .py-#{$i} {
+    padding-top: $spacing;
+    padding-bottom: $spacing;
+  }
+  .pt-#{$i} {
+    padding-top: $spacing;
+  }
+  .pb-#{$i} {
+    padding-bottom: $spacing;
+  }
+  .pr-#{$i} {
+    padding-right: $spacing;
+  }
+  .pl-#{$i} {
+    padding-left: $spacing;
+  }
+
+  .g-#{$i} {
+    grid-gap: $spacing;
+  }
+  .gx-#{$i} {
+    grid-gap: $spacing 0;
+  }
+  .gy-#{$i} {
+    grid-gap: 0 $spacing;
+  }
+  .gap-#{$i} {
+    gap: $spacing;
+  }
+
+  .border-#{$i} {
+    border-width: $spacing;
+    border-style: solid;
+  }
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.w-screen {
+  width: 100vw;
+}
+
+@for $i from 1 through 4 {
+  .h-#{$i}\/4 {
+    height: $i * 25%;
+  }
+  .w-#{$i}\/4 {
+    width: $i * 25%;
+  }
+}
+@for $i from 1 through 5 {
+  .h-#{$i}\/5 {
+    height: $i * 25%;
+  }
+  .w-#{$i}\/5 {
+    width: $i * 25%;
+  }
+}
+@for $i from 1 through 10 {
+  .h-#{$i}\/10 {
+    height: $i * 10%;
+  }
+  .w-#{$i}\/10 {
+    width: $i * 10%;
+  }
+}
+.w-full {
+  width: 100%;
+}
+.h-full {
+  height: 100%;
+}
+
+@for $i from 0 through 50 {
+  .w-#{$i} {
+    width: $i * 1rem;
+  }
+  .h-#{$i} {
+    height: $i * 1rem;
+  }
+}
+
+@each $key, $value in $radius {
+  .rounded-#{$key} {
+    border-radius: $value;
+  }
+}
+
+.rounded {
+  @extend .rounded-md;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.dashed {
+  border-style: dashed;
+}
+
+.dotted {
+  border-style: dotted;
+}
+.solid {
+  border-style: solid;
+}
+.double {
+  border-style: double;
+}
+.groove {
+  border-style: groove;
+}
+.ridge {
+  border-style: ridge;
+}
+.inset {
+  border-style: inset;
+}
+.outset {
+  border-style: outset;
+}

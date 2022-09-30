@@ -1,0 +1,51 @@
+$breaking-points: (
+  xxs 320px 2,
+  xs 480px 4,
+  sm 768px 8,
+  md 1024px 12,
+  lg 1280px 16,
+  xl 1440px 18,
+  xxl 1680px 21,
+  xxxl 1920px 24
+);
+
+$spacings: (
+  1: 0.125rem,
+  2: 0.25rem,
+  3: 0.5rem,
+  4: 0.75rem,
+  5: 1rem,
+  6: 1.5rem,
+  7: 2rem,
+  8: 3rem,
+  9: 4rem,
+  10: 6rem,
+  11: 8rem,
+  12: 12rem,
+);
+
+$radius: (
+  none: 0,
+  sm: 0.125rem,
+  md: 0.25rem,
+  lg: 0.5rem,
+  xl: 0.75rem,
+  2xl: 1rem,
+  3xl: 1.5rem,
+  full: 9999px,
+);
+
+$font-size: (
+  xs 0.75 1,
+  sm 0.857 1.25,
+  md 1 1.5,
+  lg 1.125 1.75,
+  xl 1.25 2,
+  2xl 1.5 2.5,
+  3xl 1.75 3,
+  4xl 2 3.5,
+  5xl 2.5 4,
+  6xl 3 5,
+  7xl 3.5 6,
+  8xl 4 7
+);

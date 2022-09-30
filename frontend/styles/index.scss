@@ -1,0 +1,125 @@
+@use "sass:math";
+@import "config";
+@import "mixins";
+@import "spacing";
+@import "flex";
+@import "grid";
+@import "colors";
+@import "text";
+@import "aniimations";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select,
+a,
+a:active,
+a:visited {
+  text-decoration: none;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  background: transparent;
+}
+
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.debug {
+  border: 1px solid red;
+  & > * {
+    border: 1px solid green;
+    & > * {
+      border: 1px solid blue;
+    }
+  }
+}
+.debug-big {
+  border: 4px solid red;
+  & > * {
+    border: 4px solid green;
+    & > * {
+      border: 4px solid blue;
+    }
+  }
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+.shadow-md {
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+}
+.shadow-lg {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+}
+.shadow-xl {
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.25);
+}
+.shadow-2xl {
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+}
+.shadow-inner {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.shadow {
+  @extend .shadow-md;
+}
+
+.card {
+  @extend .bg-light, .dark\:bg-dark, .text-dark, .dark\:text-light, .rounded-lg;
+}
+
+.container {
+  margin: 0 auto;
+  @each $breakpoint, $value in $breaking-points {
+    @include media-breakpoint-up($value) {
+      max-width: $value;
+    }
+  }
+}
+
+.solid {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.solid-bottom {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.solid-top {
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+.solid-left {
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+.solid-right {
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+
+.card {
+  @extend .bg-light,
+    .dark\:bg-dark,
+    .text-dark,
+    .dark\:text-light,
+    .rounded-lg,
+    .shadow-sm;
+}
