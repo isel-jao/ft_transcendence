@@ -18,7 +18,7 @@
   justify-content: space-evenly;
 }
 
-@for $i from 1 through 12 {
+@for $i from 1 through 24 {
   .col-#{$i} {
     grid-column: span #{$i};
   }
@@ -28,7 +28,7 @@
 }
 @each $space, $value in $breaking-points {
   @include media-breakpoint-up($value) {
-    @for $i from 1 through 12 {
+    @for $i from 1 through 24 {
       .col-#{$space}-#{$i} {
         grid-column: span #{$i};
       }

@@ -8,7 +8,7 @@ const Home: NextPage = () => {
         <title>home</title>
         <meta name="ft_transcendence" content="ft_transcendence" />
       </Head>
-      <main className="bg-cyan-500">app</main>
+      <main>app</main>
     </div>
   );
 };
