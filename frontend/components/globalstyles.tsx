@@ -1,36 +1,50 @@
 import { createGlobalStyle } from "styled-components";
+import { ThemeOptions } from "@mui/material/styles";
 
-export interface DefaultTheme {
+export interface Theme extends ThemeOptions {
+  mode: "light" | "dark";
   colors: {
-    primary?: string;
-    secondary?: string;
-    success?: string;
-    danger?: string;
-    warning?: string;
-    info?: string;
-    light?: string;
-    dark?: string;
+    light: string;
+    dark: string;
+  };
+  bg: {
+    light: string;
+    dark: string;
+  };
+  text: {
+    light: string;
+    dark: string;
   };
 }
 
-export const theme: DefaultTheme = {
+export const theme: Theme = {
+  mode: "dark",
   colors: {
-    primary: "#111",
-    secondary: "#aaaaaa",
-    success: "#00ff6a",
-    danger: "#ff0037",
-    warning: "#ffd000",
-    info: "#00aeff",
-    light: "#f6f6f6",
-    dark: "#111",
+    light: "#ddd",
+    dark: "#444",
+  },
+  palette: {
+    primary: { main: "#00e297" },
+    secondary: { main: "#aaaaaa" },
+    success: { main: "#00ff6a" },
+    error: { main: "#ff0037" },
+    warning: { main: "#ff8800" },
+    info: { main: "#00aeff" },
+  },
+  bg: {
+    dark: "#333",
+    light: "#ddd",
+  },
+  text: {
+    dark: "#fff",
+    light: "#000",
   },
 };
 
-const GlobalStyle = createGlobalStyle<{ theme: DefaultTheme }>`
+const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   body {
-    background-color: ${(props) => props.theme.colors.primary};
-    color: ${(props) => props.theme.colors.secondary};
-  }
+    background-color: ${(props) => props.theme.bg[props.theme.mode]};
+    color: ${(props) => props.theme.text[props.theme.mode]};
 `;
 
 export default GlobalStyle;
