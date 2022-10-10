@@ -7,14 +7,13 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import GlobalStyle, { theme } from "../components/globalstyles";
 import { Provider } from "react-redux";
 import store from "../app/store";
+import Layout from "../components/layout";
 
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
 // Create a theme instance.
 const Muitheme = createTheme(theme);
 import createCache from "@emotion/cache";
-
 function createEmotionCache() {
   return createCache({ key: "css", prepend: true });
 }
@@ -33,7 +32,9 @@ function MyApp(props: MyAppProps) {
       <MuiThemeProvider theme={Muitheme}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
             <CssBaseline />
             <GlobalStyle />
           </ThemeProvider>
