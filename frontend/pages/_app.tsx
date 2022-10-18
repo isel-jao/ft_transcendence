@@ -32,9 +32,7 @@ function MyApp(props: MyAppProps) {
       <MuiThemeProvider theme={Muitheme}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <Layout></Layout>
             <CssBaseline />
             <GlobalStyle />
           </ThemeProvider>

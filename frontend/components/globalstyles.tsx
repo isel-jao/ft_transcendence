@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import { ThemeOptions } from "@mui/material/styles";
-
+import { ThemedStyledInterface } from "styled-components";
+export const styled: ThemedStyledInterface<Theme> =
+  require("styled-components").default;
 export interface Theme extends ThemeOptions {
   mode: "light" | "dark";
   colors: {
@@ -15,16 +17,48 @@ export interface Theme extends ThemeOptions {
     light: string;
     dark: string;
   };
+  palette: {
+    primary: {
+      light?: string;
+      main: string;
+      dark?: string;
+    };
+    secondary: {
+      light?: string;
+      main: string;
+      dark?: string;
+    };
+    success: {
+      light?: string;
+      main: string;
+      dark?: string;
+    };
+    warning: {
+      light?: string;
+      main: string;
+      dark?: string;
+    };
+    error: {
+      light?: string;
+      main: string;
+      dark?: string;
+    };
+    info: {
+      light?: string;
+      main: string;
+      dark?: string;
+    };
+  };
 }
 
 export const theme: Theme = {
-  mode: "dark",
+  mode: "light",
   colors: {
     light: "#ddd",
     dark: "#444",
   },
   palette: {
-    primary: { main: "#00e297" },
+    primary: { main: "#1700e2" },
     secondary: { main: "#aaaaaa" },
     success: { main: "#00ff6a" },
     error: { main: "#ff0037" },
@@ -45,6 +79,20 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   body {
     background-color: ${(props) => props.theme.bg[props.theme.mode]};
     color: ${(props) => props.theme.text[props.theme.mode]};
+  }
+  ${(props) =>
+    Object.entries(props.theme.palette)
+      .map(([key, value]) => {
+        return ".bg-" + key + " { background-color: " + value.main + "; }";
+      })
+      .join("\n")}
+  ${(props) =>
+    Object.entries(props.theme.palette)
+      .map(([key, value]) => {
+        return ".text-" + key + " { color: " + value.main + "; }";
+      })
+      .join("\n")}
+
 `;
 
 export default GlobalStyle;

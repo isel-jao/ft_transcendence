@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   compiler: {
     styledComponents: {
-      ssr: false,
+      ssr: true,
     },
   },
   async redirects() {

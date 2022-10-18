@@ -5,13 +5,7 @@ import Nav from "./nav";
 import { darken, lighten } from "polished";
 import styled, { StyledInterface } from "styled-components";
 
-interface StyledLayoutProps {
-  sideNavOpen: boolean;
-  margin: number;
-  radius: number;
-}
-
-const StyledLayout = styled.div<StyledLayoutProps>`
+const StyledLayout = styled.div`
   position: relative;
   display: flex;
   width: 100vw;
@@ -20,62 +14,70 @@ const StyledLayout = styled.div<StyledLayoutProps>`
   background: ${(props) => props.theme.bg[props.theme.mode]};
   .main {
     width: 100%;
-    margin-left: ${(props) =>
-      (props.sideNavOpen ? 16 : 6) + 2 * props.margin}rem;
+    margin-left: 6rem;
+    transition: margin-left 0.3s ease;
+    &.open {
+      margin-left: 20rem;
+    }
     position: relative;
     .nav {
-      position: sticky;
       top: 0;
+      right: 0;
       height: 6rem;
+      width: 100%;
     }
   }
 
   .sidenav {
     position: absolute;
-    top: 0;
+    z-index: 1;
     left: 0;
-    width: ${(props) => (props.sideNavOpen ? 16 : 6) + props.margin}rem;
-    height: 100%;
+    width: 6rem;
+    transition: width 0.3s ease;
+    height: 100vh;
+    bottom: 0;
+    box-shadow: 0.25rem 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      width: 20rem;
+    }
+    &.open {
+      width: 20rem;
+    }
   }
   .nav,
   .sidenav {
     overflow: hidden;
-    margin: ${(props) => props.margin}rem;
     background: ${(props) => lighten(0.05, props.theme.bg[props.theme.mode])};
-    box-shadow: 0 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
     color: ${(props) => props.theme.text[props.theme.mode]};
-    border-radius: 0.5rem;
+  }
+  .router-view {
+    border: 1px solid red;
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 `;
 interface Props extends AppProps {
   children?: React.ReactNode;
 }
 
-const defaultTheme: StyledLayoutProps = {
-  sideNavOpen: true,
-  margin: 0.5,
-  radius: 0.5,
-};
-
 const Layout = ({ children }: Props) => {
-  const [config, setConfig] = React.useState(defaultTheme);
+  const [open, setOpen] = React.useState(false);
 
   const toggleSideNav = () => {
-    setConfig({ ...config, sideNavOpen: !config.sideNavOpen });
+    setOpen(!open);
   };
 
   return (
-    <StyledLayout {...defaultTheme}>
-      <div className="sidenav">nav</div>
-
-      <div className="main">
+    <StyledLayout>
+      <div className={`sidenav ${open && "open"}`}></div>
+      <div className={`main debug ${open && "open"}`}>
         <div className="nav">
-          <div className="flex">
-            <Button onClick={toggleSideNav}>toggle sidenav</Button>
-            <div>{JSON.stringify(config)}</div>
-          </div>
+          <Nav open={open} toggleOpen={toggleSideNav} />
         </div>
-        <div className="router-view">{children}</div>
+        <div className={`router-view ${open && "open"}`}>{children}</div>
       </div>
     </StyledLayout>
   );
