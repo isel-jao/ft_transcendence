@@ -56,9 +56,12 @@ const StyledLayout = styled.div`
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    & > * {
+      margin: 1rem;
+    }
   }
 `;
-interface Props extends AppProps {
+interface Props {
   children?: React.ReactNode;
 }
 

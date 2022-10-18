@@ -7,6 +7,7 @@ const Home: NextPage = () => {
         <title>home</title>
         <meta name="ft_transcendence" content="ft_transcendence" />
       </Head>
+      <main>home</main>
     </div>
   );
 };

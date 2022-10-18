@@ -2,9 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import routes, { Route } from "../../../routes";
 import { useRouter } from "next/router";
-
 import Link from "next/link";
 import { darken, lighten, rgba } from "polished";
+
+// import { ButtonBase } from "@mui/material";
+// import styledMui from "@mui/material/styles/styled";
+// const ButtonBaseMui = styledMui(ButtonBase)({});
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: column;
@@ -37,11 +40,11 @@ const StyledNav = styled.nav`
     align-items: center;
     &:hover {
       background-color: ${(props) =>
-        rgba(props.theme.palette.primary.main, 0.2)};
+        rgba(props.theme.palette.primary.main, 0.1)};
     }
     &:active {
       background-color: ${(props) =>
-        rgba(props.theme.palette.primary.main, 0.3)};
+        rgba(props.theme.palette.primary.main, 0.2)};
     }
     .icon {
       display: flex;
