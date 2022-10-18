@@ -58,7 +58,7 @@ export const theme: Theme = {
     dark: "#444",
   },
   palette: {
-    primary: { main: "#1700e2" },
+    primary: { main: "#00b0b6" },
     secondary: { main: "#aaaaaa" },
     success: { main: "#00ff6a" },
     error: { main: "#ff0037" },

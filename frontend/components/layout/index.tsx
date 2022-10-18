@@ -2,6 +2,7 @@ import { AppProps } from "next/app";
 import React from "react";
 import { Button } from "@mui/material";
 import Nav from "./nav";
+import SideNav from "./side-nav";
 import { darken, lighten } from "polished";
 import styled, { StyledInterface } from "styled-components";
 
@@ -17,14 +18,15 @@ const StyledLayout = styled.div`
     margin-left: 6rem;
     transition: margin-left 0.3s ease;
     &.open {
-      margin-left: 20rem;
+      margin-left: 16rem;
     }
     position: relative;
     .nav {
       top: 0;
       right: 0;
-      height: 6rem;
+      height: 5rem;
       width: 100%;
+      box-shadow: 0rem 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -36,13 +38,11 @@ const StyledLayout = styled.div`
     transition: width 0.3s ease;
     height: 100vh;
     bottom: 0;
-    box-shadow: 0.25rem 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0rem 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 
-    &:hover {
-      width: 20rem;
-    }
+    &:hover,
     &.open {
-      width: 20rem;
+      width: 16rem;
     }
   }
   .nav,
@@ -52,7 +52,6 @@ const StyledLayout = styled.div`
     color: ${(props) => props.theme.text[props.theme.mode]};
   }
   .router-view {
-    border: 1px solid red;
     height: 100vh;
     width: 100%;
     overflow-x: hidden;
@@ -72,8 +71,10 @@ const Layout = ({ children }: Props) => {
 
   return (
     <StyledLayout>
-      <div className={`sidenav ${open && "open"}`}></div>
-      <div className={`main debug ${open && "open"}`}>
+      <div className={`sidenav ${open && "open"}`}>
+        <SideNav open={open} />
+      </div>
+      <div className={`main ${open && "open"}`}>
         <div className="nav">
           <Nav open={open} toggleOpen={toggleSideNav} />
         </div>
