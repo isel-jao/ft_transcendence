@@ -1,5 +1,5 @@
 import { AppProps } from "next/app";
-import React from "react";
+import React, { FC } from "react";
 import { Button } from "@mui/material";
 import Nav from "./nav";
 import SideNav from "./side-nav";
@@ -58,11 +58,11 @@ const StyledLayout = styled.div`
     overflow-y: auto;
   }
 `;
-interface Props extends AppProps {
+interface Props {
   children?: React.ReactNode;
 }
 
-const Layout = ({ children }: Props) => {
+const Layout: FC<Props> = ({ children }: Props) => {
   const [open, setOpen] = React.useState(false);
 
   const toggleSideNav = () => {

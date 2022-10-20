@@ -67,7 +67,7 @@ export const theme: Theme = {
   },
   bg: {
     dark: "#333",
-    light: "#ddd",
+    light: "#FAFAFA",
   },
   text: {
     dark: "#fff",
