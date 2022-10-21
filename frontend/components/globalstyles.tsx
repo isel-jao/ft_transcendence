@@ -67,11 +67,20 @@ export const theme: Theme = {
   },
   bg: {
     dark: "#333",
-    light: "#FAFAFA",
+    light: "white",
   },
   text: {
     dark: "#fff",
     light: "#000",
+  },
+  typography: {
+    subtitle1: {
+      fontSize: 12,
+      color: "#696969",
+    },
+    body1: {
+      fontSize: 14,
+    },
   },
 };
 

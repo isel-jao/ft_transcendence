@@ -8,27 +8,15 @@ import {
   Typography,
   Avatar,
   InputBase,
+  Paper,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import AddIcon from "@mui/icons-material/Add";
+import Message from "../../components/chat/messageBox";
+import Usercard from "../../components/chat/usercard";
+import { IFuser, IFMessage, IFConversation } from "../../types";
 
-interface IFuser {
-  name: string;
-  status: string;
-}
-
-interface IFMessage {
-  message_id: number;
-  message_body: string;
-  date: string;
-}
-
-interface IFConversations {
-  id_conversation: number;
-  messages: IFMessage[];
-}
-
-const users = [
+const users: IFuser[] = [
   {
     name: "lily",
     status: "online",
@@ -43,37 +31,108 @@ const users = [
   },
 ];
 
-const conversations = [
-  {
-    id: "1",
-    messages: [
-      {
-        message: "hello, friend how are you ?",
-        date: "10/19/2022 6:33 PM",
-      },
-      {
-        message: "hello, friend how are you ?",
-        date: "10/19/2022 6:33 PM",
-      },
-    ],
+const conversation: IFConversation = {
+  id_conversation: 1,
+  sent_by: {
+    name: "yeen",
+    status: "online",
   },
-  {
-    id: "2",
-    messages: [
-      {
-        message: "hello, friend how are you ?",
-        date: "10/19/2022 6:33 PM",
-      },
-      {
-        message: "hello, friend how are you ?",
-        date: "10/19/2022 6:33 PM",
-      },
-    ],
-  },
-];
+  messages: [
+    {
+      message_id: 1,
+      message_body:
+        "hello, friend how are you ?hello, friend how are you ? hello, friend how are you ? hello, friend how are you ?   ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "great!",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+    {
+      message_id: 1,
+      message_body: "hello, friend how are you ?  ",
+      date: "10/19/2022 6:33 PM",
+    },
+  ],
+};
 
 const Chat: NextPage = () => {
-  const username = "@fmehdaou";
   return (
     <Box
       sx={{
@@ -122,36 +181,65 @@ const Chat: NextPage = () => {
               <AddIcon />
             </IconButton>
           </Box>
-          {users.map((user) => {
-            return (
-              <>
-                <Box
-                  sx={{
-                    display: "flex",
-                    // alignItems: "center",
-                    gap: "10px",
-                    padding: "4px 0px",
-                  }}
-                >
-                  <Avatar sx={{ width: 24, height: 24 }} />
-                  <Typography>{user.name}</Typography>
-                </Box>
-              </>
-            );
-          })}
+          {users.map((user) => (
+            <Usercard user={user} />
+          ))}
         </Box>
 
         {/* second part */}
         <Box
           sx={{
             display: "grid",
-            alignContent: "space-between",
+            gridTemplateRows: "0.1fr 3fr 0.1fr ",
+            alignContent: "start",
             border: "1px solid #000",
           }}
         >
-          <Box sx={{ borderBottom: "1px solid #000" }}>
-            <Typography>{username}</Typography>
+          <Box
+            sx={{
+              p: "10px 10px",
+              backgroundColor: "#fff",
+              display: "flex",
+              gap: "10px",
+              borderBottom: "1px solid #ddd",
+            }}
+          >
+            <Avatar sx={{ width: 24, height: 24 }} />
+            <Typography>{conversation.sent_by.name}</Typography>
+            <Box
+              sx={{
+                borderRadius: "10px",
+                padding: "1px 10px",
+                backgroundColor: "#EBFDF4",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#ddd",
+                  width: "3px",
+                  borderRadius: "50% 50%",
+                }}
+              />
+              <Typography
+                sx={{
+                  color: "#16B66A",
+                }}
+              >
+                {conversation.sent_by.status}
+              </Typography>
+            </Box>
           </Box>
+          <Box
+            sx={{
+              overflowY: "auto",
+            }}
+          >
+            {/* TODO change id */}
+            {conversation.messages.map((item) => (
+              <Message message={item} sent_by={conversation.sent_by} />
+            ))}
+          </Box>
+
           <Box
             sx={{
               display: "flex",
