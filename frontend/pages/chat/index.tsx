@@ -1,20 +1,13 @@
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import {
-  Box,
-  Divider,
-  IconButton,
-  Typography,
-  Avatar,
-  InputBase,
-  Paper,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import { Box, Divider, IconButton, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Message from "../../components/chat/messageBox";
 import Usercard from "../../components/chat/usercard";
 import { IFuser, IFMessage, IFConversation } from "../../types";
+import MessageBorder from "../../components/chat/MessageBorder";
+import MessageInput from "../../components/chat/MessageInput";
 
 const users: IFuser[] = [
   {
@@ -26,7 +19,7 @@ const users: IFuser[] = [
     status: "online",
   },
   {
-    name: "yeen",
+    name: "yeen Kath",
     status: "offline",
   },
 ];
@@ -34,7 +27,7 @@ const users: IFuser[] = [
 const conversation: IFConversation = {
   id_conversation: 1,
   sent_by: {
-    name: "yeen",
+    name: "yeen Kath",
     status: "online",
   },
   messages: [
@@ -148,14 +141,14 @@ const Chat: NextPage = () => {
         sx={{
           display: "grid",
           gridTemplateColumns: "1fr 3fr",
-          gridTemplateRows: "calc(100vh - 500px)",
+          gridTemplateRows: "calc(100vh - 200px)",
           // padding: "10px 10px",
         }}
       >
         {/* first part */}
         <Box
           sx={{
-            border: "1px solid #000",
+            border: "1px solid #ddd",
           }}
         >
           <Box
@@ -163,10 +156,11 @@ const Chat: NextPage = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              borderBottom: "1px solid #000",
+              borderBottom: "2px solid #ddd",
+              p: "10px",
             }}
           >
-            <Typography>Direct Messages</Typography>
+            <Typography variant="h2">Messages</Typography>
             <IconButton
               sx={{
                 "&.MuiButtonBase-root": {
@@ -192,43 +186,10 @@ const Chat: NextPage = () => {
             display: "grid",
             gridTemplateRows: "0.1fr 3fr 0.1fr ",
             alignContent: "start",
-            border: "1px solid #000",
+            border: "1px solid #ddd",
           }}
         >
-          <Box
-            sx={{
-              p: "10px 10px",
-              backgroundColor: "#fff",
-              display: "flex",
-              gap: "10px",
-              borderBottom: "1px solid #ddd",
-            }}
-          >
-            <Avatar sx={{ width: 24, height: 24 }} />
-            <Typography>{conversation.sent_by.name}</Typography>
-            <Box
-              sx={{
-                borderRadius: "10px",
-                padding: "1px 10px",
-                backgroundColor: "#EBFDF4",
-              }}
-            >
-              <Box
-                sx={{
-                  backgroundColor: "#ddd",
-                  width: "3px",
-                  borderRadius: "50% 50%",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "#16B66A",
-                }}
-              >
-                {conversation.sent_by.status}
-              </Typography>
-            </Box>
-          </Box>
+          <MessageBorder conversation={conversation} />
           <Box
             sx={{
               overflowY: "auto",
@@ -239,36 +200,7 @@ const Chat: NextPage = () => {
               <Message message={item} sent_by={conversation.sent_by} />
             ))}
           </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "space-between",
-              justifyContent: "center",
-              border: "1px solid #000",
-              borderRadius: "6px",
-              margin: "10px 6px",
-            }}
-          >
-            <InputBase
-              fullWidth
-              placeholder="new message..."
-              // TODO  need implementation
-              onChange={(e) => {
-                console.log(e.target.value);
-              }}
-            />
-            <Divider orientation="vertical" />
-            <IconButton
-              onClick={() => {
-                //TODO need implementation
-                console.log("sent message!");
-              }}
-              sx={{ p: "4px" }}
-            >
-              <SendIcon />
-            </IconButton>
-          </Box>
+          <MessageInput />
         </Box>
       </Box>
     </Box>

@@ -1,0 +1,40 @@
+import React from "react";
+import { Box, Divider, IconButton, InputBase } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+
+const MessageInput = () => {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "space-between",
+        justifyContent: "center",
+        border: "1px solid #ddd",
+        borderRadius: "6px",
+        margin: "10px 6px",
+      }}
+    >
+      <InputBase
+        fullWidth
+        placeholder="new message..."
+        // TODO  need implementation
+        onChange={(e) => {
+          console.log(e.target.value);
+        }}
+      />
+      <Divider orientation="vertical" />
+      <IconButton
+        size="small"
+        onClick={() => {
+          //TODO need implementation
+          console.log("sent message!");
+        }}
+        sx={{ p: "4px" }}
+      >
+        <SendIcon htmlColor="#7F56DA" />
+      </IconButton>
+    </Box>
+  );
+};
+
+export default MessageInput;

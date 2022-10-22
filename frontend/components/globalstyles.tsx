@@ -81,6 +81,14 @@ export const theme: Theme = {
     body1: {
       fontSize: 14,
     },
+    h1: {
+      fontSize: 18,
+      fontWeight: 600,
+    },
+    h2: {
+      fontSize: 14,
+      fontWeight: 600,
+    },
   },
 };
 
