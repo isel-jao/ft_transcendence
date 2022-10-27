@@ -33,14 +33,13 @@ const StyledNav = styled.nav`
   .link {
     display: flex;
     margin-inline: 1rem;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, padding-left 0.3s ease;
     border-radius: 0.5rem;
     cursor: pointer;
     height: 3rem;
     align-items: center;
     &:hover {
-      background-color: ${(props) =>
-        rgba(props.theme.palette.primary.main, 0.1)};
+      padding-left: 0.5rem;
     }
     &:active {
       background-color: ${(props) =>
@@ -69,11 +68,6 @@ const StyledNav = styled.nav`
   .contained {
     color: ${(props) => props.theme.text.dark};
     background-color: ${(props) => props.theme.palette.primary.main};
-    transition: background-color 0.3s ease;
-    &:hover {
-      background-color: ${(props) =>
-        lighten(0.05, props.theme.palette.primary.main)};
-    }
     &:active {
       background-color: ${(props) =>
         darken(0.05, props.theme.palette.primary.main)};
