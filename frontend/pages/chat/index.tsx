@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Box, Divider, IconButton, Typography } from "@mui/material";
+import io from "socket.io-client";
+import {
+  Box,
+  Divider,
+  IconButton,
+  Typography,
+  useStepContext,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Message from "../../components/chat/messageBox";
 import Usercard from "../../components/chat/usercard";
 import { IFuser, IFMessage, IFConversation } from "../../types";
 import MessageBorder from "../../components/chat/MessageBorder";
 import MessageInput from "../../components/chat/MessageInput";
+
+const SERVERURL = "http://localhost:5000/";
 
 const users: IFuser[] = [
   {
@@ -126,6 +135,14 @@ const conversation: IFConversation = {
 };
 
 const Chat: NextPage = () => {
+  //TODO change data type, data: type of message
+  const [data, setData] = useState();
+
+  const socket = io(SERVERURL);
+  socket.on("connect", () => {
+    console.log("socket connected");
+  });
+
   return (
     <Box
       sx={{
@@ -175,8 +192,8 @@ const Chat: NextPage = () => {
               <AddIcon />
             </IconButton>
           </Box>
-          {users.map((user) => (
-            <Usercard user={user} />
+          {users.map((user, index) => (
+            <Usercard key={index} user={user} />
           ))}
         </Box>
 
@@ -196,11 +213,15 @@ const Chat: NextPage = () => {
             }}
           >
             {/* TODO change id */}
-            {conversation.messages.map((item) => (
-              <Message message={item} sent_by={conversation.sent_by} />
+            {conversation.messages.map((item, index) => (
+              <Message
+                key={index}
+                message={item}
+                sent_by={conversation.sent_by}
+              />
             ))}
           </Box>
-          <MessageInput />
+          <MessageInput socket={socket} conversation={conversation} />
         </Box>
       </Box>
     </Box>

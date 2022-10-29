@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Divider, IconButton, InputBase } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import { Socket } from "socket.io-client";
 
-const MessageInput = () => {
+//TODO change type
+const MessageInput = (props: { socket: Socket }) => {
+  const [message, setMessage] = useState<string>();
+  const { socket } = props;
+
+  useEffect(() => {}, []);
+
+  const handelChangeMessage = (value: string) => {
+    setMessage(value);
+  };
+
+  const handelSendMessage = () => {
+    socket.emit("newMessage", message);
+    socket.on("onMessage", (data) => {
+      console.log({ data });
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -18,17 +36,12 @@ const MessageInput = () => {
         fullWidth
         placeholder="new message..."
         // TODO  need implementation
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
+        onChange={(e) => handelChangeMessage(e.target.value)}
       />
       <Divider orientation="vertical" />
       <IconButton
         size="small"
-        onClick={() => {
-          //TODO need implementation
-          console.log("sent message!");
-        }}
+        onClick={() => handelSendMessage()}
         sx={{ p: "4px" }}
       >
         <SendIcon htmlColor="#7F56DA" />
