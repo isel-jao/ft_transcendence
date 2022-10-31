@@ -26,9 +26,11 @@ export class EventsGeteway implements NestGateway {
     @SubscribeMessage('newMessage')
     onNewMessage(@MessageBody() data: string, @ConnectedSocket() client: any){
         console.log('message is ',data);
-        this.server.emit('onMessage', data)
+        this.server.emit('onMessage', {
+            message_id: 1,
+            message_body:data,
+            data:"10/19/2022 6:33 PM",
+        })
     }
-
-
 }
 

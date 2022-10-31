@@ -2,10 +2,11 @@ import React from "react";
 import { Box, Typography, Avatar, Divider } from "@mui/material";
 import { IFuser } from "../../types";
 
-const usercard = (props: { user: IFuser }) => {
-  const { user } = props;
+const usercard = (props: { user: IFuser; handelUserChange: Function }) => {
+  const { user, handelUserChange } = props;
   return (
     <Box
+      onClick={handelUserChange(user)}
       sx={{
         display: "flex",
         gap: "10px",
@@ -14,6 +15,7 @@ const usercard = (props: { user: IFuser }) => {
         p: "4px 10px",
         backgroundColor: "#F9FAFC",
         borderLeft: "2px solid #7F56DA",
+        cursor: "pointer",
       }}
     >
       <Avatar sx={{ width: 24, height: 24 }} />

@@ -2,23 +2,35 @@ import React, { useState, useEffect } from "react";
 import { Box, Divider, IconButton, InputBase } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { Socket } from "socket.io-client";
+import { SetMealSharp } from "@mui/icons-material";
 
 //TODO change type
-const MessageInput = (props: { socket: Socket }) => {
-  const [message, setMessage] = useState<string>();
-  const { socket } = props;
+const MessageInput = (props: {
+  socket: Socket;
+  handelChangeData: Function;
+}) => {
+  const [message, setMessage] = useState<string>("");
+  const { socket, handelChangeData } = props;
 
-  useEffect(() => {}, []);
-
-  const handelChangeMessage = (value: string) => {
-    setMessage(value);
+  const handelChangeMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(event.target.value);
   };
 
   const handelSendMessage = () => {
+    console.log("pressed send message");
     socket.emit("newMessage", message);
-    socket.on("onMessage", (data) => {
-      console.log({ data });
+    socket.once("onMessage", (data) => {
+      handelChangeData(data);
     });
+    setMessage("");
+  };
+
+  //TODO change any
+  const handelPressEnter = (event: any) => {
+    if (event.key === "Enter") {
+      setMessage(event.target.value);
+      handelSendMessage();
+    }
   };
 
   return (
@@ -33,17 +45,15 @@ const MessageInput = (props: { socket: Socket }) => {
       }}
     >
       <InputBase
+        onKeyDown={(e) => handelPressEnter(e)}
         fullWidth
         placeholder="new message..."
         // TODO  need implementation
-        onChange={(e) => handelChangeMessage(e.target.value)}
+        value={message}
+        onChange={handelChangeMessage}
       />
       <Divider orientation="vertical" />
-      <IconButton
-        size="small"
-        onClick={() => handelSendMessage()}
-        sx={{ p: "4px" }}
-      >
+      <IconButton size="small" onClick={handelSendMessage} sx={{ p: "4px" }}>
         <SendIcon htmlColor="#7F56DA" />
       </IconButton>
     </Box>

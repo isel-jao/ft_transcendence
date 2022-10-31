@@ -10,8 +10,9 @@ import {
 } from "@mui/material";
 import { IFConversation } from "../../types";
 
-const MessageBorder = (props: { conversation: IFConversation }) => {
-  const { conversation } = props;
+//TODO change type
+const MessageBorder = (props: { user: any }) => {
+  const { user } = props;
   return (
     <Box
       sx={{
@@ -24,7 +25,7 @@ const MessageBorder = (props: { conversation: IFConversation }) => {
       }}
     >
       <Avatar sx={{ width: 30, height: 30 }} />
-      <Typography variant="h1">{conversation.sent_by.name}</Typography>
+      <Typography variant="h1">{user.name}</Typography>
       <Box
         sx={{
           borderRadius: "10px",
@@ -49,7 +50,7 @@ const MessageBorder = (props: { conversation: IFConversation }) => {
             color: "#44886A",
           }}
         >
-          {conversation.sent_by.status}
+          {user.status}
         </Typography>
       </Box>
     </Box>

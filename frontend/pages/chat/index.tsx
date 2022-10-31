@@ -9,139 +9,61 @@ import {
   Typography,
   useStepContext,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+
 import Message from "../../components/chat/messageBox";
 import Usercard from "../../components/chat/usercard";
 import { IFuser, IFMessage, IFConversation } from "../../types";
 import MessageBorder from "../../components/chat/MessageBorder";
 import MessageInput from "../../components/chat/MessageInput";
+import AddMessage from "../../components/chat/addMessage";
 
 const SERVERURL = "http://localhost:5000/";
 
-const users: IFuser[] = [
+const friends: IFuser[] = [
   {
+    id: 1,
+    id_conversation: 13,
     name: "lily",
     status: "online",
   },
   {
+    id: 2,
+    id_conversation: 3,
     name: "yemma",
     status: "online",
   },
   {
+    id: 4,
+    id_conversation: 1,
     name: "yeen Kath",
     status: "offline",
   },
 ];
 
-const conversation: IFConversation = {
-  id_conversation: 1,
-  sent_by: {
-    name: "yeen Kath",
-    status: "online",
-  },
-  messages: [
-    {
-      message_id: 1,
-      message_body:
-        "hello, friend how are you ?hello, friend how are you ? hello, friend how are you ? hello, friend how are you ?   ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "great!",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-    {
-      message_id: 1,
-      message_body: "hello, friend how are you ?  ",
-      date: "10/19/2022 6:33 PM",
-    },
-  ],
-};
+//TODO change data type, data: type of message
+//TODO grap it fron the global context
 
 const Chat: NextPage = () => {
-  //TODO change data type, data: type of message
-  const [data, setData] = useState();
+  const [messages, setMessages] = useState<any>([]);
+  const [user, setUser] = useState(friends[0]);
 
   const socket = io(SERVERURL);
   socket.on("connect", () => {
     console.log("socket connected");
   });
+
+  //TODO change any
+  const handelChangeData = (newmessage: any) => {
+    setMessages([...messages, newmessage]);
+  };
+
+  const handelUserChange = (selectedUser: IFuser) => {
+    setUser(selectedUser);
+  };
+
+  useEffect(() => {
+    console.log("rerender");
+  }, [messages, user]);
 
   return (
     <Box
@@ -168,32 +90,13 @@ const Chat: NextPage = () => {
             border: "1px solid #ddd",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderBottom: "2px solid #ddd",
-              p: "10px",
-            }}
-          >
-            <Typography variant="h2">Messages</Typography>
-            <IconButton
-              sx={{
-                "&.MuiButtonBase-root": {
-                  padding: "0px",
-                },
-              }}
-              //TODO need implementation
-              onClick={() => {
-                console.log("add in direct message  clicked");
-              }}
-            >
-              <AddIcon />
-            </IconButton>
-          </Box>
-          {users.map((user, index) => (
-            <Usercard key={index} user={user} />
+          <AddMessage />
+          {friends.map((user, index) => (
+            <Usercard
+              key={index}
+              user={user}
+              handelUserChange={handelUserChange}
+            />
           ))}
         </Box>
 
@@ -206,22 +109,23 @@ const Chat: NextPage = () => {
             border: "1px solid #ddd",
           }}
         >
-          <MessageBorder conversation={conversation} />
+          <MessageBorder user={user} />
           <Box
             sx={{
               overflowY: "auto",
+              // display: "flex",
+              // flexDirection: "column-reverse",
             }}
           >
-            {/* TODO change id */}
-            {conversation.messages.map((item, index) => (
-              <Message
-                key={index}
-                message={item}
-                sent_by={conversation.sent_by}
-              />
-            ))}
+            {/* TODO change id add typees*/}
+            {messages.map((item, index) => {
+              console.log({ item });
+              return (
+                <Message key={index} message={item} sent_by={user.sent_by} />
+              );
+            })}
           </Box>
-          <MessageInput socket={socket} conversation={conversation} />
+          <MessageInput socket={socket} handelChangeData={handelChangeData} />
         </Box>
       </Box>
     </Box>

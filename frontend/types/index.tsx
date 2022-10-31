@@ -1,6 +1,6 @@
-import { type } from "os";
-
 interface IFuser {
+  id: number;
+  id_conversation: number;
   name: string;
   status: string;
 }
