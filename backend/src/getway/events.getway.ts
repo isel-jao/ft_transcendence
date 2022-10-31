@@ -29,7 +29,7 @@ export class EventsGeteway implements NestGateway {
         this.server.emit('onMessage', {
             message_id: 1,
             message_body:data,
-            data:"10/19/2022 6:33 PM",
+            date:"10/19/2022 6:33 PM",
         })
     }
 }

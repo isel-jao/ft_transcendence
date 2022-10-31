@@ -6,6 +6,8 @@ const AddMessage = () => {
   return (
     <Box
       sx={{
+        // position: "fixed",
+
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Divider,
@@ -8,11 +8,11 @@ import {
   InputBase,
   Paper,
 } from "@mui/material";
-import { IFConversation } from "../../types";
 
 //TODO change type
 const MessageBorder = (props: { user: any }) => {
   const { user } = props;
+
   return (
     <Box
       sx={{
@@ -30,7 +30,7 @@ const MessageBorder = (props: { user: any }) => {
         sx={{
           borderRadius: "10px",
           padding: "1px 6px",
-          backgroundColor: "#EBFDF4",
+          backgroundColor: user.status == "online" ? "#EBFDF4" : "#F3F4F7",
           display: "flex",
           alignItems: "center",
           gap: "4px",
@@ -38,7 +38,7 @@ const MessageBorder = (props: { user: any }) => {
       >
         <Box
           sx={{
-            backgroundColor: "#16B66A",
+            backgroundColor: user.status == "online" ? "#16B66A" : "#ddd",
             height: "6px",
             width: "6px",
             borderRadius: "50%",
@@ -47,7 +47,7 @@ const MessageBorder = (props: { user: any }) => {
         <Typography
           variant="body1"
           sx={{
-            color: "#44886A",
+            color: user.status == "online" ? "#44886A" : "black",
           }}
         >
           {user.status}

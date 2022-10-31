@@ -2,7 +2,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import ChatIcon from "@mui/icons-material/Textsms";
 import { FunctionComponent } from "react";
-import Chat from "./pages/chat";
+import Chat from "./pages/conversations";
 
 export interface Route {
   path: string;
@@ -23,7 +23,7 @@ const routes: Route[] = [
     icon: <InfoIcon />,
   },
   {
-    path: "/chat",
+    path: "/conversations",
     name: "Chat",
     icon: <ChatIcon />,
   },

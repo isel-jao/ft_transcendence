@@ -44,7 +44,7 @@ const friends: IFuser[] = [
 //TODO grap it fron the global context
 
 const Chat: NextPage = () => {
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<IFMessage[]>([]);
   const [user, setUser] = useState(friends[0]);
 
   const socket = io(SERVERURL);
@@ -88,6 +88,15 @@ const Chat: NextPage = () => {
         <Box
           sx={{
             border: "1px solid #ddd",
+            overflowY: "auto",
+            "&::-webkit-scrollbar": {
+              display: "none",
+              // width: "3px",
+              // height: "5px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "#ddd",
+            },
           }}
         >
           <AddMessage />
@@ -113,6 +122,9 @@ const Chat: NextPage = () => {
           <Box
             sx={{
               overflowY: "auto",
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
               // display: "flex",
               // flexDirection: "column-reverse",
             }}
@@ -120,9 +132,7 @@ const Chat: NextPage = () => {
             {/* TODO change id add typees*/}
             {messages.map((item, index) => {
               console.log({ item });
-              return (
-                <Message key={index} message={item} sent_by={user.sent_by} />
-              );
+              return <Message key={index} message={item} user={user} />;
             })}
           </Box>
           <MessageInput socket={socket} handelChangeData={handelChangeData} />

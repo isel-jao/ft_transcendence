@@ -2,8 +2,8 @@ import React from "react";
 import { Avatar, Box, Typography } from "@mui/material";
 import { IFMessage, IFuser } from "../../types";
 
-const messageBox = (props: { message: IFMessage; sent_by: IFuser }) => {
-  const { message, sent_by } = props;
+const messageBox = (props: { message: IFMessage; user: IFuser }) => {
+  const { message, user } = props;
 
   return (
     <Box
@@ -27,7 +27,7 @@ const messageBox = (props: { message: IFMessage; sent_by: IFuser }) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography>{sent_by.name}</Typography>
+          <Typography>{user.name}</Typography>
           <Typography variant="subtitle1">{message.date}</Typography>
         </Box>
         <Box
@@ -38,7 +38,7 @@ const messageBox = (props: { message: IFMessage; sent_by: IFuser }) => {
             p: "4px",
           }}
         >
-          <Typography> {message.message_body}</Typography>
+          <Typography>{message.message_body}</Typography>
         </Box>
       </Box>
     </Box>
