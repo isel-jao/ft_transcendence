@@ -1,0 +1,56 @@
+# version: '3'
+
+# services:
+#   postgres:
+#     image: postgres
+#     container_name: ${POSTGRES_CONTAINER}
+#     environment:
+#       POSTGRES_USER: "${POSTGRES_USER}"
+#       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+#       POSTGRES_DB: ${POSTGRES_DB}
+#     volumes:
+#       - ./db/postgres:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+#     restart: always
+#     env_file:
+#       - .env
+#     networks:
+#       - default
+
+
+version: "3"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    ports:
+    - "5432:5432"
+    volumes:
+    - postgress:/data/postgres
+    env_file:
+    - .env
+    networks:
+    - postgres
+ 
+  pgadmin:
+    links:
+    - postgres:postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+    - "8080:80"
+    volumes:
+    - adminer:/root/.pgadmin
+    env_file:
+    - .env
+    networks:
+    - postgres
+ 
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgress:
+  adminer:
