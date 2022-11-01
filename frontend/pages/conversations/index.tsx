@@ -38,6 +38,24 @@ const friends: IFuser[] = [
     name: "yeen Kath",
     status: "offline",
   },
+  {
+    id: 4,
+    id_conversation: 1,
+    name: "yeen Kath",
+    status: "offline",
+  },
+  {
+    id: 4,
+    id_conversation: 1,
+    name: "yeen Kath",
+    status: "offline",
+  },
+  {
+    id: 4,
+    id_conversation: 1,
+    name: "yeen Kath",
+    status: "offline",
+  },
 ];
 
 //TODO change data type, data: type of message
