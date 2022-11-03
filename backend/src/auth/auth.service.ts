@@ -13,10 +13,10 @@ import { CreateUserDto } from "../user/entities";
 export class AuthService implements AuthenticationProvider {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
-  async validateUser(id: number, data: CreateUserDto) {
+  async validateUser(data: CreateUserDto) {
     const user = await this.prisma.user.findUnique({
       where: {
-        id,
+        email: data.email,
       },
     });
     if (user) {
