@@ -28,7 +28,7 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-axios.defaults.baseURL = "http://192.168.10.80:3001";
+axios.defaults.baseURL = "http://localhost:3001";
 axios.defaults.withCredentials = true;
 
 function MyApp(props: MyAppProps) {

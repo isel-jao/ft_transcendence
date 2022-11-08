@@ -12,7 +12,7 @@ const settingRoute = {
   ),
 };
 const logoutRoute = {
-  path: "/logout",
+  path: "http://localhost:3001/auth/logout",
   name: "Logout",
   icon: <Image src="/icons/logout.svg" width={30} height={30} alt="home" />,
 };
