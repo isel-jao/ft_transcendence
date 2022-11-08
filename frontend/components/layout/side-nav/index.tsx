@@ -5,9 +5,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { darken, lighten, rgba } from "polished";
 
-// import { ButtonBase } from "@mui/material";
-// import styledMui from "@mui/material/styles/styled";
-// const ButtonBaseMui = styledMui(ButtonBase)({});
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: column;
@@ -113,7 +110,7 @@ export const SideNav = ({ open }: NavProps) => {
     <StyledNav className={` ${open && "open"}`}>
       <div className="logo text-primary">
         <div className="shape">logo</div>
-        <div className="name">logoName</div>
+        <div className="name">Pong</div>
       </div>
       <div className="h-2"></div>
       {routes.map((route, index) => {

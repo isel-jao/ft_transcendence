@@ -1,5 +1,5 @@
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
+import { Home, Game } from "./components/Icons";
+
 export interface Route {
   path: string;
   name: string;
@@ -11,12 +11,12 @@ const routes: Route[] = [
   {
     path: "/home",
     name: "Home",
-    icon: <HomeIcon />,
+    icon: <img src={Home} />,
   },
   {
-    path: "/about",
-    name: "About",
-    icon: <InfoIcon />,
+    path: "/game",
+    name: "Game",
+    icon: <img src={Game} />,
   },
 ];
 

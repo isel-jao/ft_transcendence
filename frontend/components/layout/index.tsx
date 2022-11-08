@@ -48,7 +48,7 @@ const StyledLayout = styled.div`
   .nav,
   .sidenav {
     overflow: hidden;
-    background: ${(props) => lighten(0.05, props.theme.bg[props.theme.mode])};
+    background: ${(props) => props.theme.bgNav[props.theme.mode]};
     color: ${(props) => props.theme.text[props.theme.mode]};
   }
   .router-view {
@@ -78,9 +78,6 @@ const Layout = ({ children }: Props) => {
         <SideNav open={open} />
       </div>
       <div className={`main ${open && "open"}`}>
-        <div className="nav">
-          <Nav open={open} toggleOpen={toggleSideNav} />
-        </div>
         <div className={`router-view ${open && "open"}`}>{children}</div>
       </div>
     </StyledLayout>
