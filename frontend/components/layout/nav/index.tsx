@@ -1,8 +1,6 @@
-import { ThemedStyledInterface } from "styled-components";
-import { IconButton } from "@mui/material";
-import { Menu, MenuOpen } from "@mui/icons-material";
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const StyledNav = styled.nav`
   width: 100%;
@@ -10,20 +8,22 @@ const StyledNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* background-color: ${(props) => props.theme.palette.success.main}; */
   padding: 0 1rem;
 `;
-interface NavProps {
-  toggleOpen: () => void;
-  open: boolean;
+
+interface User {
+  id: number;
+  userName: string;
 }
 
-export const Nav = (props: NavProps) => {
+export const Nav = () => {
+  const [user, setUser] = React.useState<User | null>(null);
   return (
     <StyledNav className="">
-      <IconButton onClick={props.toggleOpen}>
-        {props.open ? <MenuOpen /> : <Menu />}
-      </IconButton>
+      <div className="route-descreption">route descreption</div>
+      <div className="user-descreption">
+        {user ? user.userName : "user infos"}
+      </div>
     </StyledNav>
   );
 };

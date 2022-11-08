@@ -1,17 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Button } from "@mui/material";
-const Home: NextPage = () => {
+const UsersPage: NextPage = () => {
   return (
     <div>
       <Head>
         <title>about</title>
         <meta name="about" content="about" />
       </Head>
-      <main>about</main>
-      <Button>test</Button>
+      <main>Users</main>
     </div>
   );
 };
 
-export default Home;
+export default UsersPage;

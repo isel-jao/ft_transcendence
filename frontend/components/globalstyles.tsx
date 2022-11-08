@@ -52,7 +52,7 @@ export interface Theme extends ThemeOptions {
 }
 
 export const theme: Theme = {
-  mode: "light",
+  mode: "dark",
   colors: {
     light: "#ddd",
     dark: "#444",
@@ -66,7 +66,7 @@ export const theme: Theme = {
     info: { main: "#00aeff" },
   },
   bg: {
-    dark: "#333",
+    dark: "#000",
     light: "#ddd",
   },
   text: {
