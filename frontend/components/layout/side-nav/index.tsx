@@ -4,6 +4,7 @@ import routes, { Route } from "../../../routes";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { darken, lighten, rgba } from "polished";
+import { Game } from "../../../public/Icons";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -114,7 +115,9 @@ export const SideNav = ({ open }: NavProps) => {
       </div>
       <div className="h-2"></div>
       {routes.map((route, index) => {
-        return <RouterLink route={route} key={index} />;
+        return (
+          index < routes.length - 2 && <RouterLink route={route} key={index} />
+        );
       })}
     </StyledNav>
   );
