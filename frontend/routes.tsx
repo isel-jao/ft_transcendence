@@ -28,6 +28,9 @@ const routes: Route[] = [
     name: "Chat",
     icon: <Image src="/icons/Chat.svg" width={24} height={24} />,
   },
+];
+
+export const routesBottom: Route[] = [
   {
     path: "/profile",
     name: "Profile",
