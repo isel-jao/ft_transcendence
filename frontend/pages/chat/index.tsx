@@ -4,12 +4,7 @@ import { Button } from "@mui/material";
 const Home: NextPage = () => {
   return (
     <div>
-      <Head>
-        <title>about</title>
-        <meta name="about" content="about" />
-      </Head>
-      <main>about</main>
-      <Button>test</Button>
+      <h1>Chat</h1>
     </div>
   );
 };
