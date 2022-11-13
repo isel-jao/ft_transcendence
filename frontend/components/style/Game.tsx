@@ -13,8 +13,8 @@ const Div = styled.div`
     padding-bottom: 20px;
   }
   > p {
-    font-weight: 600;
-    font-size: 0.8rem;
+    /* font-weight: 600;
+    font-size: 0.8rem; */
     line-height: 2rem;
     padding-bottom: 20px;
   }
