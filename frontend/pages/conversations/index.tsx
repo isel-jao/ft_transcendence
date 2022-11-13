@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import Message from "../../components/chat/messageBox";
-import Usercard from "../../components/chat/usercard";
+import Usercard from "../../components/chat/usercard1";
 import { IFuser, IFMessage, IFConversation } from "../../types";
 import MessageBorder from "../../components/chat/MessageBorder";
 import MessageInput from "../../components/chat/MessageInput";

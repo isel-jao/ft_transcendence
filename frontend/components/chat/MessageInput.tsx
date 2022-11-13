@@ -17,10 +17,10 @@ const MessageInput = (props: {
   };
 
   const handelSendMessage = () => {
-    console.log("pressed send message");
     socket.emit("newMessage", message);
-    socket.once("onMessage", (data) => {
-      handelChangeData(data);
+    socket.once("onMessage", (newMessage) => {
+      console.log("newMessage");
+      handelChangeData(newMessage);
     });
     setMessage("");
   };

@@ -1,9 +1,9 @@
 import React from "react";
 import { Avatar, Box, Typography } from "@mui/material";
-import { IFMessage, IFuser } from "../../types";
+import { IFMessage } from "../../types";
 
-const messageBox = (props: { message: IFMessage; user: IFuser }) => {
-  const { message, user } = props;
+const messageBox = (props: { message: IFMessage; send_by: string }) => {
+  const { message, send_by } = props;
 
   return (
     <Box
@@ -27,7 +27,7 @@ const messageBox = (props: { message: IFMessage; user: IFuser }) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography>{user.name}</Typography>
+          <Typography>{send_by}</Typography>
           <Typography variant="subtitle1">{message.date}</Typography>
         </Box>
         <Box

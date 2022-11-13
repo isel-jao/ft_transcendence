@@ -1,20 +1,19 @@
-interface IFuser {
-  id: number;
-  id_conversation: number;
-  name: string;
-  status: string;
-}
-
 interface IFMessage {
   message_id: number;
   message_body: string;
   date: string;
+  send_by: string;
 }
 
-interface IFConversation {
-  id_conversation: number;
-  sent_by: IFuser;
-  messages: IFMessage[];
+interface IFchannel {
+  channel_name: string;
+  type: string; //protected public private
 }
 
-export type { IFuser, IFMessage, IFConversation };
+interface IFUser {
+  user_name: string;
+  status_user: string; //onine offline mute..
+  role: string; //admin ,member or owner
+}
+
+export type { IFchannel, IFMessage, IFUser };

@@ -31,7 +31,7 @@ export class ConversationsService {
       })
 
       return await Promise.all(res.map(async (elm) => {
-         const r = await this.prisma.user_Conv.findFirst({
+         return await this.prisma.user_Conv.findFirst({
             where: {
                conversationId: elm.conversationId,
                NOT: {
@@ -48,11 +48,11 @@ export class ConversationsService {
             }
          })
 
-         return {
-            id_conversation: elm.conversationId,
-            name: r.user.userName,
-            status: r.user.
-         }
+         // return ({
+         //    id_conversation: elm.conversationId,
+         //    name: r.user.userName,
+         //    status: r.user.
+         // });
       }))
    }
 
