@@ -10,10 +10,11 @@ const Button = styled.input`
   border-radius: 9px;
   color: #ffffff;
   font-size: 1.5rem;
-  max-width: 256px;
+  max-width: 200px;
   width: 100%;
   padding: 15px;
   font-weight: 700;
+  cursor: pointer;
 `;
 
 const Card = styled.div`
