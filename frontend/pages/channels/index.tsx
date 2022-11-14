@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Divider } from "@mui/material";
+import { Box, Typography, Divider, IconButton, Tooltip } from "@mui/material";
 import SettingIcon from "@mui/icons-material/Tune";
 import Usercard from "../../components/chat/userCard";
 import MessageInput from "../../components/chat/MessageInput";
 import Message from "../../components/chat/messageBox";
+import { useDialog } from "../../hooks/useDialogue";
 import io from "socket.io-client";
+import AddIcon from "@mui/icons-material/LibraryAdd";
+import Head from "next/head";
 
 import { IFchannel, IFMessage } from "../../types";
 
@@ -23,6 +26,8 @@ const Mocked_data_members = [
 ];
 
 const Channels = () => {
+  const { on, hide, show } = useDialog();
+
   const [selectChannel, setSelectChannel] = useState(
     Mocked_data_channels[0].channel_name
   );
@@ -54,34 +59,58 @@ const Channels = () => {
 
   return (
     <Box
-      sx={{}}
+      sx={{
+        backgroundColor: "#20172B",
+        height: "89vh",
+      }}
       // sx={{ backgroundColor: "#250020" }}
     >
+      <Head>
+        <title>channels</title>
+      </Head>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           p: "10px",
-          border: "1px solid #ddd",
+          border: "2px solid #2C2039",
         }}
       >
         <Typography variant="h1">{selectChannel}</Typography>
-        <SettingIcon />
+        <Box>
+          <IconButton>
+            <Tooltip title="ceate new channel">
+              <AddIcon htmlColor="#7A4BD8" />
+            </Tooltip>
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              console.log("channel settings to be implemented!");
+            }}
+          >
+            <Tooltip title="channel settings">
+              <SettingIcon htmlColor="#7A4BD8" />
+            </Tooltip>
+          </IconButton>
+        </Box>
       </Box>
 
       <Box
         sx={{
           display: "grid",
           gridTemplateColumns: "1fr 5fr 2fr",
-          border: "1px solid #ddd",
-          gap: "6px",
+          border: "1px solid #2C2039",
+          // gap: "6px",
+          backgroundColor: "#fff",
+          height: "100%", //100% of 90vh in parent box
         }}
       >
-        {/* cahnnels bname */}
+        {/* cahnnels name */}
         <Box
           sx={{
-            borderRight: "1px solid #ddd",
+            borderRight: "2px solid #2C2039",
+            backgroundColor: "#231834",
           }}
         >
           {Mocked_data_channels.map((channel) => (
@@ -96,11 +125,12 @@ const Channels = () => {
           ))}
         </Box>
 
-        {/* channel messages  */}
+        {/* channel- messages  */}
         <Box
           sx={{
-            borderRight: "1px solid #ddd",
+            borderRight: "2px solid #2C2039",
             display: "grid",
+            backgroundColor: "#231834",
           }}
         >
           <Box>
@@ -120,9 +150,14 @@ const Channels = () => {
         </Box>
 
         {/* channel memebers */}
-        <Box>
+        <Box
+          sx={{
+            backgroundColor: "#231834",
+            p: "4px 10px 4px",
+          }}
+        >
           <Box>
-            <Typography>Owners</Typography>
+            <Typography variant="h2">Owners</Typography>
             {Mocked_data_members.filter((member) => member.role == "owner").map(
               (item) => (
                 <Usercard
@@ -133,7 +168,7 @@ const Channels = () => {
             )}
           </Box>
           <Box>
-            <Typography>Admins</Typography>
+            <Typography variant="h2">Admins</Typography>
             {Mocked_data_members.filter((member) => member.role == "admin").map(
               (item) => (
                 <Usercard
@@ -145,7 +180,7 @@ const Channels = () => {
           </Box>
           <Box>
             <Box>
-              <Typography>Members</Typography>
+              <Typography variant="h2">Members</Typography>
               {Mocked_data_members.filter(
                 (member) => member.role == "member"
               ).map((item) => (

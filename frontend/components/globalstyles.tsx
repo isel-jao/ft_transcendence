@@ -67,7 +67,8 @@ export const theme: Theme = {
   },
   bg: {
     dark: "#333",
-    light: "white",
+    light: "#120F19",
+    // light: "white",
   },
   text: {
     dark: "#fff",
@@ -76,18 +77,31 @@ export const theme: Theme = {
   typography: {
     subtitle1: {
       fontSize: 12,
-      color: "#696969",
+      // color: "#696969",
+      color: "#fff",
+    },
+    subtitle2: {
+      //online offline
+      fontSize: 10,
+      color: "#fff",
     },
     body1: {
       fontSize: 14,
+      color: "#fff",
     },
     h1: {
       fontSize: 18,
       fontWeight: 600,
+      color: "#fff",
     },
     h2: {
-      fontSize: 14,
+      //owner members..
+      fontSize: 13,
       fontWeight: 600,
+      color: "#fff",
+    },
+    button: {
+      backgroundColor: "green",
     },
   },
 };

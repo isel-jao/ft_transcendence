@@ -45,17 +45,17 @@ const MessageInput = (props: {
       }}
     >
       <InputBase
-        sx={{ p: "0px 6px" }}
+        sx={{ p: "0px 6px", color: "#fff" }}
         onKeyDown={(e) => handelPressEnter(e)}
         fullWidth
-        placeholder="new message..."
+        placeholder="write a message..."
         // TODO  need implementation
         value={message}
         onChange={handelChangeMessage}
       />
       <Divider orientation="vertical" />
       <IconButton size="small" onClick={handelSendMessage} sx={{ p: "4px" }}>
-        <SendIcon htmlColor="#00B0B6" />
+        <SendIcon htmlColor="#469DED" />
       </IconButton>
     </Box>
   );

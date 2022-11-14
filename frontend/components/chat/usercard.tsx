@@ -7,9 +7,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
-import { IFuser } from "../../types";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IFUser } from "../../types";
 
 //where type refers to room or dm
 const Usercard = (props: { user: IFuser; type: string }) => {
@@ -32,35 +34,59 @@ const Usercard = (props: { user: IFuser; type: string }) => {
     >
       <Box sx={{ display: "flex", gap: "10px" }}>
         <Avatar
-          sx={{ width: 24, height: 24 }}
-          src={"../../public/images/mocked-avatar-2.jpg"}
+          sx={{ width: 30, height: 30 }}
+          src="../../public/images/mocked-avatar-2.jpg"
           onClick={() => {
             console.log("implemet view profil");
           }}
         />
-        <Box sx={{ display: "grid", gap: "3px" }}>
-          <Typography variant="body2">{user.name}</Typography>
-          <Typography>{user.status}</Typography>
+
+        <Box sx={{ display: "grid" }}>
+          <Typography
+            variant="body1"
+            sx={{ color: "#7E4EE0", fontWeight: "600" }}
+          >
+            {user.name}
+          </Typography>
+          <Typography variant="subtitle2">{user.status}</Typography>
         </Box>
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Button
+          disableElevation={true}
           variant="contained"
-          sx={{ height: "20px", width: "10px", m: "0px" }}
+          sx={{
+            height: "20px",
+            "&.MuiButton-root": {
+              p: "0px",
+              m: "0px",
+              backgroundColor: "#6344D9",
+            },
+          }}
         >
-          <Typography sx={{ color: "#fff", textTransform: "none" }}>
+          <Typography
+            sx={{
+              color: "#fff",
+              textTransform: "none",
+              fontWeight: "500",
+              fontSize: "12px",
+            }}
+          >
             invite
           </Typography>
         </Button>
         <IconButton
+          sx={{ color: "#fff" }}
           onClick={() => {
             console.log(
               "todo: implement set as admin, bad or mute for a limited time"
             );
           }}
         >
-          <MoreVertIcon />
+          <Tooltip title="user setting">
+            <MoreVertIcon />
+          </Tooltip>
         </IconButton>
       </Box>
     </Box>

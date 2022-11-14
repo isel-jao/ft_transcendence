@@ -25,6 +25,7 @@ const messageBox = (props: { message: IFMessage; send_by: string }) => {
             mr: "6px",
             display: "flex",
             justifyContent: "space-between",
+            gap: "10px",
           }}
         >
           <Typography>{send_by}</Typography>
@@ -32,10 +33,11 @@ const messageBox = (props: { message: IFMessage; send_by: string }) => {
         </Box>
         <Box
           sx={{
-            backgroundColor: "#F2F4F7",
+            backgroundColor: "#1A172A",
+            // backgroundColor: "#151D2E",
             width: "fit-content",
             borderRadius: "10px",
-            p: "4px",
+            p: "6px 10px",
           }}
         >
           <Typography>{message.message_body}</Typography>
