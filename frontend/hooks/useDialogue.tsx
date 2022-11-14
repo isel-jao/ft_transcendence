@@ -21,7 +21,17 @@ export function useDialog() {
 export function Dialog(props: DialogProps) {
   const { fullWidth = true, maxWidth = "md", ...restProps } = props;
   return (
-    <MuiDialog fullWidth={fullWidth} maxWidth={maxWidth} {...restProps}>
+    <MuiDialog
+      fullWidth={fullWidth}
+      maxWidth={maxWidth}
+      {...restProps}
+      PaperProps={{
+        style: {
+          backgroundColor: "#1C1334",
+          boxShadow: "none",
+        },
+      }}
+    >
       {props.children}
     </MuiDialog>
   );
@@ -30,7 +40,13 @@ export function Dialog(props: DialogProps) {
 export function DialogTitle(props: { title: string }) {
   return (
     <MuiDialogTitle>
-      <Typography sx={{ textTransform: "capitalize", textAlign: "center" }}>
+      <Typography
+        sx={{
+          textTransform: "capitalize",
+          textAlign: "center",
+          color: "#479FF0",
+        }}
+      >
         {props.title}
       </Typography>
     </MuiDialogTitle>
