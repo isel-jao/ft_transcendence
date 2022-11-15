@@ -1,169 +1,170 @@
-// // This is your Prisma schema file,
-// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// generator client {
-//     provider = "prisma-client-js"
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+//////////// model example ////////////
+// model Sample {
+//   id   Int    @id @default(autoincrement())
+//   name String @unique @db.VarChar(100)
+
+//   createdAt DateTime @default(now()) @map("created_at")
+//   updatedAt DateTime @default(now()) @map("updated_at")
+//   @@map("sample")
 // }
 
-// datasource db {
-//     provider = "postgresql"
-//     url      = env("DATABASE_URL")
+//////////// recurrence relation ////////////
+// model Category {
+//   id            Int        @id @default(autoincrement()) @map("id")
+//   name          String     @unique @map("name") @db.VarChar(100)
+//   products      Product[]
+//   parentId      Int?       @map("parent_id")
+//   parent        Category?  @relation("category_tree", fields: [parentId], references: [id])
+//   subCategories Category[] @relation("category_tree")
+
+//   createdAt DateTime @default(now()) @map("created_at")
+//   updatedAt DateTime @default(now()) @map("updated_at")
+//   @@map("categories")
 // }
 
-// //////////// model example ////////////
-// // model Sample {
-// //   id   Int    @id @default(autoincrement())
-// //   name String @unique @db.VarChar(100)
+model User {
+    id           Int     @id @default(autoincrement())
+    // intraId      Int?    @unique @map("intra_id")
+    // login        String  @unique @db.VarChar(10)
+    email        String? @unique
+    firstName    String? @map("first_name") @db.VarChar(50)
+    lastName     String? @map("last_name") @db.VarChar(50)
+    userName     String? @unique @map("user_name") @db.VarChar(50)
+    imageUrl     String  @map("image_url") @db.VarChar(100)
+    tfaSecret    String? @unique @map("tfa_secret")
+    isTfaEnabled Boolean @default(false) @map("is_tfa_enabled")
 
-// //   createdAt DateTime @default(now()) @map("created_at")
-// //   updatedAt DateTime @default(now()) @map("updated_at")
-// //   @@map("sample")
-// // }
+    friends     User[]      @relation("friends")
+    friedsBy    User[]      @relation("friends")
+    bannedUsers User[]      @relation("banned_users")
+    bannedBy    User[]      @relation("banned_users")
+    // profile           Profile?
+    // friendRequestFrom FriendRequest[] @relation("friend_request_from")
+    // friendRequestTo   FriendRequest[] @relation("friend_request_to")
+    // conversationsAdmin  Conversation[]  @relation("admins")
+    // conversationsMember Conversation[]  @relation("members")
+    messages    Message[]   @relation("user_messages")
+    createdAt   DateTime    @default(now()) @map("created_at")
+    updatedAt   DateTime    @updatedAt @map("updated_at")
+    // Conversation   Conversation? @relation(fields: [conversationId], references: [id])
+    // conversationId Int?
+    User_Conv   User_Conv[]
 
-// //////////// recurrence relation ////////////
-// // model Category {
-// //   id            Int        @id @default(autoincrement()) @map("id")
-// //   name          String     @unique @map("name") @db.VarChar(100)
-// //   products      Product[]
-// //   parentId      Int?       @map("parent_id")
-// //   parent        Category?  @relation("category_tree", fields: [parentId], references: [id])
-// //   subCategories Category[] @relation("category_tree")
+    @@map(name: "user")
+}
 
-// //   createdAt DateTime @default(now()) @map("created_at")
-// //   updatedAt DateTime @default(now()) @map("updated_at")
-// //   @@map("categories")
-// // }
-
-// model User {
-//     id           Int     @id @default(autoincrement())
-//     // intraId      Int?    @unique @map("intra_id")
-//     // login        String  @unique @db.VarChar(10)
-//     email        String? @unique
-//     firstName    String? @map("first_name") @db.VarChar(50)
-//     lastName     String? @map("last_name") @db.VarChar(50)
-//     userName     String? @unique @map("user_name") @db.VarChar(50)
-//     imageUrl     String  @map("image_url") @db.VarChar(100)
-//     tfaSecret    String? @unique @map("tfa_secret")
-//     isTfaEnabled Boolean @default(false) @map("is_tfa_enabled")
-
-//     friends     User[]      @relation("friends")
-//     friedsBy    User[]      @relation("friends")
-//     bannedUsers User[]      @relation("banned_users")
-//     bannedBy    User[]      @relation("banned_users")
-//     // profile           Profile?
-//     // friendRequestFrom FriendRequest[] @relation("friend_request_from")
-//     // friendRequestTo   FriendRequest[] @relation("friend_request_to")
-//     // conversationsAdmin  Conversation[]  @relation("admins")
-//     // conversationsMember Conversation[]  @relation("members")
-//     messages    Message[]   @relation("user_messages")
-//     createdAt   DateTime    @default(now()) @map("created_at")
-//     updatedAt   DateTime    @updatedAt @map("updated_at")
-//     // Conversation   Conversation? @relation(fields: [conversationId], references: [id])
-//     // conversationId Int?
-//     User_Conv   User_Conv[]
-
-//     @@map(name: "user")
-// }
-
-// // model FriendRequest {
-// //     id        Int      @id @default(autoincrement())
-// //     from      User     @relation("friend_request_from", fields: [fromId], references: [id])
-// //     fromId    Int      @map("from_id")
-// //     to        User     @relation("friend_request_to", fields: [toId], references: [id])
-// //     toId      Int      @map("to_id")
-// //     status    Int      @default(0) // 0: pending, 1: accepted, 2: rejected
-// //     createdAt DateTime @default(now()) @map("created_at")
-// //     updatedAt DateTime @updatedAt @map("updated_at")
-
-// //     @@unique([fromId, toId], name: "friend_request_from_to")
-// //     @@map(name: "friend_request")
-// // }
-
-// // model Profile {
-// //     id            Int     @id @default(autoincrement())
-// //     status        Int     @default(0) // 0 : offline, 1 : online, 2 : in-game
-// //     points        Int     @default(0)
-// //     userId        Int     @unique @map("user_id")
-// //     user          User    @relation(fields: [userId], references: [id])
-// //     winStrike     Int     @default(0)
-// //     matchesWon    Match[] @relation("won")
-// //     matchesLose   Match[] @relation("lost")
-// //     matchesHosted Match[] @relation("host")
-// //     matchesJoined Match[] @relation("guest")
-
-// //     @@map(name: "profile")
-// // }
-
-// // model Match {
-// //     id         Int      @id @default(autoincrement())
-// //     status     Int      @default(0) // 0 : waiting, 1 : in-progress, 2 : finished
-// //     winnerId   Int?     @map("winner_id")
-// //     loserId    Int?     @map("loser_id")
-// //     winner     Profile? @relation("won", fields: [winnerId], references: [id])
-// //     loser      Profile? @relation("lost", fields: [loserId], references: [id])
-// //     host       Profile  @relation("host", fields: [hostId], references: [id])
-// //     hostId     Int      @map("host_id")
-// //     guest      Profile? @relation("guest", fields: [guestId], references: [id])
-// //     guestId    Int?     @map("guest_id")
-// //     hostScore  Int      @default(0) @map("host_score")
-// //     guestScore Int      @default(0) @map("guest_score")
-
-// //     createdAt DateTime @default(now()) @map("created_at")
-// //     updatedAt DateTime @updatedAt @map("updated_at")
-
-// //     @@map(name: "match")
-// // }
-
-// // model User {
-// //     id        Int    @id @default(autoincrement())
-// //     email     String
-// //     firstName String
-// //     lastName  String
-// //     // Conversation Conversation[] // implicit many to many relation with conversation
-// // }
-
-// model Conversation {
-//     // participants User[]
-//     id        Int       @id @default(autoincrement())
-//     type      String // dm or room
-//     name      String
-//     status    Int // 0: public, 1: private , 2: locked
-//     password  String?
-//     // admins       User[]    @relation("admins")
-//     // members      User[]    @relation("members")
-//     messages  Message[]
-//     createdAt DateTime  @default(now())
-
-//     User_Conv User_Conv[]
-
-//     @@map("conversation") //to access it as prisma.conversations
-// }
-
-// model User_Conv {
-//     id Int @id @default(autoincrement())
-
-//     userId Int
-//     user   User @relation(fields: [userId], references: [id])
-
-//     conversationId Int
-//     conversation   Conversation @relation(fields: [conversationId], references: [id])
-
-//     is_admin Boolean
-
-//     @@unique([userId, conversationId])
-//     @@map("User_Conv")
-// }
-
-// model Message {
-//     id              Int          @id @default(autoincrement())
-//     conversation_id Int
-//     conversation    Conversation @relation(fields: [conversation_id], references: [id])
-//     body            String
-
-//     sentById  Int
-//     sentBy    User     @relation("user_messages", fields: [sentById], references: [id])
+// model FriendRequest {
+//     id        Int      @id @default(autoincrement())
+//     from      User     @relation("friend_request_from", fields: [fromId], references: [id])
+//     fromId    Int      @map("from_id")
+//     to        User     @relation("friend_request_to", fields: [toId], references: [id])
+//     toId      Int      @map("to_id")
+//     status    Int      @default(0) // 0: pending, 1: accepted, 2: rejected
 //     createdAt DateTime @default(now()) @map("created_at")
 //     updatedAt DateTime @updatedAt @map("updated_at")
 
-//     @@map("messages")
+//     @@unique([fromId, toId], name: "friend_request_from_to")
+//     @@map(name: "friend_request")
 // }
+
+// model Profile {
+//     id            Int     @id @default(autoincrement())
+//     status        Int     @default(0) // 0 : offline, 1 : online, 2 : in-game
+//     points        Int     @default(0)
+//     userId        Int     @unique @map("user_id")
+//     user          User    @relation(fields: [userId], references: [id])
+//     winStrike     Int     @default(0)
+//     matchesWon    Match[] @relation("won")
+//     matchesLose   Match[] @relation("lost")
+//     matchesHosted Match[] @relation("host")
+//     matchesJoined Match[] @relation("guest")
+
+//     @@map(name: "profile")
+// }
+
+// model Match {
+//     id         Int      @id @default(autoincrement())
+//     status     Int      @default(0) // 0 : waiting, 1 : in-progress, 2 : finished
+//     winnerId   Int?     @map("winner_id")
+//     loserId    Int?     @map("loser_id")
+//     winner     Profile? @relation("won", fields: [winnerId], references: [id])
+//     loser      Profile? @relation("lost", fields: [loserId], references: [id])
+//     host       Profile  @relation("host", fields: [hostId], references: [id])
+//     hostId     Int      @map("host_id")
+//     guest      Profile? @relation("guest", fields: [guestId], references: [id])
+//     guestId    Int?     @map("guest_id")
+//     hostScore  Int      @default(0) @map("host_score")
+//     guestScore Int      @default(0) @map("guest_score")
+
+//     createdAt DateTime @default(now()) @map("created_at")
+//     updatedAt DateTime @updatedAt @map("updated_at")
+
+//     @@map(name: "match")
+// }
+
+// model User {
+//     id        Int    @id @default(autoincrement())
+//     email     String
+//     firstName String
+//     lastName  String
+//     // Conversation Conversation[] // implicit many to many relation with conversation
+// }
+
+//channel
+model Conversation {
+    // participants User[]
+    id        Int       @id @default(autoincrement())
+    type      String // dm or room
+    name      String
+    status    Int // 0: public, 1: private , 2: locked
+    password  String?
+    // admins       User[]    @relation("admins")
+    // members      User[]    @relation("members")
+    messages  Message[]
+    createdAt DateTime  @default(now())
+
+    User_Conv User_Conv[]
+
+    @@map("conversation") //to access it as prisma.conversations
+}
+
+model User_Conv {
+    id Int @id @default(autoincrement())
+
+    userId Int
+    user   User @relation(fields: [userId], references: [id])
+
+    conversationId Int
+    conversation   Conversation @relation(fields: [conversationId], references: [id])
+
+    is_admin Boolean
+
+    @@unique([userId, conversationId])
+    @@map("User_Conv")
+}
+
+model Message {
+    id              Int          @id @default(autoincrement())
+    conversation_id Int
+    conversation    Conversation @relation(fields: [conversation_id], references: [id])
+    body            String
+
+    sentById  Int
+    sentBy    User     @relation("user_messages", fields: [sentById], references: [id])
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("messages")
+}

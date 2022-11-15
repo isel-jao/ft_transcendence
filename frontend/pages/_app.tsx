@@ -8,6 +8,7 @@ import GlobalStyle, { theme } from "../components/globalstyles";
 import { Provider } from "react-redux";
 import store from "../app/store";
 import Layout from "../components/layout";
+import { SnackbarProvider } from "notistack";
 
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
@@ -28,19 +29,21 @@ interface MyAppProps extends AppProps {
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
-    <CacheProvider value={emotionCache}>
-      <MuiThemeProvider theme={Muitheme}>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            <CssBaseline />
-            <GlobalStyle />
-          </ThemeProvider>
-        </Provider>
-      </MuiThemeProvider>
-    </CacheProvider>
+    <SnackbarProvider>
+      <CacheProvider value={emotionCache}>
+        <MuiThemeProvider theme={Muitheme}>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              <CssBaseline />
+              <GlobalStyle />
+            </ThemeProvider>
+          </Provider>
+        </MuiThemeProvider>
+      </CacheProvider>
+    </SnackbarProvider>
   );
 }
 
