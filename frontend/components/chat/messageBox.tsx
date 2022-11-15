@@ -33,8 +33,8 @@ const messageBox = (props: { message: IFMessage; send_by: string }) => {
         </Box>
         <Box
           sx={{
-            backgroundColor: "#1A172A",
-            // backgroundColor: "#151D2E",
+            backgroundColor: "#4D38A1",
+            // "#1A172A", "#151D2E",
             width: "fit-content",
             borderRadius: "10px",
             p: "6px 10px",

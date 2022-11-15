@@ -1,29 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Divider,
-  IconButton,
-  Tooltip,
-  TextField,
-  DialogActions,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Button,
-} from "@mui/material";
-import Radio from "@mui/material/Radio";
+import { Box, Typography, IconButton, Tooltip } from "@mui/material";
 import SettingIcon from "@mui/icons-material/Tune";
 import Usercard from "../../components/chat/userCard";
 import MessageInput from "../../components/chat/MessageInput";
 import Message from "../../components/chat/messageBox";
-import { Dialog, DialogTitle, useDialog } from "../../hooks/useDialogue";
+import { useDialog } from "../../hooks/useDialogue";
 import io from "socket.io-client";
 import AddIcon from "@mui/icons-material/LibraryAdd";
 import Head from "next/head";
 
 import { IFchannel, IFMessage } from "../../types";
+import CreateChannelForm from "../../components/chat/createChannelForm";
 
 const Mocked_data_channels: IFchannel[] = [
   { channel_name: "channel 1", type: "public" },
@@ -82,57 +69,8 @@ const Channels = () => {
       <Head>
         <title>channels</title>
       </Head>
-      {/* form to create new channel */}
-      <Dialog open={on} onClose={hide}>
-        <DialogTitle title="create new channel" />
-        <Divider sx={{ backgroundColor: "#632DE9" }} />
-        <Box sx={{ p: "10px 20px", display: "grid", gap: "10px" }}>
-          <TextField label="channel name" variant="standard" fullWidth />
-          <TextField label="password" variant="standard" fullWidth />
-          <FormControl>
-            <FormLabel id="demo-radio-buttons-group-label">
-              Channel Type
-            </FormLabel>
-            <RadioGroup row>
-              <FormControlLabel
-                value="Public"
-                control={<Radio />}
-                label="Public"
-              />
-              <FormControlLabel
-                value="Protected"
-                control={<Radio />}
-                label="Male"
-              />
-              <FormControlLabel
-                value="Private"
-                control={<Radio />}
-                label="Private"
-              />
-            </RadioGroup>
-          </FormControl>
 
-          <DialogActions>
-            <Button
-              sx={{
-                color: "#fff",
-                backgroundColor: "#6344D9",
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              sx={{
-                color: "#fff",
-                backgroundColor: "#6344D9",
-              }}
-            >
-              Create
-            </Button>
-          </DialogActions>
-        </Box>
-      </Dialog>
-
+      <CreateChannelForm on={on} hide={hide} />
       <Box
         sx={{
           display: "flex",

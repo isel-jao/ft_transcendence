@@ -61,7 +61,9 @@ const Usercard = (props: { user: IFuser; type: string }) => {
             "&.MuiButton-root": {
               p: "0px",
               m: "0px",
-              backgroundColor: "#6344D9",
+              background:
+                " linear-gradient(264.81deg, #A1158F 8.9%, #5F0D55 79.71%, rgba(0, 0, 0, 0) 165.18%)",
+              // "#6344D9"
             },
           }}
         >
