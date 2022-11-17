@@ -20,7 +20,7 @@ const Home: NextPage = () => {
           each player to reach eleven points before the opponent; points are
           earned when one fails to return the ball to the other.
         </p>
-        {search ? (
+        {!search ? (
           <Button
             type="submit"
             value="READY"
