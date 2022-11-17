@@ -8,7 +8,7 @@ import GlobalStyle, { theme } from "../components/globalstyles";
 import { Provider } from "react-redux";
 import store from "../app/store";
 import Layout from "../components/layout";
-
+import { SocketContext } from "../context/socketContext";
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
@@ -29,17 +29,19 @@ function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
-      <MuiThemeProvider theme={Muitheme}>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            <CssBaseline />
-            <GlobalStyle />
-          </ThemeProvider>
-        </Provider>
-      </MuiThemeProvider>
+      <SocketContext>
+        <MuiThemeProvider theme={Muitheme}>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              <CssBaseline />
+              <GlobalStyle />
+            </ThemeProvider>
+          </Provider>
+        </MuiThemeProvider>
+      </SocketContext>
     </CacheProvider>
   );
 }
