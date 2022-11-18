@@ -40,7 +40,7 @@ const Channels = () => {
   const SERVERURL = "http://localhost:5000/";
   const socket = io(SERVERURL);
   socket.on("connect", () => {
-    console.log("socket connected");
+    // console.log("socket connected");
   });
 
   const [messages, setMessages] = useState<IFMessage[]>([
@@ -137,7 +137,7 @@ const Channels = () => {
         >
           <Box>
             {messages.map((item, index) => {
-              console.log({ item });
+              // console.log({ item });
               return (
                 <Message key={index} message={item} send_by={item.send_by} />
               );

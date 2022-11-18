@@ -16,15 +16,16 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
-import { useSnackbar } from "notistack";
+// import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { postChannel } from "../../services/conversations";
+import { status } from "../../types";
 
 //TODO update types
 const CreateChannelForm = (props: { on: any; hide: any }) => {
   const { on, hide } = props;
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
   const RadioStyle = {
     "& .MuiSvgIcon-root": {
       fontSize: 20,
@@ -47,18 +48,20 @@ const CreateChannelForm = (props: { on: any; hide: any }) => {
     initialValues: {
       name: "",
       password: "",
-      type: "",
+      type: "room",
+      status: status.PUBLIC,
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
       console.log({ values });
       postChannel(values)
         .then((res) => {
-          enqueueSnackbar("");
+          // enqueueSnackbar("");
           console.log(res);
         })
         .catch((err) => {
-          enqueueSnackbar(err, { variant: "error" });
+          console.log(err);
+          // enqueueSnackbar(err, { variant: "error" });
         })
         .finally(() => {
           resetForm();
@@ -120,22 +123,22 @@ const CreateChannelForm = (props: { on: any; hide: any }) => {
           </FormLabel>
           <RadioGroup
             row
-            name="type"
-            value={formik.values.type}
+            name="status"
+            value={formik.values.status}
             onChange={formik.handleChange}
           >
             <FormControlLabel
-              value="Public"
+              value={"PUBLIC"}
               control={<Radio sx={RadioStyle} />}
               label="Public"
             />
             <FormControlLabel
-              value="Protected"
+              value={status.PROTECTED}
               control={<Radio sx={RadioStyle} />}
               label="Protected"
             />
             <FormControlLabel
-              value="Private"
+              value={2}
               control={<Radio sx={RadioStyle} />}
               label="Private"
             />

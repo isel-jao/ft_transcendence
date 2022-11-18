@@ -16,4 +16,10 @@ interface IFUser {
   role: string; //admin ,member or owner
 }
 
+export enum status {
+  PUBLIC,
+  PROTECTED,
+  PRIVATE,
+}
+
 export type { IFchannel, IFMessage, IFUser };

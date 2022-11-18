@@ -7,17 +7,19 @@ async function getConversations() {
   //   })
   //   .catch((error) => {
   //     throw new Error(error);
-  //   });
+  // });
 }
 
 interface IFCreateChannelType {
   name: string;
+  status: number;
   type: string;
   password: string;
 }
 
 async function postChannel(queryPayload: IFCreateChannelType) {
-  return poster("", queryPayload)
+  console.log({ queryPayload });
+  return poster("/create_channel", queryPayload)
     .then((result) => result)
     .catch((err) => {
       throw new Error(err);

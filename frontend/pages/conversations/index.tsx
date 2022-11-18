@@ -149,7 +149,7 @@ const Chat: NextPage = () => {
           >
             {/* TODO change id add typees*/}
             {messages.map((item, index) => {
-              console.log({ item });
+              // console.log({ item });
               return <Message key={index} message={item} user={user} />;
             })}
           </Box>
