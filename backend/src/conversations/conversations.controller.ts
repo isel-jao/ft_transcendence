@@ -1,28 +1,38 @@
-import { Body, Controller, Get, Post, Param } from "@nestjs/common";
+import { Body, Controller, Get, Post, Param, Delete, Put } from "@nestjs/common";
+import { Conversation } from "@prisma/client";
 import { Routes } from "../utils/constants"
 import { Services } from "../utils/constants";
 import { ConversationsService } from "./conversations.service";
-import { CreateConversationDto } from "./dto/createConversation.dto";
+import { CreateChannelDto } from "./dto/dto";
 
 
-@Controller(Routes.CONVERSATIONS) //conversations
+@Controller(Routes.ROOMS) //conversations
 export class ConversationsController {
     constructor(private readonly conversationsService: ConversationsService) { }
 
     //post request to get the conversation
     @Post()
-    async createConversation(@Body() createConversationPayload: any) {
-        return this.conversationsService.createConversation(createConversationPayload);
+    async createhannel(@Body() createChannelPayload: CreateChannelDto) {
+        return this.conversationsService.createChannel(createChannelPayload);
     }
 
     @Get()
-    async getAllConversations() {
-        //add userid 
-        return this.conversationsService.findAllConversations();
+    async getAllChannels() {
+        return this.conversationsService.getAllChnnels();
+    }
+    @Get(':id')
+    async getChannelById(@Param('id') id: string) {
+        return this.conversationsService.getChannelById(Number(id));
     }
 
-    @Get(':id')
-    async getConversation(@Param('id') id: string) {
-        return this.conversationsService.findConversation(parseInt(id));
+    @Delete(':id')
+    async deleteChannelById(@Param('id') id: string) {
+        return this.conversationsService.deleteChannelById(Number(id));
     }
+
+    @Put(':id')
+    async updateChannel(@Body() channelPayload, @Param(':id') id: number) {
+        return this.conversationsService.updateChannel(channelPayload, Number(id));
+    }
+
 }

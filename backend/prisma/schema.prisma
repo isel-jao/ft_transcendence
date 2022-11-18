@@ -123,17 +123,25 @@ model User {
 // }
 
 //channel
+
+//this enum describs the room status
+enum roomStatus {
+    PUBLIC
+    PROTECTED
+    PRIVATE
+}
+
 model Conversation {
     // participants User[]
-    id        Int       @id @default(autoincrement())
+    id        Int        @id @default(autoincrement())
     type      String // dm or room
-    name      String
-    status    Int // 0: public, 1: private , 2: locked
+    name      String //@unique
+    status    roomStatus @default(PUBLIC) // 0: public, 1: private , 2: locked
     password  String?
     // admins       User[]    @relation("admins")
     // members      User[]    @relation("members")
     messages  Message[]
-    createdAt DateTime  @default(now())
+    createdAt DateTime   @default(now())
 
     User_Conv User_Conv[]
 

@@ -1,27 +1,5 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `authorId` on the `conversation` table. All the data in the column will be lost.
-  - You are about to drop the column `message` on the `conversation` table. All the data in the column will be lost.
-  - You are about to drop the column `recipientId` on the `conversation` table. All the data in the column will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-  - Added the required column `name` to the `conversation` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `status` to the `conversation` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `type` to the `conversation` table without a default value. This is not possible if the table is not empty.
-
-*/
--- AlterTable
-ALTER TABLE "conversation" DROP COLUMN "authorId",
-DROP COLUMN "message",
-DROP COLUMN "recipientId",
-ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "name" TEXT NOT NULL,
-ADD COLUMN     "password" TEXT,
-ADD COLUMN     "status" INTEGER NOT NULL,
-ADD COLUMN     "type" TEXT NOT NULL;
-
--- DropTable
-DROP TABLE "User";
+-- CreateEnum
+CREATE TYPE "roomStatus" AS ENUM ('PUBLIC', 'PROTECTED', 'PRIVATE');
 
 -- CreateTable
 CREATE TABLE "user" (
@@ -37,6 +15,18 @@ CREATE TABLE "user" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "conversation" (
+    "id" SERIAL NOT NULL,
+    "type" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "status" "roomStatus" NOT NULL DEFAULT 'PUBLIC',
+    "password" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "conversation_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable

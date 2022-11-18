@@ -1,68 +1,50 @@
 import { Body, Injectable } from "@nestjs/common";
 import { Conversation } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
-import { CreateConversationDto } from "./dto/createConversation.dto";
+import { CreateChannelDto, CreateConversationDto } from "./dto/dto";
 
 
 @Injectable()
 export class ConversationsService {
    constructor(private prisma: PrismaService) { }
-   //TODO add type
-   async createConversation(data: any): Promise<Conversation | null> {
-      return this.prisma.conversation.create({ data });
+
+   //TODO add return type 
+   //TODO gandel errors and throw exception
+   async createChannel(data: any): Promise<any | null> {
+      const channel = await this.prisma.conversation.create({ data: data });
+      return channel
    }
 
-   async findAllConversations() {
-      const res = await this.prisma.user_Conv.findMany({
+   async getAllChnnels(): Promise<any | null> {
+      const channels = await this.prisma.conversation.findMany();
+      return channels;
+   }
+
+   async getChannelById(id_conversation: number): Promise<any | null> {
+      const channel = await this.prisma.conversation.findUnique({
          where: {
-            userId: 1,
-            conversation: {
-               type: 'dm'
-            }
-         },
-         include: {
-            conversation: {
-               select: {
-                  id: true,
-                  name: true,
-               }
-            },
+            id: id_conversation
          }
       })
-
-      return await Promise.all(res.map(async (elm) => {
-         return await this.prisma.user_Conv.findFirst({
-            where: {
-               conversationId: elm.conversationId,
-               NOT: {
-                  userId: 1,
-               }
-            },
-            include: {
-               user: {
-                  select: {
-                     userName: true,
-
-                  }
-               }
-            }
-         })
-
-         // return ({
-         //    id_conversation: elm.conversationId,
-         //    name: r.user.userName,
-         //    status: r.user.
-         // });
-      }))
+      return channel;
    }
 
 
-   async findConversation(id_conversation: number) {
-      return this.prisma.conversation.findUnique({
+   async deleteChannelById(id_conversation: number): Promise<any | null> {
+      const channel = await this.prisma.conversation.delete({
          where: {
-            id: id_conversation,
+            id: id_conversation
          }
-      });
+      })
+      return channel;
    }
 
+   async updateChannel(channelPayload: any, id_conversation: number): Promise<any | null> {
+      const channel = await this.prisma.conversation.update({
+         data: channelPayload, where: {
+            id: id_conversation
+         }
+      })
+      return (channel);
+   }
 }

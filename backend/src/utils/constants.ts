@@ -1,5 +1,6 @@
 export enum Routes {
-    CONVERSATIONS='conversations'
+    CONVERSATIONS = 'conversations',
+    ROOMS = "rooms"
 }
 
 export enum Services {
