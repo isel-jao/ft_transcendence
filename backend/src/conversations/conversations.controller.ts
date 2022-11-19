@@ -1,5 +1,7 @@
-import { Body, Controller, Get, Post, Param, Delete, Put } from "@nestjs/common";
+import { Body, Controller, Get, Post, Param, Delete, Put, HttpException, HttpStatus, Catch, UseFilters } from "@nestjs/common";
 import { Conversation } from "@prisma/client";
+import { PrismaClientUnknownRequestError } from "@prisma/client/runtime";
+import { AllExceptionFilter } from "src/allExceptionFilter";
 import { Routes } from "../utils/constants"
 import { Services } from "../utils/constants";
 import { ConversationsService } from "./conversations.service";
@@ -22,16 +24,16 @@ export class ConversationsController {
     }
     @Get(':id')
     async getChannelById(@Param('id') id: string) {
-        return this.conversationsService.getChannelById(Number(id));
+        return await this.conversationsService.getChannelById(Number(id));
     }
 
     @Delete(':id')
     async deleteChannelById(@Param('id') id: string) {
-        return this.conversationsService.deleteChannelById(Number(id));
+        return await this.conversationsService.deleteChannelById(Number(id));
     }
 
     @Put(':id')
-    async updateChannel(@Body() channelPayload, @Param(':id') id: number) {
+    async updateChannel(@Body() channelPayload, @Param('id') id: number) {
         return this.conversationsService.updateChannel(channelPayload, Number(id));
     }
 

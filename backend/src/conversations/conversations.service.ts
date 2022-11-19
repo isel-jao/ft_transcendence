@@ -21,11 +21,12 @@ export class ConversationsService {
    }
 
    async getChannelById(id_conversation: number): Promise<any | null> {
-      const channel = await this.prisma.conversation.findUnique({
+      const channel = await this.prisma.conversation.findUniqueOrThrow({
          where: {
             id: id_conversation
          }
       })
+      console.log({ channel })
       return channel;
    }
 
@@ -40,11 +41,13 @@ export class ConversationsService {
    }
 
    async updateChannel(channelPayload: any, id_conversation: number): Promise<any | null> {
+      console.log({ id_conversation })
       const channel = await this.prisma.conversation.update({
          data: channelPayload, where: {
             id: id_conversation
          }
-      })
+      });
+
       return (channel);
    }
 }
