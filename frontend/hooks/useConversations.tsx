@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getConversations } from "../services/conversations";
+import { IFchannel } from "../types";
 
-const conversations = () => {
+const useConversations = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>(); //add type
+  const [data, setData] = useState<IFchannel[]>([]);
   const [error, setError] = useState<string>();
   const [retry, setRetry] = useState(0);
 
@@ -13,7 +14,8 @@ const conversations = () => {
     setLoading(true);
     getConversations()
       .then((conversations) => {
-        setData(data);
+        console.log({ conversations });
+        setData(conversations);
       })
       .catch((err) => {
         setError(err);
@@ -21,7 +23,7 @@ const conversations = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [retry]);
 
   return {
     loading,
@@ -31,4 +33,4 @@ const conversations = () => {
   };
 };
 
-export { conversations };
+export { useConversations };

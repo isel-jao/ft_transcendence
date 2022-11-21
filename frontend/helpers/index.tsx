@@ -17,34 +17,38 @@ const fetcher = async (args: {
     JSON.parse(JSON.stringify(queryPayload))
   ).toString();
   return fetch(`${url}${path}?${queryString}`, {
+    method: "GET",
     headers: {
-      "Content-type": "application/json; charset=UTF-8",
+      // "Content-type": "application/json; charset=UTF-8",
+      "Content-Type": "application/json",
     },
   })
-    .then(handleErrors)
-    .then((response: any) => response.json());
+    .then((response: any) => response.json())
+    .then((data) => data);
 };
 
 const poster = async (
   path: string,
   payload: Record<string, any> | Record<string, any>[] = {},
-  tokenOld?: string | undefined,
   url = serverurl,
   queryPayload: Record<string, any> = {}
 ) => {
   const queryString = new URLSearchParams(
     JSON.parse(JSON.stringify(queryPayload))
   ).toString();
+
+  console.log({ payload });
   return fetch(`${url}${path}?${queryString}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      // "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/json",
       //token
     },
     body: JSON.stringify(payload),
   })
-    .then(handleErrors)
-    .then((response: any) => response.json());
+    .then((response: any) => response.json())
+    .then((data) => data);
 };
 
 export { poster, fetcher };

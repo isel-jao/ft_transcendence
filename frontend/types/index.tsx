@@ -6,8 +6,9 @@ interface IFMessage {
 }
 
 interface IFchannel {
-  channel_name: string;
-  type: string; //protected public private
+  id: number;
+  name: string;
+  status: string; //protected public private
 }
 
 interface IFUser {
@@ -17,9 +18,9 @@ interface IFUser {
 }
 
 export enum status {
-  PUBLIC,
-  PROTECTED,
-  PRIVATE,
+  PUBLIC = "PUBLIC",
+  PROTECTED = "PROTECTED",
+  PRIVATE = "PRIVATE",
 }
 
 export type { IFchannel, IFMessage, IFUser };

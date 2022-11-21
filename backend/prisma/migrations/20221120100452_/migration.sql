@@ -73,6 +73,9 @@ CREATE UNIQUE INDEX "user_user_name_key" ON "user"("user_name");
 CREATE UNIQUE INDEX "user_tfa_secret_key" ON "user"("tfa_secret");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "conversation_name_key" ON "conversation"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_Conv_userId_conversationId_key" ON "User_Conv"("userId", "conversationId");
 
 -- CreateIndex

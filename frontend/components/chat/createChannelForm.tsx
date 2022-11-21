@@ -21,10 +21,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { postChannel } from "../../services/conversations";
 import { status } from "../../types";
+import { useConversations } from "../../hooks/useConversations";
 
 //TODO update types
-const CreateChannelForm = (props: { on: any; hide: any }) => {
-  const { on, hide } = props;
+const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
+  const { on, hide, refetch } = props;
   // const { enqueueSnackbar } = useSnackbar();
   const RadioStyle = {
     "& .MuiSvgIcon-root": {
@@ -38,10 +39,7 @@ const CreateChannelForm = (props: { on: any; hide: any }) => {
       .min(2, "Too short!")
       .max(20, "Too long!")
       .required("Required"),
-    password: Yup.string()
-      .min(2, "Too short!")
-      .max(20, "Too long!")
-      .required("Required"),
+    password: Yup.string().min(2, "Too short!").max(20, "Too long!"),
   });
 
   const formik = useFormik({
@@ -53,11 +51,11 @@ const CreateChannelForm = (props: { on: any; hide: any }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log({ values });
       postChannel(values)
         .then((res) => {
           // enqueueSnackbar("");
           console.log(res);
+          refetch();
         })
         .catch((err) => {
           console.log(err);
@@ -89,33 +87,41 @@ const CreateChannelForm = (props: { on: any; hide: any }) => {
           value={formik.values.name}
           onChange={formik.handleChange}
         />
-        {/* 
+
         {formik.errors.name && formik.touched.name ? (
-          <Typography variant="body2">{formik.errors.name}</Typography>
+          <Typography variant="body2" sx={{ color: "red" }}>
+            {formik.errors.name}
+          </Typography>
         ) : (
           ""
-        )} */}
+        )}
 
-        <TextField
-          sx={{
-            color: "#fff",
-            "& .MuiInput-input": {
+        {formik.values.status != status.PUBLIC && (
+          <TextField
+            sx={{
               color: "#fff",
-            },
-          }}
-          type="password"
-          label="password"
-          variant="standard"
-          fullWidth
-          name="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-        />
-        {/* <FormHelperText>
-          {formik.errors.password && formik.touched.password
-            ? formik.errors.password
-            : ""}
-        </FormHelperText> */}
+              "& .MuiInput-input": {
+                color: "#fff",
+              },
+            }}
+            type="password"
+            label="password"
+            variant="standard"
+            fullWidth
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+          />
+        )}
+        {formik.values.status != status.PUBLIC &&
+        formik.errors.password &&
+        formik.touched.password ? (
+          <Typography variant="body2" sx={{ color: "red" }}>
+            {formik.errors.password}
+          </Typography>
+        ) : (
+          ""
+        )}
 
         <FormControl>
           <FormLabel id="demo-radio-buttons-group-label">
@@ -128,7 +134,7 @@ const CreateChannelForm = (props: { on: any; hide: any }) => {
             onChange={formik.handleChange}
           >
             <FormControlLabel
-              value={"PUBLIC"}
+              value={status.PUBLIC}
               control={<Radio sx={RadioStyle} />}
               label="Public"
             />
@@ -138,22 +144,18 @@ const CreateChannelForm = (props: { on: any; hide: any }) => {
               label="Protected"
             />
             <FormControlLabel
-              value={2}
+              value={status.PRIVATE}
               control={<Radio sx={RadioStyle} />}
               label="Private"
             />
           </RadioGroup>
-          {/* <FormHelperText>
-            {formik.errors.type && formik.touched.type
-              ? formik.errors.type
-              : ""}
-          </FormHelperText> */}
         </FormControl>
 
         <DialogActions>
           <Button
             onClick={() => {
               hide();
+              formik.resetForm();
             }}
             sx={{
               color: "#fff",

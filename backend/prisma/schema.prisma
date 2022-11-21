@@ -135,7 +135,7 @@ model Conversation {
     // participants User[]
     id        Int        @id @default(autoincrement())
     type      String // dm or room
-    name      String //@unique
+    name      String     @unique
     status    roomStatus @default(PUBLIC) // 0: public, 1: private , 2: locked
     password  String?
     // admins       User[]    @relation("admins")

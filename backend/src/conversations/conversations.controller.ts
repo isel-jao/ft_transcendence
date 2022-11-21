@@ -15,11 +15,12 @@ export class ConversationsController {
     //post request to get the conversation
     @Post()
     async createhannel(@Body() createChannelPayload: CreateChannelDto) {
+        console.log({ createChannelPayload });
         return this.conversationsService.createChannel(createChannelPayload);
     }
 
     @Get()
-    async getAllChannels() {
+    async getAllChannels(/* add user id */) {
         return this.conversationsService.getAllChnnels();
     }
     @Get(':id')

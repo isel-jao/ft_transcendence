@@ -31,6 +31,5 @@ export class CreateChannelDto {
     status: string // protected private or public
 
     @IsString()
-    @IsNotEmpty()
     password?: string
 }

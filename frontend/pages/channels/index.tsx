@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Tooltip,
+  Avatar,
+  Icon,
+} from "@mui/material";
 import SettingIcon from "@mui/icons-material/Tune";
 import Usercard from "../../components/chat/userCard";
 import MessageInput from "../../components/chat/MessageInput";
@@ -8,17 +15,12 @@ import { useDialog } from "../../hooks/useDialogue";
 import io from "socket.io-client";
 import AddIcon from "@mui/icons-material/LibraryAdd";
 import Head from "next/head";
+import { useConversations } from "../../hooks/useConversations";
+import LinearProgress from "@mui/material/LinearProgress";
+import MsgIcon from "@mui/icons-material/Sms";
 
 import { IFchannel, IFMessage } from "../../types";
 import CreateChannelForm from "../../components/chat/createChannelForm";
-
-const Mocked_data_channels: IFchannel[] = [
-  { channel_name: "channel 1", type: "public" },
-  { channel_name: "channel 2", type: "public" },
-  { channel_name: "channel 3", type: "protected" },
-  { channel_name: "channel 4", type: "private" },
-  { channel_name: "channel 5", type: "private" },
-];
 
 const Mocked_data_members = [
   { user_name: "fmehdaou", status_user: "online", role: "owner" },
@@ -28,21 +30,8 @@ const Mocked_data_members = [
 
 const Channels = () => {
   const { on, hide, show } = useDialog();
-
-  const [selectChannel, setSelectChannel] = useState(
-    Mocked_data_channels[0].channel_name
-  );
-
-  const handelSelectChannel = (channel: IFchannel) => {
-    setSelectChannel(channel.channel_name);
-  };
-
-  const SERVERURL = "http://localhost:5000/";
-  const socket = io(SERVERURL);
-  socket.on("connect", () => {
-    // console.log("socket connected");
-  });
-
+  const { loading, data: channels, error, refetch } = useConversations();
+  const [selectChannel, setSelectChannel] = useState(channels[0]);
   const [messages, setMessages] = useState<IFMessage[]>([
     {
       message_id: 1,
@@ -52,12 +41,26 @@ const Channels = () => {
     },
   ]);
 
+  console.log({ channels });
+  const handelSelectChannel = (channel: IFchannel) => {
+    setSelectChannel(channel);
+  };
+
+  const SERVERURL = "http://localhost:5000/";
+  const socket = io(SERVERURL);
+  socket.on("connect", () => {
+    // console.log("socket connected");
+  });
+
   const handelChangeMessages = (newmessage: any) => {
     setMessages([...messages, newmessage]);
   };
 
-  useEffect(() => {}, [messages]);
+  useEffect(() => {
+    console.log({ loading });
+  }, [messages, channels]);
 
+  if (!channels) return <LinearProgress />;
   return (
     <Box
       sx={{
@@ -70,7 +73,7 @@ const Channels = () => {
         <title>channels</title>
       </Head>
 
-      <CreateChannelForm on={on} hide={hide} />
+      <CreateChannelForm on={on} hide={hide} refetch={refetch} />
       <Box
         sx={{
           display: "flex",
@@ -80,11 +83,21 @@ const Channels = () => {
           border: "2px solid #2C2039",
         }}
       >
-        <Typography variant="h1">{selectChannel}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+        >
+          <MsgIcon htmlColor="#941484" />
+          <Typography variant="h1">Messaging</Typography>
+        </Box>
         <Box>
           <IconButton onClick={() => show()}>
             <Tooltip title="create new channel">
-              <AddIcon htmlColor="#7A4BD8" />
+              <AddIcon htmlColor="#941484" />
             </Tooltip>
           </IconButton>
           <IconButton
@@ -93,7 +106,7 @@ const Channels = () => {
             }}
           >
             <Tooltip title="channel settings">
-              <SettingIcon htmlColor="#7A4BD8" />
+              <SettingIcon htmlColor="#941484" />
             </Tooltip>
           </IconButton>
         </Box>
@@ -101,7 +114,7 @@ const Channels = () => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "1fr 5fr 2fr",
+          gridTemplateColumns: "2fr 5fr 2fr",
           border: "1px solid #2C2039",
           // gap: "6px",
           backgroundColor: "#fff",
@@ -113,16 +126,48 @@ const Channels = () => {
           sx={{
             borderRight: "2px solid #2C2039",
             backgroundColor: "#231834",
+            p: "10p 4pxx",
           }}
         >
-          {Mocked_data_channels.map((channel) => (
+          {channels.map((channel, index) => (
             <Box
+              key={index}
               sx={{ p: "5px 6px", cursor: "pointer" }}
               onClick={() => {
                 handelSelectChannel(channel);
               }}
             >
-              <Typography variant="body1">{channel.channel_name}</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "14px",
+                  backgroundColor: `${
+                    channel.id == selectChannel?.id ? "#1B182C" : "transparent"
+                  }`,
+                  p: "14px",
+                  borderRadius: "12px",
+                }}
+              >
+                <Avatar
+                  sx={{ backgroundColor: "#413A4E" }}
+                  variant="square"
+                  children={`${channel.name.split(" ")[0][0].toUpperCase()}${
+                    channel.name.split(" ")[1]
+                      ? channel.name.split(" ")[1][0].toUpperCase()
+                      : ""
+                  }`}
+                />
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontSize: "14px",
+                    color: "#9C9A8C",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {channel.name}
+                </Typography>
+              </Box>
             </Box>
           ))}
         </Box>
@@ -185,8 +230,9 @@ const Channels = () => {
               <Typography variant="h2">Members</Typography>
               {Mocked_data_members.filter(
                 (member) => member.role == "member"
-              ).map((item) => (
+              ).map((item, index) => (
                 <Usercard
+                  key={index}
                   user={{ name: item.user_name, status: item.status_user }}
                   type="room"
                 />

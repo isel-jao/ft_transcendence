@@ -11,10 +11,11 @@ import {
 } from "@mui/material";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import image from "../../public/images/mocked-avatar-2.jpg";
 import { IFUser } from "../../types";
 
 //where type refers to room or dm
-const Usercard = (props: { user: IFuser; type: string }) => {
+const Usercard = (props: { user: any; type: string }) => {
   const { user } = props;
   const [selectedUserId, setSelectedUserId] = useState<number>();
 
@@ -35,7 +36,6 @@ const Usercard = (props: { user: IFuser; type: string }) => {
       <Box sx={{ display: "flex", gap: "10px" }}>
         <Avatar
           sx={{ width: 30, height: 30 }}
-          src="../../public/images/mocked-avatar-2.jpg"
           onClick={() => {
             console.log("implemet view profil");
           }}

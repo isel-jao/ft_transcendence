@@ -1,26 +1,32 @@
 import { fetcher, poster } from "../helpers";
+import { status } from "../types";
 
+//to get all rooms
 async function getConversations() {
-  // return fetcher({})
-  //   .then((result) => {
-  //     return result;
-  //   })
-  //   .catch((error) => {
-  //     throw new Error(error);
-  // });
+  return fetcher({ path: "rooms" })
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
 }
 
 interface IFCreateChannelType {
   name: string;
-  status: number;
+  status: string;
   type: string;
-  password: string;
+  password?: string;
 }
 
+//to create new channel
 async function postChannel(queryPayload: IFCreateChannelType) {
   console.log({ queryPayload });
-  return poster("/create_channel", queryPayload)
-    .then((result) => result)
+  return poster("rooms", queryPayload)
+    .then((result) => {
+      console.log({ result });
+      return result;
+    })
     .catch((err) => {
       throw new Error(err);
     });
