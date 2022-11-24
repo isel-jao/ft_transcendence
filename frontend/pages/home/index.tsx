@@ -35,6 +35,7 @@ const Main = styled.div`
     font-size: 1.5rem;
   }
   > .Cards {
+    justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
     display: flex;
