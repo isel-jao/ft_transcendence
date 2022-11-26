@@ -1,8 +1,6 @@
 export enum Routes {
     CONVERSATIONS = 'conversations',
-    ROOMS = "rooms"
+    ROOMS = "rooms",
+    MESSAGES = "messages",
 }
 
-export enum Services {
-    CONVERSATIONS = 'CONVERSATIONS_SERVICES'
-}

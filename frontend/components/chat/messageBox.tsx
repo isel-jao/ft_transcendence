@@ -1,9 +1,11 @@
 import React from "react";
 import { Avatar, Box, Typography } from "@mui/material";
 import { IFMessage } from "../../types";
+import { format } from "date-fns";
+import useConversationMessages from "../../hooks/useConversationMessages";
 
-const messageBox = (props: { message: IFMessage; send_by: string }) => {
-  const { message, send_by } = props;
+const messageBox = (props: { message: IFMessage }) => {
+  const { message } = props;
 
   return (
     <Box
@@ -28,8 +30,8 @@ const messageBox = (props: { message: IFMessage; send_by: string }) => {
             gap: "10px",
           }}
         >
-          <Typography>{send_by}</Typography>
-          <Typography variant="subtitle1">{message.date}</Typography>
+          <Typography>{`${message.sentBy.firstName} ${message.sentBy.lastName}`}</Typography>
+          <Typography variant="subtitle1">{message.createdAt}</Typography>
         </Box>
         <Box
           sx={{
@@ -40,7 +42,7 @@ const messageBox = (props: { message: IFMessage; send_by: string }) => {
             p: "6px 10px",
           }}
         >
-          <Typography>{message.message_body}</Typography>
+          <Typography>{message.body}</Typography>
         </Box>
       </Box>
     </Box>

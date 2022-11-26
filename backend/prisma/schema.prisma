@@ -55,11 +55,11 @@ model User {
     // friendRequestTo   FriendRequest[] @relation("friend_request_to")
     // conversationsAdmin  Conversation[]  @relation("admins")
     // conversationsMember Conversation[]  @relation("members")
-    messages    Message[]   @relation("user_messages")
     createdAt   DateTime    @default(now()) @map("created_at")
     updatedAt   DateTime    @updatedAt @map("updated_at")
     // Conversation   Conversation? @relation(fields: [conversationId], references: [id])
     // conversationId Int?
+    messages    Message[]   @relation("user_messages")
     User_Conv   User_Conv[]
 
     @@map(name: "user")
@@ -140,9 +140,9 @@ model Conversation {
     password  String?
     // admins       User[]    @relation("admins")
     // members      User[]    @relation("members")
-    messages  Message[]
     createdAt DateTime   @default(now())
 
+    messages  Message[]
     User_Conv User_Conv[]
 
     @@map("conversation") //to access it as prisma.conversations
@@ -164,15 +164,15 @@ model User_Conv {
 }
 
 model Message {
-    id              Int          @id @default(autoincrement())
-    conversation_id Int
-    conversation    Conversation @relation(fields: [conversation_id], references: [id])
-    body            String
+    id             Int      @id @default(autoincrement())
+    senderId       Int
+    conversationId Int
+    body           String
+    createdAt      DateTime @default(now()) @map("created_at")
+    updatedAt      DateTime @updatedAt @map("updated_at")
 
-    sentById  Int
-    sentBy    User     @relation("user_messages", fields: [sentById], references: [id])
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+    conversation Conversation @relation(fields: [conversationId], references: [id])
+    sentBy       User         @relation("user_messages", fields: [senderId], references: [id])
 
-    @@map("messages")
+    @@map("message")
 }

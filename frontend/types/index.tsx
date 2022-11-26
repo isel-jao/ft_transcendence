@@ -1,8 +1,10 @@
 interface IFMessage {
-  message_id: number;
-  message_body: string;
-  date: string;
-  send_by: string;
+  body: string;
+  createdAt: string;
+  sentBy: {
+    firstName: string;
+    lastName: string;
+  };
 }
 
 interface IFchannel {

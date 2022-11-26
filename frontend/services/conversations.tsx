@@ -32,4 +32,18 @@ async function postChannel(queryPayload: IFCreateChannelType) {
     });
 }
 
-export { getConversations, postChannel };
+//to get a conversations messages
+
+async function getConversationMessages(id_conversation: number) {
+  return fetcher({
+    path: `messages/${id_conversation}`,
+  })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
+}
+
+export { getConversations, postChannel, getConversationMessages };

@@ -26,11 +26,14 @@ export class ConversationsService {
       return channel
    }
 
+   //TODO change the way of getting id_user
    async getAllChnnels(): Promise<any | null> {
+      const id_user = 1;
       const channels = await this.prisma.conversation.findMany(
          {
             where: {
-               type: "room"
+               type: "room",
+
             },
             select: {
                id: true,
@@ -38,7 +41,7 @@ export class ConversationsService {
                status: true,
             }
          });
-      return channels;
+      return (channels)
    }
 
    async getChannelById(id_conversation: number): Promise<any | null> {

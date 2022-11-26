@@ -4,7 +4,6 @@ import {
     ArgumentsHost,
     HttpException,
     HttpStatus,
-    NotFoundException,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { PrismaClientKnownRequestError, PrismaClientValidationError } from '@prisma/client/runtime';

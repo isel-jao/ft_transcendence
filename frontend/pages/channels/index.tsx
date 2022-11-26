@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  IconButton,
-  Tooltip,
-  Avatar,
-  Icon,
-} from "@mui/material";
+import { Box, Typography, IconButton, Tooltip, Avatar } from "@mui/material";
 import SettingIcon from "@mui/icons-material/Tune";
 import Usercard from "../../components/chat/userCard";
-import MessageInput from "../../components/chat/MessageInput";
-import Message from "../../components/chat/messageBox";
 import { useDialog } from "../../hooks/useDialogue";
-import io from "socket.io-client";
 import AddIcon from "@mui/icons-material/LibraryAdd";
 import Head from "next/head";
 import { useConversations } from "../../hooks/useConversations";
 import LinearProgress from "@mui/material/LinearProgress";
 import MsgIcon from "@mui/icons-material/Sms";
-
-import { IFchannel, IFMessage } from "../../types";
+import { IFchannel } from "../../types";
 import CreateChannelForm from "../../components/chat/createChannelForm";
+import MessagesContainer from "../../components/chat/messages-container";
+import useConversationMessages from "../../hooks/useConversationMessages";
 
 const Mocked_data_members = [
   { user_name: "fmehdaou", status_user: "online", role: "owner" },
@@ -32,33 +23,13 @@ const Channels = () => {
   const { on, hide, show } = useDialog();
   const { loading, data: channels, error, refetch } = useConversations();
   const [selectChannel, setSelectChannel] = useState(channels[0]);
-  const [messages, setMessages] = useState<IFMessage[]>([
-    {
-      message_id: 1,
-      message_body: "hello this is a message",
-      date: "11/12/2022 6:00pm",
-      send_by: "fmehdaou",
-    },
-  ]);
 
-  console.log({ channels });
+  // console.log({ channels });
   const handelSelectChannel = (channel: IFchannel) => {
     setSelectChannel(channel);
   };
 
-  const SERVERURL = "http://localhost:5000/";
-  const socket = io(SERVERURL);
-  socket.on("connect", () => {
-    // console.log("socket connected");
-  });
-
-  const handelChangeMessages = (newmessage: any) => {
-    setMessages([...messages, newmessage]);
-  };
-
-  useEffect(() => {
-    console.log({ loading });
-  }, [messages, channels]);
+  useEffect(() => {}, [channels]);
 
   if (!channels) return <LinearProgress />;
   return (
@@ -171,31 +142,8 @@ const Channels = () => {
             </Box>
           ))}
         </Box>
-
         {/* channel- messages  */}
-        <Box
-          sx={{
-            borderRight: "2px solid #2C2039",
-            display: "grid",
-            backgroundColor: "#231834",
-          }}
-        >
-          <Box>
-            {messages.map((item, index) => {
-              // console.log({ item });
-              return (
-                <Message key={index} message={item} send_by={item.send_by} />
-              );
-            })}
-          </Box>
-          <Box sx={{ alignSelf: "end" }}>
-            <MessageInput
-              socket={socket}
-              handelChangeData={handelChangeMessages}
-            />
-          </Box>
-        </Box>
-
+        <MessagesContainer selectedChannel={selectChannel?.id} />
         {/* channel memebers */}
         <Box
           sx={{

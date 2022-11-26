@@ -1,12 +1,14 @@
 import { Module } from "@nestjs/common";
 import { ConversationsModule } from "src/conversations/conversations.module";
-import {EventsGeteway} from './events.getway'
+import { MessagesModule } from "src/messages/messages.module";
+import { EventsGeteway } from './events.getway'
 
 @Module({
-    providers:[EventsGeteway]
+    imports: [MessagesModule],
+    providers: [EventsGeteway]
 })
 
-export class EventsModule {}
+export class EventsModule { }
 
 
 

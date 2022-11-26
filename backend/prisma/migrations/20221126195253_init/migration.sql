@@ -40,15 +40,15 @@ CREATE TABLE "User_Conv" (
 );
 
 -- CreateTable
-CREATE TABLE "messages" (
+CREATE TABLE "message" (
     "id" SERIAL NOT NULL,
-    "conversation_id" INTEGER NOT NULL,
+    "senderId" INTEGER NOT NULL,
+    "conversationId" INTEGER NOT NULL,
     "body" TEXT NOT NULL,
-    "sentById" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "message_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -79,6 +79,9 @@ CREATE UNIQUE INDEX "conversation_name_key" ON "conversation"("name");
 CREATE UNIQUE INDEX "User_Conv_userId_conversationId_key" ON "User_Conv"("userId", "conversationId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "message_senderId_key" ON "message"("senderId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_friends_AB_unique" ON "_friends"("A", "B");
 
 -- CreateIndex
@@ -97,10 +100,10 @@ ALTER TABLE "User_Conv" ADD CONSTRAINT "User_Conv_userId_fkey" FOREIGN KEY ("use
 ALTER TABLE "User_Conv" ADD CONSTRAINT "User_Conv_conversationId_fkey" FOREIGN KEY ("conversationId") REFERENCES "conversation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "messages" ADD CONSTRAINT "messages_conversation_id_fkey" FOREIGN KEY ("conversation_id") REFERENCES "conversation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "message" ADD CONSTRAINT "message_conversationId_fkey" FOREIGN KEY ("conversationId") REFERENCES "conversation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "messages" ADD CONSTRAINT "messages_sentById_fkey" FOREIGN KEY ("sentById") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "message" ADD CONSTRAINT "message_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_friends" ADD CONSTRAINT "_friends_A_fkey" FOREIGN KEY ("A") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
