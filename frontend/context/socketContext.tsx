@@ -1,4 +1,4 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { createContext } from "react";
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
@@ -19,12 +19,12 @@ type GameDataType = {
   };
 };
 interface AppContextInterface {
-  socket?: any | null;
+  socket?: Socket;
   gameData: GameDataType;
 }
 export const AppCtx = createContext<AppContextInterface | null>(null);
 
-const socket = io("http://localhost:3001");
+const socket: Socket = io("http://localhost:3001");
 export const SocketContext = ({ children }: any) => {
   const [gameData, setData] = useState<GameDataType>({
     ball: {

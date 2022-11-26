@@ -3,7 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import Game from "../../components/Game";
 import { AppCtx } from "../../context/socketContext";
 import { useContext } from "react";
-import { PointLightShadow } from "three";
+// import { PointLightShadow } from "three";
+
 const Home: NextPage = () => {
   const { socket, gameData } = useContext(AppCtx);
   return (
@@ -44,7 +45,9 @@ const Home: NextPage = () => {
           shadows={true}
           camera={{
             fov: 75,
-            position: [-0.018223506966510716, -54, 20],
+            // position: [-0.018223506966510716, -54, 20], //player 1 position
+            position: [0, 0, 51], //Specter possition
+            // position: [4.0776531936721225, 72.17340230306262, 1], // player 2 position
             near: 0.1,
             far: 1000,
           }}

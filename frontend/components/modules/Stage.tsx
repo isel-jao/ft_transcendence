@@ -21,7 +21,7 @@ const Stage = React.forwardRef((props, ref: any) => {
       {/* // TOP */}
       <Padlle
         position={[0, 60 / 2, 0.75]}
-        color="#4a2bd6"
+        color="#45093f"
         args={[1.5, 1.5, 40]}
         rotateX={Math.PI / 2}
         rotateY={Math.PI / 2}
@@ -31,7 +31,7 @@ const Stage = React.forwardRef((props, ref: any) => {
       {/* BOTTOM */}
       <Padlle
         position={[0, -60 / 2, 0.75]}
-        color="#4a2bd6"
+        color="#45093f"
         args={[1.5, 1.5, 40]}
         rotateX={Math.PI / 2}
         rotateY={Math.PI / 2}
@@ -41,7 +41,7 @@ const Stage = React.forwardRef((props, ref: any) => {
       {/* LEFT */}
       <Padlle
         position={[-40 / 2, 0, 0.75]}
-        color="#4a2bd6"
+        color="#45093f"
         args={[1.5, 1.5, 61.5]}
         rotateX={Math.PI / 2}
         name="left"
@@ -50,7 +50,7 @@ const Stage = React.forwardRef((props, ref: any) => {
       {/* RIGHT */}
       <Padlle
         position={[40 / 2, 0, 0.75]}
-        color="#4a2bd6"
+        color="#45093f"
         args={[1.5, 1.5, 61.5]}
         rotateX={Math.PI / 2}
         name="right"
