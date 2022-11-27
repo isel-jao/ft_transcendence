@@ -51,10 +51,9 @@ export const SocketContext = ({ children }: any) => {
   socket.on("joinRoom", (data) => {
     alert("Match Found !");
     console.log(data);
-    Router.push("/room/" + data.room);
+    Router.push("/game/" + data.room);
   });
   useEffect(() => {
-    console.log("HEREE");
     socket.on("gameData", (data: GameDataType) => {
       console.log(data);
       setData(data);

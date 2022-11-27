@@ -38,6 +38,7 @@ const Game = (props: any) => {
     if (size.width < 700) camera.fov = 150;
     camera.updateProjectionMatrix();
   }, [size]);
+  camera.rotateZ(Math.PI);
   useFrame(({ gl, scene, camera }) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
