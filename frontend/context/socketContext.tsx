@@ -24,7 +24,9 @@ interface AppContextInterface {
 }
 export const AppCtx = createContext<AppContextInterface | null>(null);
 
-const socket: Socket = io("http://localhost:3001");
+const socket: Socket = io("http://localhost:3001", {
+  query: { token: localStorage.getItem("token") },
+});
 export const SocketContext = ({ children }: any) => {
   const [gameData, setData] = useState<GameDataType>({
     ball: {
@@ -49,7 +51,6 @@ export const SocketContext = ({ children }: any) => {
     },
   });
   socket.on("joinRoom", (data) => {
-    alert("Match Found !");
     console.log(data);
     Router.push("/game/" + data.room);
   });

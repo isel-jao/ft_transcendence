@@ -2,11 +2,11 @@ import React from "react";
 import Ball from "./modules/Ball";
 import Stage from "./modules/Stage";
 import Padle from "./modules/Padle";
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { usePersonControls, resize } from "../hooks/movement";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { MaterialParameters } from "three";
+
 const PADDLE_SIZE = 40 / 5;
 const Game = (props: any) => {
   const { camera, gl }: any = useThree();
@@ -18,13 +18,10 @@ const Game = (props: any) => {
   const cornerLeft = useRef<any>();
   const cornerRight = useRef<any>();
   const { socket, gameData } = props;
-  console.log(MaterialParameters);
   let { left, right } = usePersonControls();
   let size = resize();
   useEffect(() => {
     const controls = new OrbitControls(camera, gl.domElement);
-    controls.enableDamping = true;
-    console.log(controls);
     return () => {
       controls.dispose();
     };
@@ -38,7 +35,6 @@ const Game = (props: any) => {
     if (size.width < 700) camera.fov = 150;
     camera.updateProjectionMatrix();
   }, [size]);
-  camera.rotateZ(Math.PI);
   useFrame(({ gl, scene, camera }) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
