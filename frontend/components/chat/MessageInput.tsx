@@ -9,14 +9,11 @@ import { IFMessage } from "../../types";
 //TODO change type
 const MessageInput = (props: {
   socket: Socket;
-  handelChangeData: Function;
   selectedChannel: number;
   setMessages: Function;
-  messages: IFMessage[];
 }) => {
   const [message, setMessage] = useState<string>("");
-  const { socket, handelChangeData, selectedChannel, messages, setMessages } =
-    props;
+  const { socket, selectedChannel, setMessages } = props;
 
   const handelChangeMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -31,11 +28,12 @@ const MessageInput = (props: {
     });
     socket.once("onMessage", (newMessage) => {
       console.log("newMessage", newMessage);
-      handelChangeData(newMessage);
-      // setMessages(() => {});
+      setMessages((messages: IFMessage[]) => [...messages, newMessage]);
     });
     setMessage("");
   };
+
+  // useEffect(() => {}, [messages]);
 
   //TODO change any
   const handelPressEnter = (event: any) => {

@@ -12,6 +12,19 @@ services:
     networks:
     - postgres
  
+  pgadmin:
+    links:
+    - postgres:postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+    - "8080:80"
+    volumes:
+    - adminer:/root/.pgadmin
+    env_file:
+    - .env
+    networks:
+    - postgres
  
 networks:
   postgres:
@@ -19,3 +32,4 @@ networks:
 
 volumes:
   postgress:
+  adminer:

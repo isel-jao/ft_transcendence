@@ -22,7 +22,7 @@ const Mocked_data_members = [
 const Channels = () => {
   const { on, hide, show } = useDialog();
   const { loading, data: channels, error, refetch } = useConversations();
-  const [selectChannel, setSelectChannel] = useState(channels[0]);
+  const [selectChannel, setSelectChannel] = useState<any>();
 
   // console.log({ channels });
   const handelSelectChannel = (channel: IFchannel) => {
@@ -36,7 +36,7 @@ const Channels = () => {
     <Box
       sx={{
         backgroundColor: "#20172B",
-        height: "89vh",
+        height: "88vh",
       }}
       // sx={{ backgroundColor: "#250020" }}
     >

@@ -3,8 +3,9 @@ import { status } from "../types";
 
 //to get all rooms
 async function getConversations() {
-  return fetcher({ path: "rooms" })
+  return fetcher({ path: "rooms/1" }) // ToRemove 1: replace it with user id
     .then((result) => {
+      console.log(result);
       return result;
     })
     .catch((error) => {

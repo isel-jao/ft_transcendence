@@ -33,7 +33,6 @@ export class ConversationsService {
          {
             where: {
                type: "room",
-
             },
             select: {
                id: true,
@@ -80,4 +79,25 @@ export class ConversationsService {
       throw new createConversationExceptipn("channel doesnt exists");
 
    }
+
+   // channels of a user
+   async getAllChannels(user_id: number) {
+      return await this.prisma.user_Conv.findMany({
+         where: {
+            userId: 1,
+         },
+         select: {
+            conversation: {
+               select: {
+                  id: true,
+                  name: true,
+                  status: true
+               }
+            }
+         },
+      }).then((result) => result.map((item) => {
+         return item.conversation;
+      }))
+   }
+
 }

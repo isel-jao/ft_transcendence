@@ -15,9 +15,10 @@ export class ConversationsController {
         return await this.conversationsService.createChannel(createChannelPayload);
     }
 
-    @Get()
-    async getAllChannels(/* add user id */) {
-        return this.conversationsService.getAllChnnels();
+    @Get(':user_id')
+    async getAllChannels(@Param('user_id') user_id: number) {
+        console.log(user_id);
+        return this.conversationsService.getAllChannels(user_id);
     }
 
     @Get(':id')
@@ -34,5 +35,6 @@ export class ConversationsController {
     async updateChannel(@Body() channelPayload, @Param('id') id: number) {
         return await this.conversationsService.updateChannel(channelPayload, Number(id));
     }
+
 
 }

@@ -1,13 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
 import MessageInput from "./MessageInput";
 import Message from "./messageBox";
 import { IFMessage } from "../../types";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import useConversationMessages from "../../hooks/useConversationMessages";
 
 const MessagesContainer = (props: { selectedChannel: number }) => {
   const { selectedChannel } = props;
+  const SERVERURL = "http://localhost:5000/";
+  const socket = useMemo<Socket>(() => {
+    const ret = io(SERVERURL, {
+      autoConnect: false,
+      query: {
+        id: 15,
+      },
+    });
+    ret.connect();
+
+    // ret.emit("join", userId);
+
+    return ret;
+  }, []);
   // const [messages, setMessages] = useState<IFMessage[]>([
   //   {
   //     body: "hello this is a message",
@@ -29,12 +43,11 @@ const MessagesContainer = (props: { selectedChannel: number }) => {
     id_conversation: selectedChannel,
   });
 
-  const SERVERURL = "http://localhost:5000/";
-  const socket = io(SERVERURL);
+  // const socket = io(SERVERURL);
   // SocketAddress.emit("joinChannel", { userId: 1 })
-  socket.on("connect", () => {
-    // console.log("socket connected");
-  });
+  // socket.on("connect", () => {
+  // console.log("socket connected");
+  // });
 
   const handelChangeMessages = (newmessage: any) => {
     // setMessages([...messages, newmessage]);
@@ -48,6 +61,15 @@ const MessagesContainer = (props: { selectedChannel: number }) => {
         borderRight: "2px solid #2C2039",
         display: "grid",
         backgroundColor: "#231834",
+        overflowY: "auto",
+        "&::-webkit-scrollbar": {
+          display: "none",
+          // width: "3px",
+          // height: "5px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "#ddd",
+        },
       }}
     >
       <Box>
@@ -59,9 +81,7 @@ const MessagesContainer = (props: { selectedChannel: number }) => {
       <Box sx={{ alignSelf: "end" }}>
         <MessageInput
           socket={socket}
-          handelChangeData={handelChangeMessages}
           selectedChannel={selectedChannel}
-          messages={messages}
           setMessages={setMessages}
         />
       </Box>
