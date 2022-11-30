@@ -79,9 +79,6 @@ CREATE UNIQUE INDEX "conversation_name_key" ON "conversation"("name");
 CREATE UNIQUE INDEX "User_Conv_userId_conversationId_key" ON "User_Conv"("userId", "conversationId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "message_senderId_key" ON "message"("senderId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "_friends_AB_unique" ON "_friends"("A", "B");
 
 -- CreateIndex

@@ -16,9 +16,9 @@ export class ConversationsController {
     }
 
     @Get(':user_id')
-    async getAllChannels(@Param('user_id') user_id: number) {
+    async getAllChannels(@Param('user_id') user_id: string) {
         console.log(user_id);
-        return this.conversationsService.getAllChannels(user_id);
+        return this.conversationsService.getAllChannels(Number(user_id));
     }
 
     @Get(':id')

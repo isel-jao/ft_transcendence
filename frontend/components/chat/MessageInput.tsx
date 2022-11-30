@@ -5,41 +5,52 @@ import { Socket } from "socket.io-client";
 import { SetMealSharp } from "@mui/icons-material";
 import useConversationMessages from "../../hooks/useConversationMessages";
 import { IFMessage } from "../../types";
+import { isEmptyArray } from "formik";
 
 //TODO change type
 const MessageInput = (props: {
   socket: Socket;
   selectedChannel: number;
+  messages: IFMessage[];
   setMessages: Function;
 }) => {
   const [message, setMessage] = useState<string>("");
-  const { socket, selectedChannel, setMessages } = props;
+  const { socket, selectedChannel, setMessages, messages } = props;
 
   const handelChangeMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
 
   //TODO using id=1 as user_id, to be changed
-  const handelSendMessage = () => {
-    socket.emit("newMessage", {
-      senderId: 1,
-      conversationId: selectedChannel,
-      body: message,
-    });
-    socket.once("onMessage", (newMessage) => {
+  useEffect(() => {
+    socket.off("onMessage").on("onMessage", (newMessage) => {
       console.log("newMessage", newMessage);
-      setMessages((messages: IFMessage[]) => [...messages, newMessage]);
+      console.log({ messages });
+      setMessages((prevMessages: any) => [...prevMessages, newMessage]);
+      console.log({ messages });
     });
-    setMessage("");
+  }, []);
+
+  const handelSendMessage = () => {
+    if (message != "") {
+      socket.emit("newMessage", {
+        senderId: 1,
+        conversationId: selectedChannel,
+        body: message,
+      });
+      setMessage("");
+    }
   };
 
-  // useEffect(() => {}, [messages]);
+  useEffect(() => {}, [messages]);
 
   //TODO change any
   const handelPressEnter = (event: any) => {
     if (event.key === "Enter") {
-      setMessage(event.target.value);
-      handelSendMessage();
+      if (message != "") {
+        setMessage(event.target.value);
+        handelSendMessage();
+      }
     }
   };
 

@@ -14,7 +14,6 @@ export class ConversationsService {
    //TODO add return type 
    //TODO gandel errors and throw exception dosrny work
    async createChannel(data): Promise<Conversation | null> {
-
       const recordExists = await this.prisma.conversation.findUnique({
          where: {
             name: data.name
@@ -23,12 +22,12 @@ export class ConversationsService {
       const channel = await this.prisma.conversation.create({ data: data });
       if (recordExists)
          throw new ConversationExistException()
+
       return channel
    }
 
    //TODO change the way of getting id_user
    async getAllChnnels(): Promise<any | null> {
-      const id_user = 1;
       const channels = await this.prisma.conversation.findMany(
          {
             where: {
@@ -80,11 +79,11 @@ export class ConversationsService {
 
    }
 
-   // channels of a user
    async getAllChannels(user_id: number) {
+
       return await this.prisma.user_Conv.findMany({
          where: {
-            userId: 1,
+            userId: user_id,
          },
          select: {
             conversation: {

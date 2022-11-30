@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import MessageInput from "./MessageInput";
 import Message from "./messageBox";
@@ -8,30 +8,13 @@ import useConversationMessages from "../../hooks/useConversationMessages";
 
 const MessagesContainer = (props: { selectedChannel: number }) => {
   const { selectedChannel } = props;
-  const SERVERURL = "http://localhost:5000/";
-  const socket = useMemo<Socket>(() => {
-    const ret = io(SERVERURL, {
-      autoConnect: false,
-      query: {
-        id: 15,
-      },
-    });
-    ret.connect();
-
-    // ret.emit("join", userId);
-
-    return ret;
-  }, []);
-  // const [messages, setMessages] = useState<IFMessage[]>([
-  //   {
-  //     body: "hello this is a message",
-  //     createdAt: "11/12/2022 6:00pm",
-  //     sentBy: {
-  //       firstName: "fmehdaou",
-  //       lastName: "test",
-  //     },
-  //   },
-  // ]);
+  const socket = io("http://localhost:5000/", {
+    autoConnect: false,
+    query: {
+      id: 1,
+    },
+  });
+  socket.connect();
 
   const {
     data: messages,
@@ -42,18 +25,6 @@ const MessagesContainer = (props: { selectedChannel: number }) => {
   } = useConversationMessages({
     id_conversation: selectedChannel,
   });
-
-  // const socket = io(SERVERURL);
-  // SocketAddress.emit("joinChannel", { userId: 1 })
-  // socket.on("connect", () => {
-  // console.log("socket connected");
-  // });
-
-  const handelChangeMessages = (newmessage: any) => {
-    // setMessages([...messages, newmessage]);
-  };
-
-  // messages.map((item) => console.log(item));
 
   return (
     <Box
@@ -82,6 +53,7 @@ const MessagesContainer = (props: { selectedChannel: number }) => {
         <MessageInput
           socket={socket}
           selectedChannel={selectedChannel}
+          messages={messages}
           setMessages={setMessages}
         />
       </Box>

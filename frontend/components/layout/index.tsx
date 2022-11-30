@@ -40,10 +40,10 @@ const StyledLayout = styled.div`
     bottom: 0;
     box-shadow: 0rem 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 
-    &:hover,
-    &.open {
-      width: 16rem;
-    }
+    // &:hover,
+    // &.open {
+    //   width: 16rem;
+    // }
   }
   .nav,
   .sidenav {
@@ -57,7 +57,7 @@ const StyledLayout = styled.div`
     overflow-x: hidden;
     overflow-y: auto;
     & > * {
-      margin: 1rem;
+      // margin: 1rem;
     }
   }
 `;
@@ -69,7 +69,8 @@ const Layout: FC<Props> = ({ children }: Props) => {
   const [open, setOpen] = React.useState(false);
 
   const toggleSideNav = () => {
-    setOpen(!open);
+    // setOpen(!open);
+    setOpen(false);
   };
 
   return (

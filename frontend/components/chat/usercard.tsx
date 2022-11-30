@@ -25,12 +25,13 @@ const Usercard = (props: { user: any; type: string }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "4px 0px",
-        m: "8px 4px",
-        p: "4px",
+        p: "10px 0px",
+        m: "10px 4px",
+        // p: "10px",
         // backgroundColor: "#F9FAFC",
         // borderLeft: "2px solid #00B0B6",
         cursor: "pointer",
+        borderBottom: "1px solid #33334D",
       }}
     >
       <Box sx={{ display: "flex", gap: "10px" }}>

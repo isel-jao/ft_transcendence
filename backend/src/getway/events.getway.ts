@@ -28,28 +28,35 @@ export class EventsGeteway implements NestGateway {
         // console.log("connect", client.handshake.query.id);
         if (!isArray(client.handshake.query.id)) {
             const user_id = client.handshake.query.id;
-            this.conversations.getAllChannels(user_id);
+            // getting all channels for connecetd user (query.id), to create rooms to joined to 
+            this.conversations.getAllChannels(Number(user_id)).then((results) => {
 
+                results.forEach((conv) => {
+                    client.join(conv.id.toString());
+                    console.log(`user joined rooms ${conv.name}`);
+                });
+            })
         }
-
-
     };
 
     handleDisconnect?(client: any) {
-        console.log("disconnect");
+        console.log("disconnect", client.handshake.query.id);
     };
 
 
     @SubscribeMessage('newMessage')
-    onNewMessage(@MessageBody() data: string, @ConnectedSocket() client: any) {
+    async onNewMessage(@MessageBody() data: any, @ConnectedSocket() client: any) {
         console.log('message is ', data);
         // this.X.savemessage();
         //afterteh result resolving 
-        this.messageService.postMessages(data).then((message) => {
-            this.server.emit('onMessage', message)
-        });
+        const ret = await this.messageService.postMessages(data)
 
-
+        this.server.to(data.conversationId.toString()).emit('onMessage', ret);
+        // .then((message) => {
+        //     // this.server.to(data.conversationId.toString()).emit('onMessage', message)
+        //     // client.emit('onMessage', message);
+        //     // this.server.emit('onMessage', message)
+        // });
     }
 }
 

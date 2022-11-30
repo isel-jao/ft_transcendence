@@ -16,6 +16,9 @@ export class MessagesService {
             where: {
                 conversationId: id
             },
+            orderBy: {
+                createdAt: 'asc'
+            },
             select: {
                 body: true,
                 createdAt: true,

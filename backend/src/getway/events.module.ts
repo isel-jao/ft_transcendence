@@ -4,7 +4,7 @@ import { MessagesModule } from "src/messages/messages.module";
 import { EventsGeteway } from './events.getway'
 
 @Module({
-    imports: [MessagesModule],
+    imports: [MessagesModule, ConversationsModule],
     providers: [EventsGeteway]
 })
 
