@@ -5,7 +5,12 @@ import { IFMessage } from "../types";
 /* 
     get messages for a giving id of conversation,
     it gets invoked when referch or id_conv changed  */
-const useConversationMessages = (props: { id_conversation: number }) => {
+
+interface Props {
+  id_conversation?: number;
+}
+
+const useConversationMessages = (props: Props) => {
   const { id_conversation } = props;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IFMessage[]>([]);
@@ -17,6 +22,8 @@ const useConversationMessages = (props: { id_conversation: number }) => {
     setLoading(true);
     getConversationMessages(id_conversation ?? -1)
       .then((res) => {
+        console.log("useConvmessage =>>", res);
+
         setData(res);
       })
       .catch((error) => {

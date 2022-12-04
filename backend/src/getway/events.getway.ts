@@ -23,24 +23,28 @@ export class EventsGeteway implements NestGateway {
 
 
     // How to send data on connect
-    handleConnection(client: Socket) {
+    async handleConnection(client: Socket) {
         // handleConnection(client: Socket) {
         // console.log("connect", client.handshake.query.id);
         if (!isArray(client.handshake.query.id)) {
             const user_id = client.handshake.query.id;
             // getting all channels for connecetd user (query.id), to create rooms to joined to 
-            this.conversations.getAllChannels(Number(user_id)).then((results) => {
+            const conversations = await this.conversations.getAllChannels(Number(user_id));
+            conversations.forEach((conv) => {
+                client.join(conv.id.toString());
+                console.log(`user joined rooms ${conv.name}`);
+            });
 
-                results.forEach((conv) => {
-                    client.join(conv.id.toString());
-                    console.log(`user joined rooms ${conv.name}`);
-                });
-            })
         }
     };
 
-    handleDisconnect?(client: any) {
-        console.log("disconnect", client.handshake.query.id);
+    async handleDisconnect?(client: Socket) {
+        const conversations = await this.conversations.getAllChannels(Number(client.handshake.query.id));
+        conversations.forEach((conv) => {
+            client.leave(conv.name.toString())
+            console.log(`user leaved rooms ${conv.name}`);
+        })
+
     };
 
 

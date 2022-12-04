@@ -14,7 +14,7 @@ const useConversations = () => {
     setLoading(true);
     getConversations()
       .then((conversations) => {
-        console.log({ conversations });
+        console.log("useConvertation", { conversations });
         setData(conversations);
       })
       .catch((err) => {
@@ -29,6 +29,7 @@ const useConversations = () => {
     loading,
     data,
     error,
+    setData,
     refetch,
   };
 };

@@ -19,7 +19,15 @@ const messageBox = (props: { message: IFMessage }) => {
       }}
     >
       <Box>
-        <Avatar sx={{ width: 24, height: 24 }} />
+        <Avatar
+          sx={{
+            width: 24,
+            height: 24,
+            "&.MuiAvatar-root": {
+              position: "static",
+            },
+          }}
+        />
       </Box>
       <Box>
         <Box
@@ -31,7 +39,9 @@ const messageBox = (props: { message: IFMessage }) => {
           }}
         >
           <Typography>{`${message.sentBy.firstName} ${message.sentBy.lastName}`}</Typography>
-          <Typography variant="subtitle1">{message.createdAt}</Typography>
+          <Typography variant="subtitle1">
+            {format(new Date(message.createdAt), "EEE, hh:mm a")}
+          </Typography>
         </Box>
         <Box
           sx={{

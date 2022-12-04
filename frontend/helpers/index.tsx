@@ -27,6 +27,27 @@ const fetcher = async (args: {
     .then((data) => data);
 };
 
+// const deleter = async (args: {
+//   path?: string;
+//   queryPayload?: Record<string, any>;
+//   token?: string;
+//   url?: string;
+// }) => {
+//   const { path = "", queryPayload = {}, url = serverurl } = args;
+
+//   const queryString = new URLSearchParams(
+//     JSON.parse(JSON.stringify(queryPayload))
+//   ).toString();
+//   return fetch(`${url}${path}?${queryString}`, {
+//     method: "",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response: any) => response.json())
+//     .then((data) => data);
+// };
+
 const poster = async (
   path: string,
   payload: Record<string, any> | Record<string, any>[] = {},

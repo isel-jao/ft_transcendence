@@ -56,14 +56,23 @@ export class ConversationsService {
 
 
    async deleteChannelById(id_conversation: number): Promise<any | null> {
-      const channel = await this.prisma.conversation.delete({
+      return await this.prisma.user_Conv.delete({
          where: {
-            id: id_conversation
+            userId_conversationId: {
+               userId: 1, //TODO replace with a user_id
+               conversationId: id_conversation,
+
+            }
          }
       })
-      if (channel)
-         return channel;
-      throw new createConversationExceptipn("channel doesnt exists");
+      // const channel = await this.prisma.conversation.delete({
+      //    where: {
+      //       id: id_conversation
+      //    }
+      // })
+      // if (channel)
+      //    return channel;
+      // throw new createConversationExceptipn("channel doesnt exists");
    }
 
    async updateChannel(channelPayload: any, id_conversation: number): Promise<any | null> {

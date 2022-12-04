@@ -19,7 +19,7 @@ export function useDialog() {
 }
 
 export function Dialog(props: DialogProps) {
-  const { fullWidth = true, maxWidth = "md", ...restProps } = props;
+  const { fullWidth = true, maxWidth = "xs", ...restProps } = props;
   return (
     <MuiDialog
       fullWidth={fullWidth}

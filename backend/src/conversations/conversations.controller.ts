@@ -21,12 +21,7 @@ export class ConversationsController {
         return this.conversationsService.getAllChannels(Number(user_id));
     }
 
-    @Get(':id')
-    async getChannelById(@Param('id') id: string) {
-        return await this.conversationsService.getChannelById(Number(id));
-    }
-
-    @Delete(':id')
+    @Post(':id')
     async deleteChannelById(@Param('id') id: string) {
         return await this.conversationsService.deleteChannelById(Number(id));
     }
@@ -36,5 +31,5 @@ export class ConversationsController {
         return await this.conversationsService.updateChannel(channelPayload, Number(id));
     }
 
-
+    //   /rooms/1
 }

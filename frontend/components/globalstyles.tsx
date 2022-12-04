@@ -57,6 +57,22 @@ export const theme: Theme = {
     light: "#ddd",
     dark: "#444",
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: "contained",
+      },
+    },
+    MuiOutlinedInput: {
+      defaultProps: {
+        size: "small",
+        sx: {
+          backgroundColor: "#fff",
+        },
+      },
+      styleOverrides: {},
+    },
+  },
   palette: {
     primary: { main: "#00b0b6" },
     secondary: { main: "#aaaaaa" },
@@ -99,9 +115,6 @@ export const theme: Theme = {
       fontSize: 13,
       fontWeight: 600,
       color: "#fff",
-    },
-    button: {
-      backgroundColor: "green",
     },
   },
 };

@@ -35,7 +35,7 @@ async function postChannel(queryPayload: IFCreateChannelType) {
 
 //to get a conversations messages
 
-async function getConversationMessages(id_conversation: number) {
+async function getConversationMessages(id_conversation?: number) {
   return fetcher({
     path: `messages/${id_conversation}`,
   })
@@ -47,4 +47,19 @@ async function getConversationMessages(id_conversation: number) {
     });
 }
 
-export { getConversations, postChannel, getConversationMessages };
+async function deleteConversationById(id_conversation: number) {
+  return poster(`rooms/${id_conversation}`)
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
+}
+
+export {
+  getConversations,
+  postChannel,
+  getConversationMessages,
+  deleteConversationById,
+};

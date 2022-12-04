@@ -58,19 +58,18 @@ const Usercard = (props: { user: any; type: string }) => {
           disableElevation={true}
           variant="contained"
           sx={{
-            height: "20px",
+            height: "25px",
             "&.MuiButton-root": {
               p: "0px",
               m: "0px",
-              background:
-                " linear-gradient(264.81deg, #A1158F 8.9%, #5F0D55 79.71%, rgba(0, 0, 0, 0) 165.18%)",
-              // "#6344D9"
             },
+            backgroundColor: "#161c30",
+            borderRadius: "6px",
           }}
         >
           <Typography
             sx={{
-              color: "#fff",
+              color: "#479bea",
               textTransform: "none",
               fontWeight: "500",
               fontSize: "12px",
