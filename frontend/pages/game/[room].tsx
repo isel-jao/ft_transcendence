@@ -6,22 +6,25 @@ import { useContext } from "react";
 // import { PointLightShadow } from "three";
 
 const Home: NextPage = () => {
-  const { socket, gameData } = useContext(AppCtx);
+  const { socket, gameData, roomData } = useContext(AppCtx);
+  console.log(roomData, socket.id);
   return (
     <>
-      <div
-        style={{
-          color: "white",
-          position: "absolute",
-          fontWeight: "bold",
-          backgroundColor: "transparent",
-          cursor: "pointer",
-          zIndex: 999,
-        }}
-        // onClick={() => socket.emit("startGame")}
-      >
-        PLAY
-      </div>
+      {roomData.player1 == socket.id && roomData.status == "pending" && (
+        <div
+          style={{
+            color: "white",
+            position: "absolute",
+            fontWeight: "bold",
+            backgroundColor: "transparent",
+            cursor: "pointer",
+            zIndex: 999,
+          }}
+          // onClick={() => socket.emit("startGame")}
+        >
+          PLAY
+        </div>
+      )}
       <div
         style={{
           color: "white",

@@ -18,16 +18,31 @@ type GameDataType = {
     player2: Number;
   };
 };
+type RoomDataType = {
+  player1: string;
+  player2: string;
+  roomName: string;
+  status: string;
+};
 interface AppContextInterface {
-  socket?: Socket;
+  socket: Socket;
   gameData: GameDataType;
+  roomData: RoomDataType;
 }
 export const AppCtx = createContext<AppContextInterface | null>(null);
-
-const socket: Socket = io("http://localhost:3001", {
-  query: { token: localStorage.getItem("token") },
+const socket: Socket = io("http://10.12.12.2:3001", {
+  query: {
+    // token:
+    // typeof window != undefined ? window.localStorage.getItem("token") : null,
+  },
 });
 export const SocketContext = ({ children }: any) => {
+  const [roomData, setRoom] = useState<RoomDataType>({
+    player1: "",
+    player2: "",
+    roomName: "",
+    status: "",
+  });
   const [gameData, setData] = useState<GameDataType>({
     ball: {
       x: 0,
@@ -50,9 +65,10 @@ export const SocketContext = ({ children }: any) => {
       player2: 0,
     },
   });
-  socket.on("joinRoom", (data) => {
-    console.log(data);
-    Router.push("/game/" + data.room);
+  console.log(socket);
+  socket.on("joinRoom", (data: RoomDataType) => {
+    setRoom(data);
+    Router.push("/game/" + data.roomName);
   });
   useEffect(() => {
     socket.on("gameData", (data: GameDataType) => {
@@ -68,6 +84,7 @@ export const SocketContext = ({ children }: any) => {
       value={{
         socket,
         gameData,
+        roomData,
       }}
     >
       {children}
