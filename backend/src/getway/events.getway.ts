@@ -29,7 +29,7 @@ export class EventsGeteway implements NestGateway {
         if (!isArray(client.handshake.query.id)) {
             const user_id = client.handshake.query.id;
             // getting all channels for connecetd user (query.id), to create rooms to joined to 
-            const conversations = await this.conversations.getAllChannels(Number(user_id));
+            const conversations = await this.conversations.getAllChannelsByUser(Number(user_id));
             conversations.forEach((conv) => {
                 client.join(conv.id.toString());
                 console.log(`user joined rooms ${conv.name}`);
@@ -39,7 +39,7 @@ export class EventsGeteway implements NestGateway {
     };
 
     async handleDisconnect?(client: Socket) {
-        const conversations = await this.conversations.getAllChannels(Number(client.handshake.query.id));
+        const conversations = await this.conversations.getAllChannelsByUser(Number(client.handshake.query.id));
         conversations.forEach((conv) => {
             client.leave(conv.name.toString())
             console.log(`user leaved rooms ${conv.name}`);

@@ -3,7 +3,6 @@ import { Box, Typography, IconButton, Tooltip, Avatar } from "@mui/material";
 import SettingIcon from "@mui/icons-material/Tune";
 import Usercard from "../../components/chat/userCard";
 import { useDialog } from "../../hooks/useDialogue";
-import AddIcon from "@mui/icons-material/Add";
 import Head from "next/head";
 import { useConversations } from "../../hooks/useConversations";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -13,6 +12,7 @@ import CreateChannelForm from "../../components/chat/createChannelForm";
 import MessagesContainer from "../../components/chat/messages-container";
 import ChannelMembersContainer from "../../components/chat/channelMembersContainer";
 import useConversationMessages from "../../hooks/useConversationMessages";
+import ChannelsNamesContainer from "../../components/chat/channelsNamesContainer";
 
 const Channels = () => {
   const { on, hide, show } = useDialog();
@@ -23,10 +23,6 @@ const Channels = () => {
   });
 
   useEffect(() => {}, [channels, messages, selectChannel]);
-
-  const handelSelectChannel = (channel: IFchannel) => {
-    setSelectChannel(channel);
-  };
 
   if (!channels) return <LinearProgress />;
   return (
@@ -86,70 +82,12 @@ const Channels = () => {
         }}
       >
         {/* cahnnels name */}
-        <Box
-          sx={{
-            borderRight: "2px solid #2C2039",
-            backgroundColor: "#231834",
-            p: "10p 4pxx",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              p: "20px  10px",
-            }}
-          >
-            <Typography>Chats</Typography>
-            <IconButton onClick={() => show()}>
-              <Tooltip title="create new channel">
-                <AddIcon htmlColor="#6445DF" fontSize="small" />
-              </Tooltip>
-            </IconButton>
-          </Box>
-          {channels.map((channel, index) => (
-            <Box
-              key={index}
-              sx={{ p: "5px 6px", cursor: "pointer" }}
-              onClick={() => {
-                handelSelectChannel(channel);
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "14px",
-                  backgroundColor: `${
-                    channel.id == selectChannel?.id ? "#1B182C" : "transparent"
-                  }`,
-                  p: "14px",
-                  borderRadius: "12px",
-                }}
-              >
-                <Avatar
-                  sx={{ backgroundColor: "#413A4E" }}
-                  variant="square"
-                  children={`${channel.name.split(" ")[0][0].toUpperCase()}${
-                    channel.name.split(" ")[1]
-                      ? channel.name.split(" ")[1][0].toUpperCase()
-                      : ""
-                  }`}
-                />
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: "14px",
-                    color: "#9C9A8C",
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {channel.name}
-                </Typography>
-              </Box>
-            </Box>
-          ))}
-        </Box>
+        <ChannelsNamesContainer
+          channels={channels}
+          setSelectChannel={setSelectChannel}
+          selectChannel={selectChannel}
+          show={show}
+        />
         {/* channel- messages  */}
         <MessagesContainer
           selectedChannel={selectChannel}

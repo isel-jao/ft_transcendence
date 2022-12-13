@@ -5,3 +5,11 @@ export interface conversation {
     status: string,
     type: string
 }
+
+
+export interface Conversation {
+    id: number,
+    name: string,
+    status: string,
+
+}

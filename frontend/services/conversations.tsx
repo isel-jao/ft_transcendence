@@ -20,6 +20,11 @@ interface IFCreateChannelType {
   password?: string;
 }
 
+interface IFJoinChannelType {
+  conversation_id: number;
+  user_id: number;
+}
+
 //to create new channel
 async function postChannel(queryPayload: IFCreateChannelType) {
   console.log({ queryPayload });
@@ -57,9 +62,31 @@ async function deleteConversationById(id_conversation: number) {
     });
 }
 
+async function getAllConvrsations() {
+  return fetcher({ path: "rooms/all" })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
+}
+
+async function joinChannel(queryPayload: IFJoinChannelType) {
+  return poster(`rooms/joinChannel`, queryPayload)
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+}
+
 export {
   getConversations,
   postChannel,
   getConversationMessages,
   deleteConversationById,
+  getAllConvrsations,
+  joinChannel,
 };

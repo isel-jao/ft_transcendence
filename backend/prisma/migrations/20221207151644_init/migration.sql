@@ -1,3 +1,6 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 -- CreateEnum
 CREATE TYPE "roomStatus" AS ENUM ('PUBLIC', 'PROTECTED', 'PRIVATE');
 
@@ -20,6 +23,7 @@ CREATE TABLE "user" (
 -- CreateTable
 CREATE TABLE "conversation" (
     "id" SERIAL NOT NULL,
+    "ident" UUID NOT NULL DEFAULT gen_random_uuid(),
     "type" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "status" "roomStatus" NOT NULL DEFAULT 'PUBLIC',

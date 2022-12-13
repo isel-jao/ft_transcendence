@@ -27,7 +27,7 @@ export function Dialog(props: DialogProps) {
       {...restProps}
       PaperProps={{
         style: {
-          backgroundColor: "#1C1334",
+          backgroundColor: "#1b1625",
           boxShadow: "none",
         },
       }}

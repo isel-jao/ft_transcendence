@@ -85,10 +85,9 @@ export class ConversationsService {
       if (channel)
          return (channel);
       throw new createConversationExceptipn("channel doesnt exists");
-
    }
 
-   async getAllChannels(user_id: number) {
+   async getAllChannelsByUser(user_id: number) {
 
       return await this.prisma.user_Conv.findMany({
          where: {
@@ -108,4 +107,57 @@ export class ConversationsService {
       }))
    }
 
+   async getAllChannels(user_id: number) {
+      const conversations = await this.prisma.conversation.findMany({
+         select: {
+            id: true,
+            name: true,
+            status: true,
+         }
+      });
+      const user_conversations = await this.prisma.user_Conv.findMany({
+         where: {
+            userId: user_id,
+         },
+         select: {
+            conversation: {
+               select: {
+                  id: true,
+                  name: true,
+                  status: true
+               }
+            }
+         }
+      }).then((result) => result.map((item) => {
+         return item.conversation;
+      }))
+
+
+      //gets all the conversations of a user tha's not already joined
+      return (conversations.filter(({ id: first }) =>
+         !user_conversations.some(({ id: second }) => first == second)))
+   }
+
+
+   //TODO add type
+   async joinChannel(payload: {
+      conversation_id: number, user_id: number
+   }) {
+      const channel = await this.prisma.user_Conv.create({
+         data: {
+            conversation: {
+               connect: {
+                  id: payload.conversation_id,
+               }
+            },
+            user: {
+               connect: {
+                  id: payload.user_id,
+               }
+            },
+            is_admin: false, //TODO to be changed
+         }
+      })
+      return channel;
+   }
 }

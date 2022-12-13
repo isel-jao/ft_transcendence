@@ -33,3 +33,15 @@ export class CreateChannelDto {
     @IsString()
     password?: string
 }
+
+export class JoinChannelDto {
+
+    @IsNumber()
+    @IsNotEmpty()
+    conversation_id: number;
+
+
+    @IsNumber()
+    @IsNotEmpty()
+    user_id: number
+}
