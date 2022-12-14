@@ -15,14 +15,22 @@ import { isEmpty } from "lodash";
 import ChannelCard from "./channelCard";
 import JoinChannelCard from "./joinChannelCard";
 import UseAllConversations from "../../hooks/useAllConversations";
+import { useConversations } from "../../hooks/useConversations";
 
 const ChannelsNamesContainer = (props: {
   channels: IFchannel[];
   selectChannel: IFchannel;
   setSelectChannel: Function;
   show: () => void;
+  refetch: Function;
 }) => {
-  const { channels, setSelectChannel, show, selectChannel } = props;
+  const {
+    channels,
+    setSelectChannel,
+    show,
+    selectChannel,
+    refetch: refetchConversations,
+  } = props;
   const [searchOn, setSearchOn] = useState<Boolean>(false);
   const [query, setQuery] = useState<string>("");
   const {
@@ -31,8 +39,11 @@ const ChannelsNamesContainer = (props: {
     refetch,
   } = UseAllConversations();
 
+  // const { refetch: refetchConversations } = useConversations();
+
   const searchHandlerOn = () => {
     setSearchOn(!searchOn);
+    refetchConversations();
   };
 
   const searchHandler = (value: string) => {
@@ -106,17 +117,22 @@ const ChannelsNamesContainer = (props: {
         ))}
       {searchOn && (
         <Box>
-          {joiningChannels
-            .filter(
-              (channel) =>
-                isEmpty(channel) ||
-                channel.name.toLowerCase().includes(query.toLowerCase())
-            )
-            .map((item, index) => {
-              return (
-                <JoinChannelCard key={index} channel={item} refetch={refetch} />
-              );
-            })}
+          {joiningChannels &&
+            joiningChannels
+              .filter(
+                (channel) =>
+                  isEmpty(channel) ||
+                  channel.name.toLowerCase().includes(query.toLowerCase())
+              )
+              .map((item, index) => {
+                return (
+                  <JoinChannelCard
+                    key={index}
+                    channel={item}
+                    refetch={refetch}
+                  />
+                );
+              })}
         </Box>
       )}
     </Box>

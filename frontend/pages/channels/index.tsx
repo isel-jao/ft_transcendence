@@ -87,6 +87,7 @@ const Channels = () => {
           setSelectChannel={setSelectChannel}
           selectChannel={selectChannel}
           show={show}
+          refetch={refetch}
         />
         {/* channel- messages  */}
         <MessagesContainer

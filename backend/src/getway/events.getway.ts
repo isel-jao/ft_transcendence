@@ -62,5 +62,8 @@ export class EventsGeteway implements NestGateway {
         //     // this.server.emit('onMessage', message)
         // });
     }
+
+
+    //add event listner  @SubscribeMessage join channel 
 }
 

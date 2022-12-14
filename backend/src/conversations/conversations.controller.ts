@@ -14,7 +14,7 @@ export class ConversationsController {
     //to prevent the /all from getting pulled in to be an :id
     @Get('/all/:id')
     async getAllChannels(@Param('id') id: string) {
-        return await this.conversationsService.getAllChannels(Number(id));
+        return await this.conversationsService.getAllUnjoinedChannels(Number(id));
     }
 
     @Post('/joinChannel')
@@ -30,11 +30,8 @@ export class ConversationsController {
         return await this.conversationsService.createChannel(createChannelPayload);
     }
 
-
-
     @Get(':user_id')
     async getAllChannelsByUser(@Param('user_id') user_id: string) {
-        // console.log(user_id);
         return this.conversationsService.getAllChannelsByUser(Number(user_id));
     }
 

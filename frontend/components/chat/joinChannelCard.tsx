@@ -17,7 +17,7 @@ import { joinChannel } from "../../services/conversations";
 
 //TODO please create a custom button component
 //TODO  implement join channel backend
-const JoinChannelCard = (props: { channel: IFchannel; refetch: () => {} }) => {
+const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
   const { channel, refetch } = props;
   const { show, hide, on } = useDialog();
 

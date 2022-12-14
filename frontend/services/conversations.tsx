@@ -63,7 +63,8 @@ async function deleteConversationById(id_conversation: number) {
 }
 
 async function getAllConvrsations() {
-  return fetcher({ path: "rooms/all" })
+  const user_id = 1; //TODO get userid from user
+  return fetcher({ path: `rooms/all/${user_id}` })
     .then((result) => {
       return result;
     })

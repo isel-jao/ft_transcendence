@@ -107,35 +107,55 @@ export class ConversationsService {
       }))
    }
 
-   async getAllChannels(user_id: number) {
+
+   /* get all oublic and protected channels that are room type only 
+      where a user not joined yet
+   */
+   async getAllUnjoinedChannels(user_id: number) {
       const conversations = await this.prisma.conversation.findMany({
+         where: {
+            type: "room",
+            status: {
+               not: {
+                  equals: "PRIVATE"
+               }
+            },
+            User_Conv: {
+               every: {
+                  NOT: {
+                     userId: user_id
+                  }
+               }
+            }
+         },
          select: {
             id: true,
             name: true,
             status: true,
          }
       });
-      const user_conversations = await this.prisma.user_Conv.findMany({
-         where: {
-            userId: user_id,
-         },
-         select: {
-            conversation: {
-               select: {
-                  id: true,
-                  name: true,
-                  status: true
-               }
-            }
-         }
-      }).then((result) => result.map((item) => {
-         return item.conversation;
-      }))
+      // const user_conversations = await this.prisma.user_Conv.findMany({
+      //    where: {
+      //       userId: user_id,
+      //    },
+      //    select: {
+      //       conversation: {
+      //          select: {
+      //             id: true,
+      //             name: true,
+      //             status: true
+      //          }
+      //       }
+      //    }
+      // }).then((result) => result.map((item) => {
+      //    return item.conversation;
+      // }))
 
 
-      //gets all the conversations of a user tha's not already joined
-      return (conversations.filter(({ id: first }) =>
-         !user_conversations.some(({ id: second }) => first == second)))
+      // //gets all the conversations of a user tha's not already joined
+      // return (conversations.filter(({ id: first }) =>
+      //    !user_conversations.some(({ id: second }) => first == second)))
+      return conversations;
    }
 
 
