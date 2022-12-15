@@ -20,7 +20,11 @@ const Home: NextPage = () => {
             cursor: "pointer",
             zIndex: 999,
           }}
-          // onClick={() => socket.emit("startGame")}
+          onClick={() =>
+            socket.emit("startGame", {
+              roomName: roomData.roomName,
+            })
+          }
         >
           PLAY
         </div>
@@ -64,7 +68,7 @@ const Home: NextPage = () => {
           />
           <axesHelper args={[200, 200, 200]} />
           <ambientLight intensity={0.8} color={"white"} />
-          <Game socket={socket} gameData={gameData} />
+          <Game socket={socket} gameData={gameData} roomData={roomData} />
         </Canvas>
       </div>
     </>

@@ -30,7 +30,7 @@ interface AppContextInterface {
   roomData: RoomDataType;
 }
 export const AppCtx = createContext<AppContextInterface | null>(null);
-const socket: Socket = io("http://10.12.12.2:3001", {
+const socket: Socket = io("http://localhost:3001", {
   query: {
     // token:
     // typeof window != undefined ? window.localStorage.getItem("token") : null,
@@ -65,7 +65,6 @@ export const SocketContext = ({ children }: any) => {
       player2: 0,
     },
   });
-  console.log(socket);
   socket.on("joinRoom", (data: RoomDataType) => {
     setRoom(data);
     Router.push("/game/" + data.roomName);

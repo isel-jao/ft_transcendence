@@ -17,7 +17,7 @@ const Game = (props: any) => {
   const cornerBottom = useRef<any>();
   const cornerLeft = useRef<any>();
   const cornerRight = useRef<any>();
-  const { socket, gameData } = props;
+  const { socket, gameData, roomData } = props;
   let { left, right } = usePersonControls();
   let size = resize();
   useEffect(() => {
@@ -27,7 +27,13 @@ const Game = (props: any) => {
     };
   }, [camera, gl]);
   useEffect(() => {
-    if (left || right) socket.emit("padlleMove", { left, right });
+    if (left || right)
+      socket.emit("padlleMove", {
+        roomName: roomData.roomName,
+        socketId: socket.id,
+        left,
+        right,
+      });
   }, [left, right]);
   useEffect(() => {
     if (size.width < 1000) camera.fov = 110;
