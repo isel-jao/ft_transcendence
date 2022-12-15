@@ -3,7 +3,7 @@ import { Conversation } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
 import { CreateChannelDto, CreateConversationDto } from "./dto/dto";
 import { ConversationExistException } from "./exceptions/conversationExists";
-import { createConversationExceptipn } from "./exceptions/createConversationException";
+import { createConversationException } from "./exceptions/createConversationException";
 import { conversation } from "./Interface";
 
 
@@ -12,7 +12,7 @@ export class ConversationsService {
    constructor(private prisma: PrismaService) { }
 
    //TODO add return type 
-   //TODO gandel errors and throw exception dosrny work
+   //TODO gandel errors and throw exception doesnt work
    async createChannel(data): Promise<Conversation | null> {
       const recordExists = await this.prisma.conversation.findUnique({
          where: {
@@ -51,7 +51,7 @@ export class ConversationsService {
 
       if (channel)
          return channel;
-      throw new createConversationExceptipn("channel doesnt exists");
+      throw new createConversationException("channel doesnt exists");
    }
 
 
@@ -72,7 +72,7 @@ export class ConversationsService {
       // })
       // if (channel)
       //    return channel;
-      // throw new createConversationExceptipn("channel doesnt exists");
+      // throw new createConversationException("channel doesnt exists");
    }
 
    async updateChannel(channelPayload: any, id_conversation: number): Promise<any | null> {
@@ -84,7 +84,7 @@ export class ConversationsService {
       });
       if (channel)
          return (channel);
-      throw new createConversationExceptipn("channel doesnt exists");
+      throw new createConversationException("channel doesnt exists");
    }
 
    async getAllChannelsByUser(user_id: number) {
@@ -161,23 +161,40 @@ export class ConversationsService {
 
    //TODO add type
    async joinChannel(payload: {
-      conversation_id: number, user_id: number
+      conversation_id: number, user_id: number, password?: string
    }) {
-      const channel = await this.prisma.user_Conv.create({
-         data: {
-            conversation: {
-               connect: {
-                  id: payload.conversation_id,
-               }
-            },
-            user: {
-               connect: {
-                  id: payload.user_id,
-               }
-            },
-            is_admin: false, //TODO to be changed
+
+      const constraints = await this.prisma.conversation.findUnique({
+         where: {
+            id: payload.conversation_id
+         },
+         select: {
+            status: true,
+            password: true
          }
-      })
-      return channel;
+      });
+
+      if ((constraints.status != "PUBLIC" &&
+         constraints.password == payload.password) ||
+         constraints.status == "PUBLIC") {
+         const channel = await this.prisma.user_Conv.create({
+            data: {
+               conversation: {
+                  connect: {
+                     id: payload.conversation_id,
+                  }
+               },
+               user: {
+                  connect: {
+                     id: payload.user_id,
+                  }
+               },
+               is_admin: false, //TODO to be changed
+            }
+         })
+         return channel;
+      } else {
+         throw new createConversationException("can't access to the channel");
+      }
    }
 }

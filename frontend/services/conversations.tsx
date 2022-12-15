@@ -23,6 +23,7 @@ interface IFCreateChannelType {
 interface IFJoinChannelType {
   conversation_id: number;
   user_id: number;
+  password?: string;
 }
 
 //to create new channel

@@ -1,6 +1,6 @@
 import { BadRequestException, HttpException, HttpStatus } from "@nestjs/common";
 
-export class createConversationExceptipn extends HttpException {
+export class createConversationException extends HttpException {
 
     constructor(customMessage?: string, statusCode?: HttpStatus) {
         super(customMessage ? customMessage : "",

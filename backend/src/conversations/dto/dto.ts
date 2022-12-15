@@ -44,4 +44,7 @@ export class JoinChannelDto {
     @IsNumber()
     @IsNotEmpty()
     user_id: number
+
+    @IsString()
+    password?: string
 }

@@ -36,7 +36,7 @@ const ChannelsNamesContainer = (props: {
   const {
     data: joiningChannels,
     setData: setJoiningChannels,
-    refetch,
+    refetch: refetchJoiningChannels,
   } = UseAllConversations();
 
   // const { refetch: refetchConversations } = useConversations();
@@ -44,6 +44,7 @@ const ChannelsNamesContainer = (props: {
   const searchHandlerOn = () => {
     setSearchOn(!searchOn);
     refetchConversations();
+    refetchJoiningChannels();
   };
 
   const searchHandler = (value: string) => {
@@ -129,7 +130,7 @@ const ChannelsNamesContainer = (props: {
                   <JoinChannelCard
                     key={index}
                     channel={item}
-                    refetch={refetch}
+                    refetch={refetchJoiningChannels}
                   />
                 );
               })}

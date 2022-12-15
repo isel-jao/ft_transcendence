@@ -7,7 +7,7 @@ import {
   DialogActions,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { IFchannel } from "../../types";
 import { useDialog } from "../../hooks/useDialogue";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
@@ -19,13 +19,19 @@ import { joinChannel } from "../../services/conversations";
 //TODO  implement join channel backend
 const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
   const { channel, refetch } = props;
+  const [passwordInput, setPasswordInput] = useState("");
   const { show, hide, on } = useDialog();
+
+  const passwordHandler = (value: string) => {
+    setPasswordInput(value);
+  };
 
   //TODO add notistak
   const joinChannelHandler = () => {
     const queryPayload = {
       conversation_id: channel.id,
       user_id: 1, //TODO to get from user zhen its done
+      password: passwordInput,
     };
 
     joinChannel(queryPayload)
@@ -69,6 +75,9 @@ const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
               "& .MuiInputBase-input": {
                 color: "#479bea",
               },
+            }}
+            onChange={(event) => {
+              passwordHandler(event.target.value);
             }}
           />
         )}

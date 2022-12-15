@@ -37,7 +37,6 @@ const ChannelMembersContainer = (props: {
       })
       .finally(() => {
         setSelectChannel(channels[0]);
-
         hide();
       });
   };
