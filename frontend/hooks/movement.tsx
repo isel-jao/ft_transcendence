@@ -3,6 +3,10 @@ import { AppCtx } from "../context/socketContext";
 
 export const usePersonControls = () => {
   const { roomData, socket } = useContext(AppCtx);
+  const [movement, setMovement] = useState({
+    left: false,
+    right: false,
+  });
   if (roomData.player1 == socket.id || roomData.player1 == socket.id) {
     const keys = {
       ArrowRight: "right",
@@ -10,11 +14,6 @@ export const usePersonControls = () => {
     };
 
     const moveFieldByKey = (key: string) => keys[key];
-
-    const [movement, setMovement] = useState({
-      left: false,
-      right: false,
-    });
 
     useEffect(() => {
       const handleKeyDown = (e) => {
@@ -33,6 +32,7 @@ export const usePersonControls = () => {
     }, []);
     return movement;
   }
+  return movement;
 };
 
 export const resize = () => {

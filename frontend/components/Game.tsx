@@ -27,7 +27,10 @@ const Game = (props: any) => {
     };
   }, [camera, gl]);
   useEffect(() => {
-    if (left || right)
+    if (
+      (left || right) &&
+      (roomData.player1 == socket.id || roomData.player1 == socket.id)
+    )
       socket.emit("padlleMove", {
         roomName: roomData.roomName,
         socketId: socket.id,
