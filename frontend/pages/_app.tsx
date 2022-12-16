@@ -29,19 +29,27 @@ interface MyAppProps extends AppProps {
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
-    <CacheProvider value={emotionCache}>
-      <MuiThemeProvider theme={Muitheme}>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            <CssBaseline />
-            <GlobalStyle />
-          </ThemeProvider>
-        </Provider>
-      </MuiThemeProvider>
-    </CacheProvider>
+    <SnackbarProvider
+      autoHideDuration={3000}
+      anchorOrigin={{
+        horizontal: "center",
+        vertical: "top",
+      }}
+    >
+      <CacheProvider value={emotionCache}>
+        <MuiThemeProvider theme={Muitheme}>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              <CssBaseline />
+              <GlobalStyle />
+            </ThemeProvider>
+          </Provider>
+        </MuiThemeProvider>
+      </CacheProvider>
+    </SnackbarProvider>
   );
 }
 

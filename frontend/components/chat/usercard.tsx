@@ -14,6 +14,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import image from "../../public/images/mocked-avatar-2.jpg";
 import { IFUser } from "../../types";
+import CustomButton from "./customButton";
 
 //where type refers to room or dm
 const Usercard = (props: { user: any; type: string }) => {
@@ -55,30 +56,7 @@ const Usercard = (props: { user: any; type: string }) => {
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Button
-          disableElevation={true}
-          variant="contained"
-          sx={{
-            height: "25px",
-            "&.MuiButton-root": {
-              p: "0px",
-              m: "0px",
-            },
-            backgroundColor: "#161c30",
-            borderRadius: "6px",
-          }}
-        >
-          <Typography
-            sx={{
-              color: "#479bea",
-              textTransform: "none",
-              fontWeight: "500",
-              fontSize: "12px",
-            }}
-          >
-            invite
-          </Typography>
-        </Button>
+        <CustomButton title="invite" />
         <IconButton
           sx={{ color: "#fff" }}
           onClick={() => {

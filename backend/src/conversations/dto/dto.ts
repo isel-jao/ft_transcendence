@@ -32,6 +32,10 @@ export class CreateChannelDto {
 
     @IsString()
     password?: string
+
+    @IsNumber() // should i get the user from front ?
+    @IsNotEmpty()
+    user_id: number
 }
 
 export class JoinChannelDto {

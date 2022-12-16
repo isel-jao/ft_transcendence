@@ -1,6 +1,7 @@
 import { Body, HttpStatus, Injectable } from "@nestjs/common";
 import { Conversation } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
+import { comparePasswords, encodePassword } from "src/utils/bycrypt";
 import { CreateChannelDto, CreateConversationDto } from "./dto/dto";
 import { ConversationExistException } from "./exceptions/conversationExists";
 import { createConversationException } from "./exceptions/createConversationException";
@@ -14,16 +15,36 @@ export class ConversationsService {
    //TODO add return type 
    //TODO gandel errors and throw exception doesnt work
    async createChannel(data): Promise<Conversation | null> {
+      const user_id = data.user_id;
+      delete data.user_id;
       const recordExists = await this.prisma.conversation.findUnique({
          where: {
             name: data.name
          }
       })
-      const channel = await this.prisma.conversation.create({ data: data });
+      const password = encodePassword(data.password);
+      const channel = await this.prisma.conversation.create({ data: { ...data, password } });
+      if (channel)
+         await this.prisma.user_Conv.create({
+            data: {
+               conversation: {
+                  connect: {
+                     id: channel.id,
+                  }
+               },
+               user: {
+                  connect: {
+                     id: user_id,
+                  }
+               },
+               //the user who creates the channel it ownes it until he leave 
+               is_admin: true,
+            }
+         })
       if (recordExists)
          throw new ConversationExistException()
+      return (channel);
 
-      return channel
    }
 
    //TODO change the way of getting id_user
@@ -175,7 +196,7 @@ export class ConversationsService {
       });
 
       if ((constraints.status != "PUBLIC" &&
-         constraints.password == payload.password) ||
+         comparePasswords(payload.password, constraints.password)) ||
          constraints.status == "PUBLIC") {
          const channel = await this.prisma.user_Conv.create({
             data: {
@@ -194,7 +215,8 @@ export class ConversationsService {
          })
          return channel;
       } else {
-         throw new createConversationException("can't access to the channel");
+         throw new
+            createConversationException("Wrong password, can't access to the channel");
       }
    }
 }

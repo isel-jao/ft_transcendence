@@ -152,6 +152,7 @@ model Conversation {
 }
 
 model User_Conv {
+    //add state of a user is it banned or muted
     id Int @id @default(autoincrement())
 
     userId Int

@@ -16,13 +16,16 @@ import { Dialog, DialogTitle } from "../../hooks/useDialogue";
 // import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { postChannel } from "../../services/conversations";
+import { createChannel } from "../../services/conversations";
 import { status } from "../../types";
 import { useConversations } from "../../hooks/useConversations";
+import CustomButton from "./customButton";
+import { useSnackbar } from "notistack";
 
 //TODO update types
 const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
   const { on, hide, refetch } = props;
+  const { enqueueSnackbar: showMessage, closeSnackbar } = useSnackbar();
   // const { enqueueSnackbar } = useSnackbar();
   const RadioStyle = {
     "& .MuiSvgIcon-root": {
@@ -35,8 +38,20 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
     name: Yup.string()
       .min(2, "Too short!")
       .max(20, "Too long!")
-      .required("Required"),
-    password: Yup.string().min(2, "Too short!").max(20, "Too long!"),
+      .required("required channel name"),
+    status: Yup.mixed().oneOf([
+      status.PRIVATE,
+      status.PROTECTED,
+      status.PUBLIC,
+    ]),
+    password: Yup.string().when("status", {
+      is: (status: any) => status != "PUBLIC",
+      then: Yup.string()
+        .min(2, "Too short!")
+        .max(20, "Too long!")
+        .required("required password"),
+      otherwise: Yup.string().min(2, "Too short!").max(20, "Too long!"),
+    }),
   });
 
   const formik = useFormik({
@@ -48,15 +63,16 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
-      postChannel(values)
+      console.log({ values });
+      //TODO to get the user_id it from the auth or a userContext
+      createChannel({ ...values, user_id: 1 })
         .then((res) => {
-          // enqueueSnackbar("");
-          console.log(res);
+          showMessage("channel created successfully", { variant: "success" });
           refetch();
         })
         .catch((err) => {
           console.log(err);
-          // enqueueSnackbar(err, { variant: "error" });
+          showMessage(err.error, { variant: "error" });
         })
         .finally(() => {
           resetForm();
@@ -85,12 +101,10 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
           onChange={formik.handleChange}
         />
 
-        {formik.errors.name && formik.touched.name ? (
+        {formik.errors.name && formik.touched.name && (
           <Typography variant="body2" sx={{ color: "red" }}>
             {formik.errors.name}
           </Typography>
-        ) : (
-          ""
         )}
 
         {formik.values.status != status.PUBLIC && (
@@ -111,14 +125,12 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
           />
         )}
         {formik.values.status != status.PUBLIC &&
-        formik.errors.password &&
-        formik.touched.password ? (
-          <Typography variant="body2" sx={{ color: "red" }}>
-            {formik.errors.password}
-          </Typography>
-        ) : (
-          ""
-        )}
+          formik.errors.password &&
+          formik.touched.password && (
+            <Typography sx={{ color: "red", fontWeight: "6px" }}>
+              {formik.errors.password}
+            </Typography>
+          )}
 
         <FormControl>
           <FormLabel id="demo-radio-buttons-group-label">
@@ -131,16 +143,19 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
             onChange={formik.handleChange}
           >
             <FormControlLabel
+              name="status"
               value={status.PUBLIC}
               control={<Radio sx={RadioStyle} />}
               label="Public"
             />
             <FormControlLabel
+              name="status"
               value={status.PROTECTED}
               control={<Radio sx={RadioStyle} />}
               label="Protected"
             />
             <FormControlLabel
+              name="status"
               value={status.PRIVATE}
               control={<Radio sx={RadioStyle} />}
               label="Private"
@@ -149,27 +164,14 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
         </FormControl>
 
         <DialogActions>
-          <Button
+          <CustomButton
             onClick={() => {
               hide();
               formik.resetForm();
             }}
-            sx={{
-              color: "#fff",
-              backgroundColor: "#6344D9",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            sx={{
-              color: "#fff",
-              backgroundColor: "#6344D9",
-            }}
-            onClick={formik.submitForm}
-          >
-            Create
-          </Button>
+            title={"Cancel"}
+          />
+          <CustomButton onClick={formik.submitForm} title={"Create"} />
         </DialogActions>
       </Box>
     </Dialog>

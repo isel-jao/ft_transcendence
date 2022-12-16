@@ -14,6 +14,8 @@ import { Dialog, DialogTitle } from "../../hooks/useDialogue";
 import { JOINCHANNEL, JOINPROTECETDCHANNEL } from "../../constants/constants";
 import { status } from "../../types/index";
 import { joinChannel } from "../../services/conversations";
+import CustomButton from "./customButton";
+import { useSnackbar } from "notistack";
 
 //TODO please create a custom button component
 //TODO  implement join channel backend
@@ -21,6 +23,7 @@ const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
   const { channel, refetch } = props;
   const [passwordInput, setPasswordInput] = useState("");
   const { show, hide, on } = useDialog();
+  const { enqueueSnackbar } = useSnackbar();
 
   const passwordHandler = (value: string) => {
     setPasswordInput(value);
@@ -30,17 +33,18 @@ const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
   const joinChannelHandler = () => {
     const queryPayload = {
       conversation_id: channel.id,
-      user_id: 1, //TODO to get from user zhen its done
+      user_id: 1, //TODO to get from user when its done
       password: passwordInput,
     };
 
     joinChannel(queryPayload)
       .then((res) => {
-        console.log({ res });
+        enqueueSnackbar("channel joined successfully", { variant: "success" });
         hide();
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
+        enqueueSnackbar(err.error, { variant: "error" });
       })
       .finally(() => {
         refetch();
@@ -82,60 +86,8 @@ const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
           />
         )}
         <DialogActions>
-          <Button
-            disableElevation={true}
-            variant="contained"
-            sx={{
-              height: "25px",
-              "&.MuiButton-root": {
-                p: "0px",
-                m: "0px",
-              },
-              backgroundColor: "#161c30",
-              borderRadius: "6px",
-            }}
-            onClick={() => {
-              hide();
-            }}
-          >
-            <Typography
-              sx={{
-                color: "#479bea",
-                textTransform: "none",
-                fontWeight: "500",
-                fontSize: "12px",
-              }}
-            >
-              Cancel
-            </Typography>
-          </Button>
-          <Button
-            disableElevation={true}
-            variant="contained"
-            sx={{
-              height: "25px",
-              "&.MuiButton-root": {
-                p: "0px",
-                m: "0px",
-              },
-              backgroundColor: "#161c30",
-              borderRadius: "6px",
-            }}
-            onClick={() => {
-              joinChannelHandler();
-            }}
-          >
-            <Typography
-              sx={{
-                color: "#479bea",
-                textTransform: "none",
-                fontWeight: "500",
-                fontSize: "12px",
-              }}
-            >
-              Join
-            </Typography>
-          </Button>
+          <CustomButton onClick={hide} title="Cancel" />
+          <CustomButton onClick={joinChannelHandler} title="Join" />
         </DialogActions>
       </Dialog>
       <Box
@@ -171,33 +123,7 @@ const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
         </Box>
 
         <Box>
-          <Button
-            disableElevation={true}
-            variant="contained"
-            sx={{
-              height: "25px",
-              "&.MuiButton-root": {
-                p: "0px",
-                m: "0px",
-              },
-              backgroundColor: "#161c30",
-              borderRadius: "6px",
-            }}
-            onClick={() => {
-              show();
-            }}
-          >
-            <Typography
-              sx={{
-                color: "#479bea",
-                textTransform: "none",
-                fontWeight: "500",
-                fontSize: "12px",
-              }}
-            >
-              join
-            </Typography>
-          </Button>
+          <CustomButton title="join" onClick={show} />
         </Box>
       </Box>
     </Box>

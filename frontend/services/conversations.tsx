@@ -18,6 +18,7 @@ interface IFCreateChannelType {
   status: string;
   type: string;
   password?: string;
+  user_id: number;
 }
 
 interface IFJoinChannelType {
@@ -27,7 +28,7 @@ interface IFJoinChannelType {
 }
 
 //to create new channel
-async function postChannel(queryPayload: IFCreateChannelType) {
+async function createChannel(queryPayload: IFCreateChannelType) {
   console.log({ queryPayload });
   return poster("rooms", queryPayload)
     .then((result) => {
@@ -80,13 +81,13 @@ async function joinChannel(queryPayload: IFJoinChannelType) {
       return result;
     })
     .catch((error) => {
-      return error;
+      throw new Error(error);
     });
 }
 
 export {
   getConversations,
-  postChannel,
+  createChannel,
   getConversationMessages,
   deleteConversationById,
   getAllConvrsations,

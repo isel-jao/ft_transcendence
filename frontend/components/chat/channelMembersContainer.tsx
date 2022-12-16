@@ -5,6 +5,7 @@ import { deleteConversationById } from "../../services/conversations";
 import { IFchannel } from "../../types";
 import { useDialog } from "../../hooks/useDialogue";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
+import CustomButton from "./customButton";
 
 const Mocked_data_members = [
   { user_name: "fmehdaou", status_user: "online", role: "owner" },
@@ -61,28 +62,8 @@ const ChannelMembersContainer = (props: {
         </Box>
         <Divider sx={{ backgroundColor: "#632DE9" }} />
         <DialogActions>
-          <Button
-            onClick={() => {
-              hide();
-            }}
-            sx={{
-              color: "#fff",
-              backgroundColor: "#6344D9",
-            }}
-          >
-            Stay
-          </Button>
-          <Button
-            sx={{
-              color: "#fff",
-              backgroundColor: "#6344D9",
-            }}
-            onClick={() => {
-              leaveChannelHandler();
-            }}
-          >
-            Leave
-          </Button>
+          <CustomButton title="Stay" onClick={hide} />
+          <CustomButton title="Leave" onClick={leaveChannelHandler} />
         </DialogActions>
       </Dialog>
 
@@ -144,30 +125,8 @@ const ChannelMembersContainer = (props: {
         >
           leaving channel will delete it from your channels list
         </Typography>
-
         <Box sx={{ placeSelf: "center" }}>
-          <Button
-            sx={{
-              height: "25px",
-              backgroundColor: "#161c30",
-              borderRadius: "20px solid #161224",
-            }}
-            onClick={() => {
-              show();
-            }}
-          >
-            <Typography
-              sx={{
-                color: "#479bea",
-                textTransform: "none",
-                fontWeight: "500",
-                fontSize: "12px",
-                placeSelf: "center",
-              }}
-            >
-              Leave Channel
-            </Typography>
-          </Button>
+          <CustomButton radius="20px" onClick={show} title={"Leave Channel"} />
         </Box>
       </Box>
     </Box>
