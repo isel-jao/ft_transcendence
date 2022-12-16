@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Divider, IconButton, InputBase } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { Socket } from "socket.io-client";
@@ -6,29 +6,38 @@ import { SetMealSharp } from "@mui/icons-material";
 import useConversationMessages from "../../hooks/useConversationMessages";
 import { IFMessage } from "../../types";
 import { isEmptyArray } from "formik";
+import { webSocketContext } from "../../context/SocketContext";
 
 //TODO change type
 const MessageInput = (props: {
-  socket: Socket;
   selectedChannel: number;
   messages: IFMessage[];
   setMessages: Function;
 }) => {
+  const socket = useContext(webSocketContext);
   const [message, setMessage] = useState<string>("");
-  const { socket, selectedChannel, setMessages, messages } = props;
-
+  const { selectedChannel, setMessages, messages } = props;
   const handelChangeMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
 
   //TODO using id=1 as user_id, to be changed
   useEffect(() => {
-    socket.off("onMessage").on("onMessage", (newMessage) => {
-      console.log("newMessage", newMessage);
-      console.log({ messages });
-      setMessages((prevMessages: any) => [...prevMessages, newMessage]);
-      console.log({ messages });
+    socket.on("connect", () => {
+      console.log("connected");
     });
+
+    //TODO add type
+    socket.on("onMessage", (newMessage: any) => {
+      setMessages((prevMessages: any) => [...prevMessages, newMessage]);
+    });
+
+    //unregisted events when comp didunmount
+    return () => {
+      console.log("unregistring events");
+      socket.off("connect");
+      socket.off("onMessage");
+    };
   }, []);
 
   const handelSendMessage = () => {

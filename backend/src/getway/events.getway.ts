@@ -7,7 +7,11 @@ import { Server, Socket } from 'socket.io'
 import { ConversationsService } from "src/conversations/conversations.service";
 import { MessagesService } from "src/messages/messages.service";
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({
+    cors: {
+        origin: [process.env.FRONTURL,],
+    }
+})
 export class EventsGeteway implements NestGateway {
     @WebSocketServer()
     server: Server;
@@ -62,6 +66,19 @@ export class EventsGeteway implements NestGateway {
         //     // this.server.emit('onMessage', message)
         // });
     }
+
+
+    //joining new channel
+    //TODO check this 
+    @SubscribeMessage("newJoin")
+    async onNewJoin(@MessageBody() data: any, @ConnectedSocket() client) {
+        client.join(data.conversation_id.toString());
+        const channel = await this.conversations.joinChannel(data);
+        this.server.emit("onJoin", channel);
+
+        console.log(`user ${data.user_id} joined conversation ${data.conversation_id}`)
+    }
+
 
 
     //add event listner  @SubscribeMessage join channel 

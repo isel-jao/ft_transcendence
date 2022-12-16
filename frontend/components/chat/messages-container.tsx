@@ -6,6 +6,7 @@ import { IFchannel, IFMessage } from "../../types";
 import { io, Socket } from "socket.io-client";
 import useConversationMessages from "../../hooks/useConversationMessages";
 import ConversationsContext from "../../context/conversationsContext";
+import { webSocketContext } from "../../context/SocketContext";
 
 // props: {
 //   selectedChannel: IFchannel;
@@ -19,13 +20,14 @@ const MessagesContainer = (props: {
   messages: IFMessage[];
   setMessages: Function;
 }) => {
-  const socket = io("http://localhost:5000/", {
-    autoConnect: false,
-    query: {
-      id: 1,
-    },
-  });
-  socket.connect();
+  // const socket = io("http://localhost:5000/", {
+  //   autoConnect: false,
+  //   query: {
+  //     id: 1,
+  //   },
+  // });
+  // socket.connect();
+
   const { selectedChannel, messages, setMessages } = props;
 
   return (
@@ -63,7 +65,6 @@ const MessagesContainer = (props: {
       </Box>
       <Box sx={{ alignSelf: "end" }}>
         <MessageInput
-          socket={socket}
           selectedChannel={selectedChannel?.id}
           messages={messages}
           setMessages={setMessages}

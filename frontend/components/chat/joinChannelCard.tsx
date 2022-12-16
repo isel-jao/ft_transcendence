@@ -7,7 +7,7 @@ import {
   DialogActions,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { IFchannel } from "../../types";
 import { useDialog } from "../../hooks/useDialogue";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
@@ -16,6 +16,7 @@ import { status } from "../../types/index";
 import { joinChannel } from "../../services/conversations";
 import CustomButton from "./customButton";
 import { useSnackbar } from "notistack";
+import { webSocketContext } from "../../context/SocketContext";
 
 //TODO please create a custom button component
 //TODO  implement join channel backend
@@ -24,6 +25,7 @@ const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
   const [passwordInput, setPasswordInput] = useState("");
   const { show, hide, on } = useDialog();
   const { enqueueSnackbar } = useSnackbar();
+  const socket = useContext(webSocketContext);
 
   const passwordHandler = (value: string) => {
     setPasswordInput(value);
@@ -37,18 +39,24 @@ const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
       password: passwordInput,
     };
 
-    joinChannel(queryPayload)
-      .then((res) => {
-        enqueueSnackbar("channel joined successfully", { variant: "success" });
-        hide();
-      })
-      .catch((err) => {
-        console.log(err);
-        enqueueSnackbar(err.error, { variant: "error" });
-      })
-      .finally(() => {
-        refetch();
-      });
+    // joinChannel(queryPayload)
+    //   .then((res) => {
+    //     enqueueSnackbar("channel joined successfully", { variant: "success" });
+    //     hide();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     enqueueSnackbar(err.error, { variant: "error" });
+    //   })
+    //   .finally(() => {
+    //     refetch();
+    //   });
+
+    //TODO add type
+    socket.emit("newJoin", queryPayload);
+    socket.on("onJoin", (newJoin: any) => {
+      if (newJoin) refetch();
+    });
   };
 
   return (
