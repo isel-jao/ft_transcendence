@@ -1,7 +1,7 @@
-import { Module } from "@nestjs/common";
-import { Mygeteway } from "./gateway";
+import { Module } from '@nestjs/common';
+import { Mygeteway } from './gateway';
 
 @Module({
-  imports: [Mygeteway],
+    imports: [Mygeteway],
 })
 export class GatwayModule {}
