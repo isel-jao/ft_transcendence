@@ -48,7 +48,7 @@ const ChannelMembersContainer = (props: {
         backgroundColor: "#231834",
         p: "20px",
         display: "grid",
-        gridTemplateRows: "auto min-content",
+        gridTemplateRows: " auto min-content",
       }}
     >
       <Dialog open={on} onClose={hide}>
@@ -68,7 +68,6 @@ const ChannelMembersContainer = (props: {
       </Dialog>
 
       <Box sx={{ p: "61px 10px 4px" }}>
-        {/* <Typography>Chat Members</Typography> */}
         <Box>
           <Typography variant="h2">Owners</Typography>
           {Mocked_data_members.filter((member) => member.role == "owner").map(

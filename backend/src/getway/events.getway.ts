@@ -72,7 +72,7 @@ export class EventsGeteway implements NestGateway {
     //TODO check this 
     @SubscribeMessage("newJoin")
     async onNewJoin(@MessageBody() data: any, @ConnectedSocket() client) {
-        client.join(data.conversation_id.toString());
+        // client.join(data.conversation_id.toString());
         const channel = await this.conversations.joinChannel(data);
         this.server.emit("onJoin", channel);
 

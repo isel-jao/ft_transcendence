@@ -8,7 +8,7 @@ interface Props {
   onClick?: () => void;
   radius?: string;
   width?: string;
-  title: string;
+  title?: string;
 }
 
 const CustomButton: React.FC<Props> = ({
@@ -17,7 +17,7 @@ const CustomButton: React.FC<Props> = ({
   height = "25px",
   onClick = () => {},
   radius = "6px",
-  title,
+  title = "",
 }) => {
   return (
     <Button
