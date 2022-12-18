@@ -45,8 +45,9 @@ const ChannelMembersContainer = (props: {
   return (
     <Box
       sx={{
-        backgroundColor: "#231834",
-        p: "20px",
+        // backgroundColor: "#231834",
+        background: "linear-gradient( #171221 10%, #171328 80.61%)",
+        // p: "20px",
         display: "grid",
         gridTemplateRows: " auto min-content",
       }}

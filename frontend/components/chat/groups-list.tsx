@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Avatar,
   Box,
@@ -16,8 +16,9 @@ import ChannelCard from "./channelCard";
 import JoinChannelCard from "./joinChannelCard";
 import UseAllConversations from "../../hooks/useAllConversations";
 import { useConversations } from "../../hooks/useConversations";
+import CustomTabs, { TabType } from "./tabs";
 
-const ChannelsNamesContainer = (props: {
+const GroupList = (props: {
   channels: IFchannel[];
   selectChannel: IFchannel;
   setSelectChannel: Function;
@@ -52,13 +53,7 @@ const ChannelsNamesContainer = (props: {
   };
 
   return (
-    <Box
-      sx={{
-        borderRight: "2px solid #2C2039",
-        backgroundColor: "#231834",
-        p: "10px",
-      }}
-    >
+    <Box>
       <Box
         sx={{
           display: "grid",
@@ -140,4 +135,4 @@ const ChannelsNamesContainer = (props: {
   );
 };
 
-export default ChannelsNamesContainer;
+export default GroupList;

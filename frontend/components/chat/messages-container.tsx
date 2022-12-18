@@ -73,7 +73,7 @@ const MessagesContainer = (props: {
         borderRight: "2px solid #2C2039",
         display: "grid",
         gridTemplateRows: "min-content auto min-content",
-        backgroundColor: "#231834",
+        background: "linear-gradient( #171221 10%, #171328 80.61%)",
         overflowY: "auto",
         "&::-webkit-scrollbar": {
           display: "none",
@@ -85,37 +85,43 @@ const MessagesContainer = (props: {
     >
       <Box
         sx={{
-          p: "25px 15px",
+          // p: "25px 15px",
           borderBottom: "1px solid #33334D",
-          position: "fixed",
-          backgroundColor: "#231834",
+          // position: "fixed",
+          backgroundColor: "#171221",
           width: "100%",
-          // maxHeight: "100px",
-          // "&::-webkit-scrollbar": {
-          //   display: "none",
-          //   // width: "3px",
-          //   // height: "5px",
-          // },
         }}
       >
-        <Typography variant="h1">{selectedChannel?.name}</Typography>
-        <IconButton
-          size="small"
-          onClick={(event) => {
-            handleClick(event);
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <GroupAddIcon htmlColor="#469DED" />
-        </IconButton>
+          <Typography variant="h1">{selectedChannel?.name}</Typography>
+          <IconButton
+            onClick={(event) => {
+              handleClick(event);
+            }}
+          >
+            <GroupAddIcon htmlColor="#469DED" sx={{ fontSize: "20px" }} />
+          </IconButton>
+        </Box>
 
         <Menu
           anchorEl={anchorEl}
           open={open}
           onClose={handelClose}
+          sx={{
+            "&.MuiMenu-paper": {
+              backgroundColor: "#ddd",
+            },
+          }}
           PaperProps={{
             style: {
-              // maxHeight: ITEM_HEIGHT * 4.5,
-              backgroundColor: "#221833",
+              maxHeight: ITEM_HEIGHT * 4.5,
+              background: "linear-gradient( #171221 10%, #171328 80.61%)",
               width: "400px",
               border: "1px solid #2c1f3b",
             },
@@ -179,7 +185,7 @@ const MessagesContainer = (props: {
                 <MenuItem
                   sx={{
                     "&:hover": {
-                      backgroundColor: "#1b1625",
+                      backgroundColor: "#1B182C",
                       borderRadius: "4px",
                     },
                   }}

@@ -18,7 +18,7 @@ import CustomButton from "./customButton";
 
 //where type refers to room or dm
 const Usercard = (props: { user: any; type: string }) => {
-  const { user } = props;
+  const { name, status } = props.user;
   const [selectedUserId, setSelectedUserId] = useState<number>();
 
   return (
@@ -49,9 +49,9 @@ const Usercard = (props: { user: any; type: string }) => {
             variant="body1"
             sx={{ color: "#7E4EE0", fontWeight: "600" }}
           >
-            {user.name}
+            {name}
           </Typography>
-          <Typography variant="subtitle2">{user.status}</Typography>
+          <Typography variant="subtitle2">{status}</Typography>
         </Box>
       </Box>
 
@@ -61,7 +61,7 @@ const Usercard = (props: { user: any; type: string }) => {
           sx={{ color: "#fff" }}
           onClick={() => {
             console.log(
-              "todo: implement set as admin, bad or mute for a limited time"
+              "implement set as admin, bad or mute for a limited time"
             );
           }}
         >

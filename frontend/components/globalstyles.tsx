@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { ThemeOptions } from "@mui/material/styles";
+import { ThemeOptions, createTheme } from "@mui/material/styles";
 import { ThemedStyledInterface } from "styled-components";
 export const styled: ThemedStyledInterface<Theme> =
   require("styled-components").default;
@@ -51,7 +51,7 @@ export interface Theme extends ThemeOptions {
   };
 }
 
-export const theme: Theme = {
+export const theme: Theme = createTheme({
   mode: "light",
   colors: {
     light: "#ddd",
@@ -117,7 +117,7 @@ export const theme: Theme = {
       color: "#fff",
     },
   },
-};
+});
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   body {
