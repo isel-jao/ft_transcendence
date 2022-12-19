@@ -1,16 +1,22 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
+import { IConversation } from "../types";
 
-export const selecetdConversationContext = createContext({
-  selected: 0,
-  setSelected: (n: number) => {},
+export const convContext = createContext({
+  selected: {},
+  setSelected: (conversation: object) => {},
+  searchOn: false,
+  setSearchOn: (n: boolean) => {},
 });
 
-export const SelectedConversationProvider = () => {
-  const [selected, setSelected] = useState(0);
+export const SelectedConversationProvider = ({ children }: any) => {
+  const [selected, setSelected] = useState<object>({});
+  const [searchOn, setSearchOn] = useState<boolean>(false);
 
   return (
-    <selecetdConversationContext.Provider
-      value={{ selected, setSelected }}
-    ></selecetdConversationContext.Provider>
+    <convContext.Provider
+      value={{ selected, setSelected, searchOn, setSearchOn }}
+    >
+      {children}
+    </convContext.Provider>
   );
 };

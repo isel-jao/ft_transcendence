@@ -85,6 +85,17 @@ async function joinChannel(queryPayload: IFJoinChannelType) {
     });
 }
 
+//TODO get user_id from the auth
+async function getAllDmsOfuser(user_id: number) {
+  return fetcher({ path: `dms/all/${user_id}` })
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
+}
+
 export {
   getConversations,
   createChannel,
@@ -92,4 +103,5 @@ export {
   deleteConversationById,
   getAllConvrsations,
   joinChannel,
+  getAllDmsOfuser,
 };

@@ -45,6 +45,4 @@ export class ConversationsController {
         return await this.conversationsService.updateChannel(channelPayload, Number(id));
     }
 
-
-
 }

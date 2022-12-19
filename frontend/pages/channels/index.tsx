@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Typography, IconButton, Tooltip, Avatar } from "@mui/material";
 import SettingIcon from "@mui/icons-material/Tune";
 import { useDialog } from "../../hooks/useDialogue";
@@ -13,27 +13,28 @@ import useConversationMessages from "../../hooks/useConversationMessages";
 import ChannelsNamesContainer from "../../components/chat/side-pannel";
 import { WebSocketProvider } from "../../context/SocketContext";
 import SidePannel from "../../components/chat/side-pannel";
+import {
+  SelectedConversationProvider,
+  convContext,
+} from "../../context/selectedConversationContext";
 
 // background: "linear-gradient( #171221 10%, #171328 80.61%)",
 
 const Channels = () => {
+  const { selected } = useContext(convContext);
   const { on, hide, show } = useDialog();
-  const { data: channels, refetch } = useConversations();
-  const [selectChannel, setSelectChannel] = useState<any>();
-  const { data: messages, setData: setMessages } = useConversationMessages({
-    id_conversation: selectChannel?.id,
-  });
+  const { data: channels, refetch, loading } = useConversations();
 
-  useEffect(() => {}, [channels, messages, selectChannel]);
+  // useEffect(() => {}, [channels, messages, selected]);
 
-  if (!channels) return <LinearProgress />;
+  // if (loading) return <LinearProgress />;
   return (
     <WebSocketProvider>
-      <Box>
+      <SelectedConversationProvider>
         <Box
           sx={{
             // backgroundColor: "#20172B",
-            height: "88vh",
+            height: "100%",
             background: "linear-gradient( #171221 10%, #171328 80.61%)",
           }}
           // sx={{ backgroundColor: "#250020" }}
@@ -56,31 +57,12 @@ const Channels = () => {
               height: "100%", //100% of 90vh in parent box
             }}
           >
-            {/* cahnnels name */}
-            <SidePannel
-              channels={channels}
-              setSelectChannel={setSelectChannel}
-              selectChannel={selectChannel}
-              show={show}
-              refetch={refetch}
-            />
-            {/* channel- messages  */}
-            <MessagesContainer
-              selectedChannel={selectChannel}
-              messages={messages}
-              setMessages={setMessages}
-            />
-            {/* channel memebers */}
-            <ChannelMembersContainer
-              selectedChannel={selectChannel}
-              refetch={refetch}
-              setSelectChannel={setSelectChannel}
-              setMessages={setMessages}
-              channels={channels}
-            />
+            <SidePannel channels={channels} show={show} refetch={refetch} />
+            <MessagesContainer />
+            <ChannelMembersContainer refetch={refetch} channels={channels} />
           </Box>
         </Box>
-      </Box>
+      </SelectedConversationProvider>
     </WebSocketProvider>
   );
 };

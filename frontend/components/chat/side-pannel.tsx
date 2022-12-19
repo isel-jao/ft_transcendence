@@ -1,30 +1,24 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { IFchannel } from "../../types";
+import { IConversation } from "../../types";
 import CustomTabs, { TabType } from "./tabs";
 import GroupList from "./groups-list";
 import DmList from "./dm-list";
+import { convContext } from "../../context/selectedConversationContext";
 
 const SidePannel = (props: {
-  channels: IFchannel[];
-  selectChannel: IFchannel;
-  setSelectChannel: Function;
+  channels: IConversation[];
   show: () => void;
   refetch: Function;
 }) => {
-  const { channels, setSelectChannel, show, selectChannel, refetch } = props;
+  const { channels, show, refetch } = props;
+
   const tabs: TabType[] = useMemo(
     () => [
       {
         label: "Groups",
         content: () => (
-          <GroupList
-            channels={channels}
-            setSelectChannel={setSelectChannel}
-            selectChannel={selectChannel}
-            show={show}
-            refetch={refetch}
-          />
+          <GroupList channels={channels} show={show} refetch={refetch} />
         ),
       },
       {
@@ -32,10 +26,10 @@ const SidePannel = (props: {
         content: () => <DmList />,
       },
     ],
-    []
+    [channels]
   );
 
-  const [activeTab, setActiveTab] = useState<number>(1);
+  const [activeTab, setActiveTab] = useState<number>(0);
   const handleTabChange = (_: any, newValue: number) => setActiveTab(newValue);
 
   return (

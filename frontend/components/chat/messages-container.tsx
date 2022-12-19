@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import React, {
+  HtmlHTMLAttributes,
+  ReactElement,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Box,
   Button,
@@ -11,10 +18,12 @@ import {
 } from "@mui/material";
 import MessageInput from "./MessageInput";
 import Message from "./messageBox";
-import { IFchannel, IFMessage } from "../../types";
+import { IConversation, IFMessage } from "../../types";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { ITEM_HEIGHT } from "../../constants/constants";
 import CustomButton from "./customButton";
+import { convContext } from "../../context/selectedConversationContext";
+import useConversationMessages from "../../hooks/useConversationMessages";
 
 const friendsList = [
   {
@@ -49,15 +58,17 @@ const friendsList = [
   },
 ];
 
-const MessagesContainer = (props: {
-  selectedChannel: IFchannel;
-  messages: IFMessage[];
-  setMessages: Function;
-}) => {
+const MessagesContainer = () => {
+  const { selected, setSelected } = useContext(convContext);
   const [query, setQuery] = useState("");
-  const { selectedChannel, messages, setMessages } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { data: messages, setData: setMessages } = useConversationMessages({
+    id_conversation: selected?.id,
+  });
+
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const handelClose = () => {
     setAnchorEl(null);
@@ -67,6 +78,11 @@ const MessagesContainer = (props: {
     setAnchorEl(event.currentTarget);
   };
 
+  useEffect(() => {
+    divRef.current!.scrollTop = divRef.current!.scrollHeight;
+    // bottomRef.current!.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <Box
       sx={{
@@ -74,19 +90,13 @@ const MessagesContainer = (props: {
         display: "grid",
         gridTemplateRows: "min-content auto min-content",
         background: "linear-gradient( #171221 10%, #171328 80.61%)",
-        overflowY: "auto",
-        "&::-webkit-scrollbar": {
-          display: "none",
-        },
-        "&::-webkit-scrollbar-thumb": {
-          backgroundColor: "#ddd",
-        },
+        overflow: "hidden",
       }}
     >
       <Box
         sx={{
           // p: "25px 15px",
-          borderBottom: "1px solid #33334D",
+          borderBottom: "1px solid #2c2039",
           // position: "fixed",
           backgroundColor: "#171221",
           width: "100%",
@@ -97,15 +107,25 @@ const MessagesContainer = (props: {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            p: "10px 20px",
           }}
         >
-          <Typography variant="h1">{selectedChannel?.name}</Typography>
+          <Typography
+            sx={{
+              color: "#9a978b",
+              letterSpacing: "1px",
+              fontSize: "16px",
+              textTransform: "capitalize",
+            }}
+          >
+            {selected?.name}
+          </Typography>
           <IconButton
             onClick={(event) => {
               handleClick(event);
             }}
           >
-            <GroupAddIcon htmlColor="#469DED" sx={{ fontSize: "20px" }} />
+            <GroupAddIcon htmlColor="#6545e0" sx={{ fontSize: "20px" }} />
           </IconButton>
         </Box>
 
@@ -221,18 +241,37 @@ const MessagesContainer = (props: {
           </Box>
         </Menu>
       </Box>
-      <Box>
+      <Box
+        ref={divRef}
+        sx={{
+          // overflow: "scroll",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          // flexDirection: "column-reverse",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#ddd",
+          },
+        }}
+      >
         {messages &&
           messages.map((item, index) => {
             return <Message key={index} message={item} />;
           })}
+        {/* <div ref={bottomRef} /> */}
       </Box>
-      <Box sx={{ alignSelf: "end" }}>
-        <MessageInput
-          selectedChannel={selectedChannel?.id}
-          messages={messages}
-          setMessages={setMessages}
-        />
+      <Box
+        sx={{
+          alignSelf: "end",
+          // position: "fixed",
+          // backgroundColor: "#171221",
+          width: "100%",
+        }}
+      >
+        <MessageInput messages={messages} setMessages={setMessages} />
       </Box>
     </Box>
   );

@@ -1,37 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import DmCard from "./dmCard";
-
-//TODO mocked data here
-const dms = [
-  {
-    conversation_id: 1,
-    status: "active",
-    name: "ymarji",
-  },
-  {
-    conversation_id: 2,
-    status: "active",
-    name: "youchennou",
-  },
-  {
-    conversation_id: 3,
-    status: "active",
-    name: "moharras",
-  },
-  {
-    conversation_id: 4,
-    status: "active",
-    name: "misaki",
-  },
-];
+import { convContext } from "../../context/selectedConversationContext";
+import { useDms } from "../../hooks/useDms";
 
 const DmList = () => {
+  //TODO 1 is user_id to be taken from the auth
+  const { data: dms, setData } = useDms({ user_id: 1 });
+
   return (
     <Box>
-      {dms.map((item) => (
-        <DmCard dm={item} />
-      ))}
+      <Box>
+        {dms.map((item, index) => (
+          <DmCard key={index} dm={item} />
+        ))}
+      </Box>
     </Box>
   );
 };

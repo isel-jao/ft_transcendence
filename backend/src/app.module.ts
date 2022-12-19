@@ -3,6 +3,7 @@ import { EventsModule } from './getway/events.module';
 import { ConfigModule } from '@nestjs/config'
 import { ConversationsModule } from './conversations/conversations.module';
 import { MessagesModule } from './messages/messages.module';
+import { DmsModule } from './dms/dms.module';
 
 
 @Module({
@@ -10,6 +11,6 @@ import { MessagesModule } from './messages/messages.module';
     isGlobal: true,
     cache: true,
     envFilePath: '.env'
-  }), EventsModule, ConversationsModule, MessagesModule],
+  }), EventsModule, ConversationsModule, MessagesModule, DmsModule],
 })
 export class AppModule { }

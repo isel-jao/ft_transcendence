@@ -79,9 +79,9 @@ const Layout: FC<Props> = ({ children }: Props) => {
         <SideNav open={open} />
       </div>
       <div className={`main ${open && "open"}`}>
-        <div className="nav">
+        {/* <div className="nav">
           <Nav open={open} toggleOpen={toggleSideNav} />
-        </div>
+        </div> */}
         <div className={`router-view ${open && "open"}`}>{children}</div>
       </div>
     </StyledLayout>

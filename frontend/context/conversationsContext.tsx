@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useMemo, useState } from "react";
 import useConversationMessages from "../hooks/useConversationMessages";
 import { useConversations } from "../hooks/useConversations";
-import { IFchannel, IFMessage } from "../types";
+import { IConversation, IFMessage } from "../types";
 
 //create context with default value null
 const ConversationsContext = createContext({
@@ -23,7 +23,7 @@ export const ConversationsProvider = ({ children }: any) => {
   //   setMessages: () => {},
   //   setSelectedChannel: () => {},
   // });
-  // const [selectedChannel, setSelectedChannel] = useState<IFchannel>();
+  // const [selectedChannel, setSelectedChannel] = useState<IConversation>();
   // //Apis calls here and handling data
   // const {
   //   loading: loadingMessages,

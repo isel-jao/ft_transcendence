@@ -1,18 +1,20 @@
 import { Box, debounce, Avatar, Typography, Button } from "@mui/material";
-import React from "react";
-import { IFchannel } from "../../types";
+import React, { useContext } from "react";
+import { IConversation } from "../../types";
+import { convContext } from "../../context/selectedConversationContext";
+import { json } from "stream/consumers";
 
 const ChannelCard = (props: {
-  channel: IFchannel;
-  setSelectChannel: Function;
-  selectChannel: IFchannel;
+  channel: IConversation;
   join?: Boolean;
   disabledSelect?: Boolean;
 }) => {
-  const { selectChannel, setSelectChannel, channel } = props;
+  const { channel } = props;
 
-  const handelSelectChannel = (channel: IFchannel) => {
-    setSelectChannel(channel);
+  const { selected, setSelected } = useContext(convContext);
+
+  const handelSelectChannel = (channel: IConversation) => {
+    setSelected(channel);
   };
 
   return (
@@ -23,6 +25,8 @@ const ChannelCard = (props: {
         handelSelectChannel(channel);
       }}
     >
+      {/* <pre>{JSON.stringify(channel.name, null, 2)}</pre> */}
+
       <Box
         sx={{
           display: "flex",
@@ -30,7 +34,7 @@ const ChannelCard = (props: {
           justifyContent: "space-between",
           gap: "14px",
           backgroundColor: `${
-            channel.id == selectChannel?.id ? "#1B182C" : "transparent"
+            channel.id == selected?.id ? "#1B182C" : "transparent"
           }`,
           p: "14px",
           borderRadius: "12px",

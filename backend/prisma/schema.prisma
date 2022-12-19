@@ -162,6 +162,7 @@ model User_Conv {
     conversation   Conversation @relation(fields: [conversationId], references: [id])
 
     is_admin Boolean
+    // status   String
 
     @@unique([userId, conversationId])
     @@map("User_Conv")

@@ -27,8 +27,8 @@ const CustomButton: React.FC<Props> = ({
       sx={{
         height: height,
         "&.MuiButton-root": {
-          p: "0px",
-          m: "0px",
+          // p: "0px",
+          // m: "0px",
         },
         backgroundColor: color,
         borderRadius: radius,

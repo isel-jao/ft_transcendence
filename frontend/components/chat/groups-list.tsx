@@ -1,44 +1,24 @@
-import React, { useState, useEffect, useMemo } from "react";
-import {
-  Avatar,
-  Box,
-  IconButton,
-  Tooltip,
-  Typography,
-  TextField,
-  debounce,
-} from "@mui/material";
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import { Box, IconButton, Tooltip, Typography, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import { IFchannel } from "../../types";
+import { IConversation } from "../../types";
 import { isEmpty } from "lodash";
 import ChannelCard from "./channelCard";
 import JoinChannelCard from "./joinChannelCard";
 import UseAllConversations from "../../hooks/useAllConversations";
-import { useConversations } from "../../hooks/useConversations";
-import CustomTabs, { TabType } from "./tabs";
+import { convContext } from "../../context/selectedConversationContext";
 
 const GroupList = (props: {
-  channels: IFchannel[];
-  selectChannel: IFchannel;
-  setSelectChannel: Function;
+  channels: IConversation[];
   show: () => void;
   refetch: Function;
 }) => {
-  const {
-    channels,
-    setSelectChannel,
-    show,
-    selectChannel,
-    refetch: refetchConversations,
-  } = props;
-  const [searchOn, setSearchOn] = useState<Boolean>(false);
+  const { channels, show, refetch: refetchConversations } = props;
   const [query, setQuery] = useState<string>("");
-  const {
-    data: joiningChannels,
-    setData: setJoiningChannels,
-    refetch: refetchJoiningChannels,
-  } = UseAllConversations();
+  const { data: joiningChannels, refetch: refetchJoiningChannels } =
+    UseAllConversations();
+  const { searchOn, setSearchOn } = useContext(convContext);
 
   // const { refetch: refetchConversations } = useConversations();
 
@@ -53,7 +33,7 @@ const GroupList = (props: {
   };
 
   return (
-    <Box>
+    <Box sx={{}}>
       <Box
         sx={{
           display: "grid",
@@ -104,12 +84,7 @@ const GroupList = (props: {
       </Box>
       {!searchOn &&
         channels.map((channel, index) => (
-          <ChannelCard
-            key={index}
-            selectChannel={selectChannel}
-            setSelectChannel={setSelectChannel}
-            channel={channel}
-          />
+          <ChannelCard key={index} channel={channel} />
         ))}
       {searchOn && (
         <Box>

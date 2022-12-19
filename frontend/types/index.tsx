@@ -1,3 +1,5 @@
+//TODO remove all not used types
+
 interface IFMessage {
   body: string;
   createdAt: string;
@@ -5,12 +7,6 @@ interface IFMessage {
     firstName: string;
     lastName: string;
   };
-}
-
-interface IFchannel {
-  id: number;
-  name: string;
-  status: string; //protected public private
 }
 
 interface IFUser {
@@ -24,5 +20,18 @@ export enum status {
   PROTECTED = "PROTECTED",
   PRIVATE = "PRIVATE",
 }
+interface IConversation {
+  id: number;
+  name: string;
+  type?: string; //protected public private in case of Room
+  status?: string; // active blocked muted in case of Dm
+}
 
-export type { IFchannel, IFMessage, IFUser };
+interface IDm {
+  conversationId: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+}
+
+export type { IFMessage, IFUser, IConversation, IDm };

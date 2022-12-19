@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getConversations } from "../services/conversations";
-import { IFchannel } from "../types";
+import { IConversation } from "../types";
 
 const useConversations = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<IFchannel[]>([]);
+  const [data, setData] = useState<IConversation[]>([]);
   const [error, setError] = useState<string>();
   const [retry, setRetry] = useState(0);
 

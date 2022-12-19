@@ -1,29 +1,40 @@
-import React from "react";
-import { Box, Typography, Avatar } from "@mui/material";
+import React, { useContext } from "react";
+import { Box, Typography, Avatar, Select } from "@mui/material";
 import { avatarStyle } from "./style";
+import { convContext } from "../../context/selectedConversationContext";
+import { IDm } from "../../types";
 
-interface IFDm {
-  name: string;
-  status: string;
-  conversation_id: number;
-}
+// "conversationId": 32,
+// "firstName": "youssef",
+// "lastName": "marji",
+// "userName": "ymarji"
 
-interface Props {
-  dm: IFDm;
-}
-
-const DmCard = (props: Props) => {
+const DmCard = (props: { dm: IDm }) => {
   const { dm } = props;
+  const { selected, setSelected } = useContext(convContext);
+
+  const selecetDmHandler = (dm: IDm) => {
+    setSelected(dm);
+  };
 
   return (
-    <Box sx={{ p: "5px 6px", cursor: "pointer" }}>
+    <Box
+      sx={{ p: "5px 6px", cursor: "pointer" }}
+      onClick={() => {
+        selecetDmHandler(dm);
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           gap: "14px",
           p: "14px",
-          // backgroundColor: `${"#1B182C"}`,
+          backgroundColor: `${
+            dm.conversationId == selected?.conversationId
+              ? "#1B182C"
+              : "transparent"
+          }`,
           borderRadius: "12px",
         }}
       >
@@ -37,7 +48,7 @@ const DmCard = (props: Props) => {
               textTransform: "capitalize",
             }}
           >
-            {dm.name}
+            {dm.userName}
           </Typography>
         </Box>
       </Box>

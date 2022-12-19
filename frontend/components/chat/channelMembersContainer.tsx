@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Typography, Button, Divider, DialogActions } from "@mui/material";
-import Usercard from "./userCard";
 import { deleteConversationById } from "../../services/conversations";
-import { IFchannel } from "../../types";
+import { IConversation } from "../../types";
 import { useDialog } from "../../hooks/useDialogue";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
 import CustomButton from "./customButton";
+import { convContext } from "../../context/selectedConversationContext";
+import Usercard from "./usercard";
 
 const Mocked_data_members = [
   { user_name: "fmehdaou", status_user: "online", role: "owner" },
@@ -14,19 +15,16 @@ const Mocked_data_members = [
 ];
 
 const ChannelMembersContainer = (props: {
-  selectedChannel: IFchannel;
   refetch: () => void;
-  setSelectChannel: Function;
-  setMessages: Function;
-  channels: IFchannel[];
+  channels: IConversation[];
 }) => {
-  const { selectedChannel, refetch, setSelectChannel, setMessages, channels } =
-    props;
+  const { refetch, channels } = props;
+  const { selected, setSelected } = useContext(convContext);
 
   const { show, hide, on } = useDialog();
 
   const leaveChannelHandler = () => {
-    deleteConversationById(selectedChannel.id)
+    deleteConversationById(selected.id)
       .then((res) => {
         //TODO show message of succ
         refetch();
@@ -37,7 +35,7 @@ const ChannelMembersContainer = (props: {
         //TODO she message of fail
       })
       .finally(() => {
-        setSelectChannel(channels[0]);
+        setSelected(channels[0]);
         hide();
       });
   };
@@ -59,7 +57,7 @@ const ChannelMembersContainer = (props: {
             p: "10px",
           }}
         >
-          <Typography>{`leave ${selectedChannel?.name} channel?`}</Typography>
+          <Typography>{`leave ${selected?.name} channel?`}</Typography>
         </Box>
         <Divider sx={{ backgroundColor: "#632DE9" }} />
         <DialogActions>
@@ -72,8 +70,9 @@ const ChannelMembersContainer = (props: {
         <Box>
           <Typography variant="h2">Owners</Typography>
           {Mocked_data_members.filter((member) => member.role == "owner").map(
-            (item) => (
+            (item, index) => (
               <Usercard
+                key={index}
                 user={{ name: item.user_name, status: item.status_user }}
                 type="room"
               />
@@ -83,8 +82,9 @@ const ChannelMembersContainer = (props: {
         <Box>
           <Typography variant="h2">Admins</Typography>
           {Mocked_data_members.filter((member) => member.role == "admin").map(
-            (item) => (
+            (item, index) => (
               <Usercard
+                key={index}
                 user={{ name: item.user_name, status: item.status_user }}
                 type="room"
               />
@@ -113,6 +113,7 @@ const ChannelMembersContainer = (props: {
           borderRadius: "10px",
           display: "grid",
           gap: "10px",
+          m: "20px 20px",
         }}
       >
         <Typography
@@ -126,7 +127,7 @@ const ChannelMembersContainer = (props: {
           leaving channel will delete it from your channels list
         </Typography>
         <Box sx={{ placeSelf: "center" }}>
-          <CustomButton radius="20px" onClick={show} title={"Leave Channel"} />
+          <CustomButton onClick={show} title={"Leave Channel"} />
         </Box>
       </Box>
     </Box>

@@ -7,16 +7,17 @@ import useConversationMessages from "../../hooks/useConversationMessages";
 import { IFMessage } from "../../types";
 import { isEmptyArray } from "formik";
 import { webSocketContext } from "../../context/SocketContext";
+import { convContext } from "../../context/selectedConversationContext";
 
 //TODO change type
 const MessageInput = (props: {
-  selectedChannel: number;
   messages: IFMessage[];
   setMessages: Function;
 }) => {
+  const { selected, setSelected } = useContext(convContext);
   const socket = useContext(webSocketContext);
   const [message, setMessage] = useState<string>("");
-  const { selectedChannel, setMessages, messages } = props;
+  const { setMessages, messages } = props;
   const handelChangeMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
@@ -44,7 +45,7 @@ const MessageInput = (props: {
     if (message != "") {
       socket.emit("newMessage", {
         senderId: 1,
-        conversationId: selectedChannel,
+        conversationId: selected?.id,
         body: message,
       });
       setMessage("");
@@ -69,9 +70,11 @@ const MessageInput = (props: {
         display: "flex",
         alignItems: "space-between",
         justifyContent: "center",
-        border: "1px solid #ddd",
+        border: "1px solid #2c2039",
         borderRadius: "6px",
         margin: "10px 6px",
+        // position: "fixed",
+        // bottom: "0px",
       }}
     >
       <InputBase

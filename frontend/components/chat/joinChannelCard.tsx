@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { IFchannel } from "../../types";
+import { IConversation } from "../../types";
 import { useDialog } from "../../hooks/useDialogue";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
 import { JOINCHANNEL, JOINPROTECETDCHANNEL } from "../../constants/constants";
@@ -20,7 +20,10 @@ import { webSocketContext } from "../../context/SocketContext";
 
 //TODO please create a custom button component
 //TODO  implement join channel backend
-const JoinChannelCard = (props: { channel: IFchannel; refetch: Function }) => {
+const JoinChannelCard = (props: {
+  channel: IConversation;
+  refetch: Function;
+}) => {
   const { channel, refetch } = props;
   const [passwordInput, setPasswordInput] = useState("");
   const { show, hide, on } = useDialog();
