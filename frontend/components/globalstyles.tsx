@@ -13,6 +13,10 @@ export interface Theme extends ThemeOptions {
     light: string;
     dark: string;
   };
+  bgNav: {
+    light: string;
+    dark: string;
+  };
   text: {
     light: string;
     dark: string;
@@ -51,30 +55,14 @@ export interface Theme extends ThemeOptions {
   };
 }
 
-export const theme: Theme = createTheme({
-  mode: "light",
+export const theme: Theme = {
+  mode: "dark",
   colors: {
     light: "#ddd",
-    dark: "#444",
-  },
-  components: {
-    MuiButton: {
-      defaultProps: {
-        variant: "contained",
-      },
-    },
-    MuiOutlinedInput: {
-      defaultProps: {
-        size: "small",
-        sx: {
-          backgroundColor: "#fff",
-        },
-      },
-      styleOverrides: {},
-    },
+    dark: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
   },
   palette: {
-    primary: { main: "#00b0b6" },
+    primary: { main: "#B2ABF2" },
     secondary: { main: "#aaaaaa" },
     success: { main: "#00ff6a" },
     error: { main: "#ff0037" },
@@ -82,42 +70,18 @@ export const theme: Theme = createTheme({
     info: { main: "#00aeff" },
   },
   bg: {
-    dark: "#333",
-    light: "#120F19",
-    // light: "white",
+    dark: "#000",
+    light: "#ddd",
   },
   text: {
     dark: "#fff",
     light: "#000",
   },
-  typography: {
-    subtitle1: {
-      fontSize: 12,
-      // color: "#696969",
-      color: "#fff",
-    },
-    subtitle2: {
-      //online offline
-      fontSize: 10,
-      color: "#fff",
-    },
-    body1: {
-      fontSize: 14,
-      color: "#fff",
-    },
-    h1: {
-      fontSize: 18,
-      fontWeight: 600,
-      color: "#fff",
-    },
-    h2: {
-      //owner members..
-      fontSize: 13,
-      fontWeight: 600,
-      color: "#fff",
-    },
+  bgNav: {
+    dark: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
+    light: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
   },
-});
+};
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   body {

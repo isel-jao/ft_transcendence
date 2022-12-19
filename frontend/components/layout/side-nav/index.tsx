@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import routes, { Route } from "../../../routes";
+import routes, { Route, routesBottom } from "../../../routes";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { darken, lighten, rgba } from "polished";
+import Image from "next/image";
 
-// import { ButtonBase } from "@mui/material";
-// import styledMui from "@mui/material/styles/styled";
-// const ButtonBaseMui = styledMui(ButtonBase)({});
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: column;
@@ -90,6 +88,23 @@ const StyledNav = styled.nav`
       }
     }
   }
+  .container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
+  .top {
+    display: flex;
+    flex-direction: column;
+  }
+  .bottom {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 interface NavProps {
   open: boolean;
@@ -112,13 +127,24 @@ export const SideNav = ({ open }: NavProps) => {
   return (
     <StyledNav className={` ${open && "open"}`}>
       <div className="logo text-primary">
-        <div className="shape">logo</div>
-        <div className="name">logoName</div>
+        <div className="shape">
+          <Image src="/icons/logo.svg" width={45} height={45} />
+        </div>
+        <div className="name">Pong</div>
       </div>
-      <div className="h-2"></div>
-      {routes.map((route, index) => {
-        return <RouterLink route={route} key={index} />;
-      })}
+
+      <div className="container">
+        <div className="top">
+          {routes.map((route, index) => (
+            <RouterLink route={route} key={index} />
+          ))}
+        </div>
+        <div className="bottom">
+          {routesBottom.map((route, index) => (
+            <RouterLink route={route} key={index} />
+          ))}
+        </div>
+      </div>
     </StyledNav>
   );
 };

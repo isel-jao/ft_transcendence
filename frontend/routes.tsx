@@ -5,6 +5,7 @@ import { FunctionComponent } from "react";
 import Chat from "./pages/conversations";
 import ChannelsIcon from "@mui/icons-material/ThreeP";
 import Channels from "./pages/channels";
+import Image from "next/image";
 
 export interface Route {
   path: string;
@@ -13,21 +14,31 @@ export interface Route {
   routes?: Route[];
 }
 
-const routes: Route[] = [
+export const routesBottom: Route[] = [
   {
     path: "/home",
     name: "Home",
-    icon: <HomeIcon />,
+    icon: <Image src="/icons/Home.svg" width={24} height={24} />,
   },
   {
-    path: "/about",
-    name: "About",
-    icon: <InfoIcon />,
+    path: "/game",
+    name: "Game",
+    icon: <Image src="/icons/Game.svg" width={24} height={24} />,
   },
   {
-    path: "/conversations",
-    name: "Chat",
-    icon: <ChatIcon />,
+    path: "/users",
+    name: "Users",
+    icon: <Image src="/icons/Users.svg" width={24} height={24} />,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: <Image src="/icons/Param.svg" width={24} height={24} />,
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    icon: <Image src="/icons/Logout.svg" width={24} height={24} />,
   },
   {
     path: "/channels",
@@ -36,4 +47,4 @@ const routes: Route[] = [
   },
 ];
 
-export default routes;
+export default routesBottom;

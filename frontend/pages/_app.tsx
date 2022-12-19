@@ -10,6 +10,7 @@ import store from "../app/store";
 import Layout from "../components/layout";
 import { SnackbarProvider } from "notistack";
 
+import { SocketContext } from "../context/socketContext";
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
@@ -37,17 +38,21 @@ function MyApp(props: MyAppProps) {
       }}
     >
       <CacheProvider value={emotionCache}>
-        <MuiThemeProvider theme={Muitheme}>
-          <Provider store={store}>
-            <ThemeProvider theme={theme}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-              <CssBaseline />
-              <GlobalStyle />
-            </ThemeProvider>
-          </Provider>
-        </MuiThemeProvider>
+        <CacheProvider value={emotionCache}>
+          <SocketContext>
+            <MuiThemeProvider theme={Muitheme}>
+              <Provider store={store}>
+                <ThemeProvider theme={theme}>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                  <CssBaseline />
+                  <GlobalStyle />
+                </ThemeProvider>
+              </Provider>
+            </MuiThemeProvider>
+          </SocketContext>
+        </CacheProvider>
       </CacheProvider>
     </SnackbarProvider>
   );
