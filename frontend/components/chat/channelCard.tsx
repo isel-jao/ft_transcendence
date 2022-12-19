@@ -2,7 +2,6 @@ import { Box, debounce, Avatar, Typography, Button } from "@mui/material";
 import React, { useContext } from "react";
 import { IConversation } from "../../types";
 import { convContext } from "../../context/selectedConversationContext";
-import { json } from "stream/consumers";
 
 const ChannelCard = (props: {
   channel: IConversation;

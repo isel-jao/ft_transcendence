@@ -17,8 +17,8 @@ async function bootstrap() {
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
 
-  // validation pipeline
-  app.useGlobalPipes(new ValidationPipe());
+  // // validation pipeline
+  // app.useGlobalPipes(new ValidationPipe());
 
 
   app.enableCors();

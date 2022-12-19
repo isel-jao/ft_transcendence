@@ -9,7 +9,7 @@ import { MessagesService } from "src/messages/messages.service";
 
 @WebSocketGateway({
     cors: {
-        origin: [process.env.FRONTURL,],
+        origin: '*',
     }
 })
 export class EventsGeteway implements NestGateway {

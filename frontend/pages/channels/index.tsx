@@ -4,19 +4,15 @@ import SettingIcon from "@mui/icons-material/Tune";
 import { useDialog } from "../../hooks/useDialogue";
 import Head from "next/head";
 import { useConversations } from "../../hooks/useConversations";
-import LinearProgress from "@mui/material/LinearProgress";
-import MsgIcon from "@mui/icons-material/Sms";
 import CreateChannelForm from "../../components/chat/createChannelForm";
 import MessagesContainer from "../../components/chat/messages-container";
 import ChannelMembersContainer from "../../components/chat/channelMembersContainer";
-import useConversationMessages from "../../hooks/useConversationMessages";
-import ChannelsNamesContainer from "../../components/chat/side-pannel";
-import { WebSocketProvider } from "../../context/SocketContext";
 import SidePannel from "../../components/chat/side-pannel";
 import {
   SelectedConversationProvider,
   convContext,
 } from "../../context/selectedConversationContext";
+import { WebSocketProvider } from "../../context/socketChatContext";
 
 // background: "linear-gradient( #171221 10%, #171328 80.61%)",
 

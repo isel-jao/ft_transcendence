@@ -1,6 +1,6 @@
-import { Box, styled } from "@mui/system";
+// import { Box, styled } from "@mui/system";
 import React, { FunctionComponent } from "react";
-import { Tab, TabProps, Tabs, Typography } from "@mui/material";
+import { Box, Tab, TabProps, Tabs, Typography, styled } from "@mui/material";
 
 interface TabType {
   label: string;

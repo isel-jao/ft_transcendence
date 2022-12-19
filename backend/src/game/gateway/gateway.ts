@@ -1,7 +1,7 @@
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from 'socket.io'
-import { PrismaService } from "src/prisma/prisma.service";
 import { ball, player1, player2, stage } from './data'
+import { PrismaService } from "src/prisma.service";
 
 @WebSocketGateway({
     cors: {
@@ -9,25 +9,25 @@ import { ball, player1, player2, stage } from './data'
     }
 })
 
-export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
-    constructor (private prisma: PrismaService) {}
+export class Mygeteway implements OnGatewayInit, OnGatewayConnection {
+    constructor(private prisma: PrismaService) { }
 
     @WebSocketServer()
     server: Server
 
-    count  = 2
+    count = 2
     roomData = new Map<string, any>([])
     roomName = ''
-  
-    afterInit(){
+
+    afterInit() {
         console.log("init")
     }
 
-    handleConnection(){
+    handleConnection() {
         console.log("connect")
     }
 
-    handleDisconnect(client: Socket){
+    handleDisconnect(client: Socket) {
         console.log("disconnect")
         let socketId = client.id
         for (let [key, value] of this.roomData) {
@@ -58,11 +58,11 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
     }
 
     @SubscribeMessage('findGame')
-    reqToJoin(@ConnectedSocket()  socket: Socket) {
+    reqToJoin(@ConnectedSocket() socket: Socket) {
         let exist = 0
         if (this.count == 2) {
             this.roomName = Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36)
-            this.roomData.set(this.roomName, [{"ball": ball}])
+            this.roomData.set(this.roomName, [{ "ball": ball }])
             this.count = 0
         }
         socket.join(this.roomName)
@@ -103,7 +103,7 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
                             "score": 0,
                             "position": player2.position
                         },
-                    }, 
+                    },
                     {
                         "watchers": []
                     }])
@@ -154,17 +154,17 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
                     "player2": bePlayer2.score
                 }
             })
-            if (this.ballIntersectWall(ballPos, signalX) == 1){
+            if (this.ballIntersectWall(ballPos, signalX) == 1) {
                 signalX *= -1
                 console.log("change signal x")
             }
             if (this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == 1 ||
-                    this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == 1) {
+                this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == 1) {
                 signalY *= -1
                 console.log("change signal y")
             }
             else if (this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == -1 ||
-                        this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == -1) {
+                this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == -1) {
                 if (ballPos.y > 0)
                     this.roomData.get(roomName)[1].player.score++
                 else if (ballPos.y < 0)
@@ -200,7 +200,7 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
 
         if (!room || !roomName || !socketId)
             return
-        
+
         if (socketId == room[1].player.socketId) {
             const player = room[1].player.position
             if (right && player.x + 3 < w)
@@ -229,18 +229,18 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
 
     ballIntersectPlayer(player: any, ball1: any, signalX: number, signalY: number) {
         if (ball1.y + signalY == player.position.y) {
-            let w = player.position.x  + player1.size / 2
+            let w = player.position.x + player1.size / 2
             let w2 = player.position.x - player1.size / 2
             if (ball1.x + signalX > w2 && ball1.x + signalX < w)
                 return 1
         }
         else {
-            if (ball1.y + signalY > 0){
+            if (ball1.y + signalY > 0) {
                 if (ball1.y > player.position.y) {
                     return -1
                 }
             }
-            else if (ball1.y + signalY < 0){
+            else if (ball1.y + signalY < 0) {
                 if (ball1.y < player.position.y) {
                     return -1
                 }
@@ -255,7 +255,7 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
         ball1.y = 0
         // console.log("position: ", this.roomData.get(roomName)[0].ball.position)
     }
-    
+
     resetPlayers(roomName: string) {
         let player1 = this.roomData.get(roomName)[1].player.position
         let player2 = this.roomData.get(roomName)[2].player.position

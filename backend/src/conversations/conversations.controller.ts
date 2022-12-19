@@ -3,9 +3,11 @@ import { Routes } from "../utils/constants"
 import { ConversationsService } from "./conversations.service";
 import { CreateChannelDto, JoinChannelDto } from "./dto/dto";
 import { Conversation } from "./Interface";
+import { Public } from "src/auth/decorators/public.decorator";
 
 
 @Controller(Routes.ROOMS) //conversations
+@Public()
 export class ConversationsController {
     constructor(private readonly conversationsService: ConversationsService) { }
 
@@ -14,6 +16,8 @@ export class ConversationsController {
     //to prevent the /all from getting pulled in to be an :id
     @Get('/all/:id')
     async getAllChannels(@Param('id') id: string) {
+        console.log(id, "--->>>>");
+
         return await this.conversationsService.getAllUnjoinedChannels(Number(id));
     }
 
@@ -32,6 +36,7 @@ export class ConversationsController {
 
     @Get(':user_id')
     async getAllChannelsByUser(@Param('user_id') user_id: string) {
+
         return this.conversationsService.getAllChannelsByUser(Number(user_id));
     }
 

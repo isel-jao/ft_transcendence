@@ -1,10 +1,4 @@
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import ChatIcon from "@mui/icons-material/Textsms";
-import { FunctionComponent } from "react";
-import Chat from "./pages/conversations";
 import ChannelsIcon from "@mui/icons-material/ThreeP";
-import Channels from "./pages/channels";
 import Image from "next/image";
 
 export interface Route {

@@ -30,7 +30,7 @@ interface AppContextInterface {
   roomData: RoomDataType;
 }
 export const AppCtx = createContext<AppContextInterface | null>(null);
-const socket: Socket = io("http://localhost:3001", {
+const socket: Socket = io("http://localhost:5000", {
   query: {
     // token:
     // typeof window != undefined ? window.localStorage.getItem("token") : null,

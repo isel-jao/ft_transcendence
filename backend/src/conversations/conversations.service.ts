@@ -112,7 +112,7 @@ export class ConversationsService {
 
       return await this.prisma.user_Conv.findMany({
          where: {
-            userId: user_id,
+            userId: 1,
          },
          select: {
             conversation: {

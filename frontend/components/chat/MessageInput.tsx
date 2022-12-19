@@ -6,8 +6,8 @@ import { SetMealSharp } from "@mui/icons-material";
 import useConversationMessages from "../../hooks/useConversationMessages";
 import { IFMessage } from "../../types";
 import { isEmptyArray } from "formik";
-import { webSocketContext } from "../../context/SocketContext";
 import { convContext } from "../../context/selectedConversationContext";
+import { webSocketContext } from "../../context/socketChatContext";
 
 //TODO change type
 const MessageInput = (props: {
