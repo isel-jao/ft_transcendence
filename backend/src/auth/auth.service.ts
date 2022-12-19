@@ -44,7 +44,7 @@ export class AuthService implements AuthenticationProvider {
     const payload = { name: user.userName, sub: user.id };
     const at = await this.jwtService.signAsync(payload, {
       expiresIn: "1h",
-      secret: process.env.JWT_SECRET,
+      secret: process.env.JWT_SECRET || "JWT_SECRET",
     });
     return {
       accessToken: at,
