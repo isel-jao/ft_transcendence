@@ -81,6 +81,32 @@ export const theme: Theme = {
     dark: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
     light: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
   },
+
+  typography: {
+    fontSize: 13,
+    h2: {
+      fontSize: "0.9rem",
+      fontWeight: "bold",
+      fontStretch: "normal",
+      fontStyle: "normal",
+      lineHeight: "normal",
+      letterSpacing: "normal",
+      color: "#87847a",
+    },
+    body1: {
+      //for messages
+      fontStyle: "normal",
+      fontSize: "0.8rem",
+      letterSpacing: "normal",
+    },
+    subtitle1: {
+      fontSize: "0.8rem",
+      fontWeight: "400",
+      fontStretch: "normal",
+      fontStyle: "normal",
+      letterSpacing: "normal",
+    },
+  },
 };
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`

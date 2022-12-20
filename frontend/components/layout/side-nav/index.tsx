@@ -135,9 +135,9 @@ export const SideNav = ({ open }: NavProps) => {
 
       <div className="container">
         <div className="top">
-          {routes.map((route, index) => (
+          {/* {routes.map((route, index) => (
             <RouterLink route={route} key={index} />
-          ))}
+          ))} */}
         </div>
         <div className="bottom">
           {routesBottom.map((route, index) => (
