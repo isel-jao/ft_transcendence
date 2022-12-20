@@ -48,7 +48,7 @@ export class ConversationsService {
    }
 
    //TODO change the way of getting id_user
-   async getAllChnnels(): Promise<any | null> {
+   async getAllChannels(): Promise<any | null> {
       const channels = await this.prisma.conversation.findMany(
          {
             where: {
@@ -97,7 +97,7 @@ export class ConversationsService {
    }
 
    async updateChannel(channelPayload: any, id_conversation: number): Promise<any | null> {
-      console.log({ id_conversation })
+      // console.log({ id_conversation })
       const channel = await this.prisma.conversation.update({
          data: channelPayload, where: {
             id: id_conversation
@@ -113,6 +113,9 @@ export class ConversationsService {
       return await this.prisma.user_Conv.findMany({
          where: {
             userId: 1,
+            conversation: {
+               type: "room"
+            }
          },
          select: {
             conversation: {

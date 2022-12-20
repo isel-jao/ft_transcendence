@@ -14,6 +14,7 @@ const useDms = (props: { user_id: number }) => {
     setLoading(true);
     getAllDmsOfuser(user_id)
       .then((data) => {
+        console.log({ data });
         setData(data);
       })
       .catch((error) => {

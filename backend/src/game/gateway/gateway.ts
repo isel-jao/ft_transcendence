@@ -20,15 +20,15 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection {
     roomName = ''
 
     afterInit() {
-        console.log("init")
+        // console.log("init")
     }
 
     handleConnection() {
-        console.log("connect")
+        // console.log("connect")
     }
 
     handleDisconnect(client: Socket) {
-        console.log("disconnect")
+        // console.log("disconnect")
         let socketId = client.id
         for (let [key, value] of this.roomData) {
             for (let i = 0; i < value.length; i++) {
@@ -126,7 +126,7 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection {
             }
             this.count++
         }
-        console.log(this.roomData)
+        // console.log(this.roomData)
     }
 
 
@@ -156,12 +156,12 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection {
             })
             if (this.ballIntersectWall(ballPos, signalX) == 1) {
                 signalX *= -1
-                console.log("change signal x")
+                // console.log("change signal x")
             }
             if (this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == 1 ||
                 this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == 1) {
                 signalY *= -1
-                console.log("change signal y")
+                // console.log("change signal y")
             }
             else if (this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == -1 ||
                 this.ballIntersectPlayer(bePlayer1, ballPos, signalX, signalY) == -1) {
@@ -179,13 +179,13 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection {
                     this.roomData.delete(roomName)
                     clearInterval(interval)
                 }
-                console.log("reset")
+                // console.log("reset")
                 signalX = Math.random() > 0.5 ? 1 : -1
                 signalY = Math.random() > 0.5 ? 1 : -1
             }
             this.roomData.get(roomName)[0].ball.position.x += signalX
             this.roomData.get(roomName)[0].ball.position.y += signalY
-            console.log(this.roomData.get(roomName)[0].ball.position)
+            // console.log(this.roomData.get(roomName)[0].ball.position)
         }, 100)
     }
 

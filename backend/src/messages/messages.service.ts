@@ -48,7 +48,7 @@ export class MessagesService {
                 }
             }
         })
-        console.log(message)
+        // console.log(message)
         return message;
     }
 

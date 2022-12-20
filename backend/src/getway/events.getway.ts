@@ -36,7 +36,7 @@ export class EventsGeteway implements NestGateway {
             const conversations = await this.conversations.getAllChannelsByUser(Number(user_id));
             conversations.forEach((conv) => {
                 client.join(conv.id.toString());
-                console.log(`user joined rooms ${conv.name}`);
+                // console.log(`user joined rooms ${conv.name}`);
             });
 
         }
@@ -46,7 +46,7 @@ export class EventsGeteway implements NestGateway {
         const conversations = await this.conversations.getAllChannelsByUser(Number(client.handshake.query.id));
         conversations.forEach((conv) => {
             client.leave(conv.name.toString())
-            console.log(`user leaved rooms ${conv.name}`);
+            // console.log(`user leaved rooms ${conv.name}`);
         })
 
     };
@@ -76,7 +76,7 @@ export class EventsGeteway implements NestGateway {
         const channel = await this.conversations.joinChannel(data);
         this.server.emit("onJoin", channel);
 
-        console.log(`user ${data.user_id} joined conversation ${data.conversation_id}`)
+        // console.log(`user ${data.user_id} joined conversation ${data.conversation_id}`)
     }
 
 

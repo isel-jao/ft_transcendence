@@ -29,8 +29,7 @@ const SidePannel = (props: {
     [channels]
   );
 
-  const [activeTab, setActiveTab] = useState<number>(0);
-  const handleTabChange = (_: any, newValue: number) => setActiveTab(newValue);
+  // const [activeTab, setActiveTab] = useState<number>(0);
 
   return (
     <Box
@@ -40,12 +39,7 @@ const SidePannel = (props: {
         p: "10px",
       }}
     >
-      <CustomTabs
-        tabs={tabs}
-        label="label"
-        activeTab={activeTab}
-        handleTabChange={handleTabChange}
-      />
+      <CustomTabs tabs={tabs} label="label" />
     </Box>
   );
 };

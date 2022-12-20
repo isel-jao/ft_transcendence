@@ -32,6 +32,10 @@ const GroupList = (props: {
     setQuery(value);
   };
 
+  useEffect(() => {
+    console.log({ joiningChannels });
+  }, []);
+
   return (
     <Box sx={{}}>
       <Box
@@ -88,7 +92,7 @@ const GroupList = (props: {
         ))}
       {searchOn && (
         <Box>
-          {joiningChannels &&
+          {joiningChannels.length > 0 ? (
             joiningChannels
               .filter(
                 (channel) =>
@@ -103,7 +107,10 @@ const GroupList = (props: {
                     refetch={refetchJoiningChannels}
                   />
                 );
-              })}
+              })
+          ) : (
+            <Typography>No channels found to join</Typography>
+          )}
         </Box>
       )}
     </Box>

@@ -6,14 +6,25 @@ import { useDms } from "../../hooks/useDms";
 
 const DmList = () => {
   //TODO 1 is user_id to be taken from the auth
-  const { data: dms, setData } = useDms({ user_id: 1 });
+  const { data: dms, setData, error } = useDms({ user_id: 1 });
+  const { selected, setSelected } = useContext(convContext);
+
+  //TODO add type
+  const selecetDmHandler = (dm: any) => {
+    setSelected(dm);
+  };
 
   return (
     <Box>
+      {dms.length == 0 && (
+        <Box sx={{ p: "20px 0px" }}>
+          <Typography align="center">
+            No conversations found, Start new ones
+          </Typography>
+        </Box>
+      )}
       <Box>
-        {dms.map((item, index) => (
-          <DmCard key={index} dm={item} />
-        ))}
+        {dms && dms.map((item, index) => <DmCard key={index} dm={item} />)}
       </Box>
     </Box>
   );

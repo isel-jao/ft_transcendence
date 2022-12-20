@@ -16,7 +16,7 @@ export class ConversationsController {
     //to prevent the /all from getting pulled in to be an :id
     @Get('/all/:id')
     async getAllChannels(@Param('id') id: string) {
-        console.log(id, "--->>>>");
+        // console.log(id, "--->>>>");
 
         return await this.conversationsService.getAllUnjoinedChannels(Number(id));
     }

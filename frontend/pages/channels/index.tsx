@@ -20,10 +20,12 @@ const Channels = () => {
   const { selected } = useContext(convContext);
   const { on, hide, show } = useDialog();
   const { data: channels, refetch, loading } = useConversations();
+  const { activeTab } = useContext(convContext);
 
   // useEffect(() => {}, [channels, messages, selected]);
 
   // if (loading) return <LinearProgress />;
+
   return (
     <WebSocketProvider>
       <SelectedConversationProvider>
@@ -55,6 +57,8 @@ const Channels = () => {
           >
             <SidePannel channels={channels} show={show} refetch={refetch} />
             <MessagesContainer />
+            {/* {activeTab > 0 && (
+              )} */}
             <ChannelMembersContainer refetch={refetch} channels={channels} />
           </Box>
         </Box>

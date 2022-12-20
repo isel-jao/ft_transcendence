@@ -1,6 +1,7 @@
 // import { Box, styled } from "@mui/system";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext, useEffect } from "react";
 import { Box, Tab, TabProps, Tabs, Typography, styled } from "@mui/material";
+import { convContext } from "../../context/selectedConversationContext";
 
 interface TabType {
   label: string;
@@ -12,9 +13,6 @@ interface TabsProps {
   tabs: TabType[];
   label: string;
   tabsProps?: any;
-  activeTab?: number;
-  rightContent?: FunctionComponent<{}>;
-  handleTabChange: (_: any, newValue: number) => void;
 }
 
 interface TabPanelProps {
@@ -59,14 +57,9 @@ const StyledTabs = styled((props: any) => <Tabs {...props} />)(() => ({
   },
 }));
 
-const CustomTabs = ({
-  tabs = [],
-  label: tabLabel,
-  tabsProps,
-  rightContent: RightSide,
-  activeTab = 0,
-  handleTabChange,
-}: TabsProps) => {
+const CustomTabs = ({ tabs = [], label: tabLabel, tabsProps }: TabsProps) => {
+  const { activeTab, handleTabChange } = useContext(convContext);
+
   return (
     <Box
       sx={{
