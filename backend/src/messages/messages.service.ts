@@ -14,7 +14,8 @@ export class MessagesService {
     async getMessages(id: number): Promise<any | null> {
         return await this.prisma.message.findMany({
             where: {
-                conversationId: id
+                conversationId: id,
+
             },
             orderBy: {
                 createdAt: 'asc'

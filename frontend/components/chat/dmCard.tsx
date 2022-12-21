@@ -4,11 +4,7 @@ import { avatarStyle } from "./style";
 import { convContext } from "../../context/selectedConversationContext";
 import { IDm } from "../../types";
 import MsgIcon from "@mui/icons-material/ChatBubble";
-
-// "conversationId": 32,
-// "firstName": "youssef",
-// "lastName": "marji",
-// "userName": "ymarji"
+import { webSocketContext } from "../../context/socketChatContext";
 
 interface Props {
   dm: IDm;
@@ -19,19 +15,48 @@ interface Props {
 const DmCard = (props: Props) => {
   const { dm, action = false } = props;
   const { selected, setSelected } = useContext(convContext);
+  const socket = useContext(webSocketContext);
 
   const selecetDmHandler = (dm: IDm) => {
-    setSelected(dm);
-  };
-
-  const actionDmHandler = (dm: IDm) => {
-    setSelected({});
-    // console.log("implementation need here", selected);
+    setSelected({
+      id: dm.conversationId,
+      name: dm.userName,
+    });
   };
 
   useEffect(() => {
-    console.log(selected);
-  }, [selected]);
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+
+    return () => {
+      socket.off("onDm");
+    };
+  }, []);
+
+  const actionDmHandler = (dm: IDm) => {
+    const user_id = 1; // TODO pleaaaase change this 1
+    //TODO create conversation
+    socket.emit("newDm", {
+      type: "dm",
+      senderId: user_id,
+      recieverId: dm?.id,
+    });
+
+    socket.on("onDm", (data) => {
+      console.log("onDm event", { data });
+      setSelected({
+        id: data.id,
+        name: dm.userName,
+        type: data.type,
+        status: data.status,
+      });
+    });
+  };
+
+  useEffect(() => {
+    console.log("---", { dm });
+  }, [dm]);
 
   return (
     <Box
@@ -47,7 +72,7 @@ const DmCard = (props: Props) => {
           gap: "14px",
           p: "14px",
           backgroundColor: `${
-            dm.conversationId == selected?.conversationId && !action
+            dm.conversationId == selected?.id && !action
               ? "#1B182C"
               : "transparent"
           }`,
@@ -83,11 +108,7 @@ const DmCard = (props: Props) => {
                 backgroundColor: "rgb(121, 79, 206, 0.3)",
               }}
             >
-              <IconButton
-                onClick={() => {
-                  console.log("need implementation");
-                }}
-              >
+              <IconButton>
                 <MsgIcon htmlColor="" sx={{ fontSize: "13px" }} />
               </IconButton>
             </Box>

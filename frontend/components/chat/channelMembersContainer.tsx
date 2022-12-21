@@ -9,6 +9,7 @@ import { convContext } from "../../context/selectedConversationContext";
 import Usercard from "./usercard";
 import DmCard from "./dmCard";
 import { useFriends } from "../../hooks/useFriends";
+import FriendsList from "./friends-list";
 
 const Mocked_data_members = [
   { user_name: "fmehdaou", status_user: "online", role: "owner" },
@@ -43,14 +44,6 @@ const ChannelMembersContainer = (props: {
       });
   };
 
-  useEffect(() => {
-    console.log(friends);
-  }, [friends]);
-
-  const actionClick = (dm: IDm) => {
-    console.log("not implemented yet");
-  };
-
   return (
     <Box
       sx={{
@@ -62,18 +55,7 @@ const ChannelMembersContainer = (props: {
       }}
     >
       {activeTab > 0 ? (
-        <Box sx={{ p: "20px 0px" }}>
-          <Typography>Friends</Typography>
-          {friends &&
-            friends.map((item, index) => (
-              <DmCard
-                key={index}
-                dm={item}
-                action={true}
-                actionClick={() => actionClick(dm)}
-              />
-            ))}
-        </Box>
+        <FriendsList />
       ) : (
         <>
           <Dialog open={on} onClose={hide}>

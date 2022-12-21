@@ -3,7 +3,6 @@ import { Box, Divider, IconButton, InputBase } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { Socket } from "socket.io-client";
 import { SetMealSharp } from "@mui/icons-material";
-import useConversationMessages from "../../hooks/useConversationMessages";
 import { IFMessage } from "../../types";
 import { isEmptyArray } from "formik";
 import { convContext } from "../../context/selectedConversationContext";
@@ -30,6 +29,7 @@ const MessageInput = (props: {
 
     //TODO add type
     socket.on("onMessage", (newMessage: any) => {
+      // if (newMessage.conversationId == selected.conversationId)
       setMessages((prevMessages: any) => [...prevMessages, newMessage]);
     });
 
@@ -44,7 +44,7 @@ const MessageInput = (props: {
   const handelSendMessage = () => {
     if (message != "") {
       socket.emit("newMessage", {
-        senderId: 1,
+        senderId: 1, //TODO change this
         conversationId: selected?.id,
         body: message,
       });

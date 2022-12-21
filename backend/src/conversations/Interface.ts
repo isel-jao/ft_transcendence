@@ -13,3 +13,10 @@ export interface Conversation {
     status: string,
 
 }
+
+
+export interface ICreateDm {
+    type: string; //dm or room
+    senderId: number;
+    recieverId: number;
+}

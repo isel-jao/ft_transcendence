@@ -39,19 +39,19 @@ function MyApp(props: MyAppProps) {
     >
       <CacheProvider value={emotionCache}>
         <CacheProvider value={emotionCache}>
-          <SocketContext>
-            <MuiThemeProvider theme={Muitheme}>
-              <Provider store={store}>
-                <ThemeProvider theme={theme}>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                  <CssBaseline />
-                  <GlobalStyle />
-                </ThemeProvider>
-              </Provider>
-            </MuiThemeProvider>
-          </SocketContext>
+          {/* <SocketContext> */}
+          <MuiThemeProvider theme={Muitheme}>
+            <Provider store={store}>
+              <ThemeProvider theme={theme}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+                <CssBaseline />
+                <GlobalStyle />
+              </ThemeProvider>
+            </Provider>
+          </MuiThemeProvider>
+          {/* </SocketContext> */}
         </CacheProvider>
       </CacheProvider>
     </SnackbarProvider>

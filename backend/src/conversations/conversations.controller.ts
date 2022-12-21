@@ -29,7 +29,7 @@ export class ConversationsController {
 
     //post request to get the conversation
     @Post()
-    async createhannel(@Body() createChannelPayload: CreateChannelDto) {
+    async createChannel(@Body() createChannelPayload: CreateChannelDto) {
         // console.log({ createChannelPayload });
         return await this.conversationsService.createChannel(createChannelPayload);
     }

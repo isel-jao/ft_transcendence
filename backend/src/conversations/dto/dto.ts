@@ -44,11 +44,26 @@ export class JoinChannelDto {
     @IsNotEmpty()
     conversation_id: number;
 
-
     @IsNumber()
     @IsNotEmpty()
     user_id: number
 
     @IsString()
     password?: string
+}
+
+export class CreateDmDto {
+
+    @IsString()
+    @IsNotEmpty()
+    type: string; //dm or room
+
+    @IsNumber()
+    @IsNotEmpty()
+    senderId: number
+
+    @IsNumber()
+    @IsNotEmpty()
+    recieverId: number
+
 }

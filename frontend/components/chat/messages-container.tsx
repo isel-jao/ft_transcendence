@@ -59,7 +59,7 @@ const friendsList = [
 ];
 
 const MessagesContainer = () => {
-  const { selected, setSelected } = useContext(convContext);
+  const { selected } = useContext(convContext);
   const [query, setQuery] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -82,6 +82,10 @@ const MessagesContainer = () => {
     divRef.current!.scrollTop = divRef.current!.scrollHeight;
     // bottomRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    console.log("message Container", { selected });
+  }, []);
 
   return (
     <Box
@@ -112,9 +116,9 @@ const MessagesContainer = () => {
         >
           <Typography
             sx={{
-              color: "#9a978b",
-              letterSpacing: "1px",
-              fontSize: "16px",
+              // color: "#9a978b",
+              letterSpacing: "0.5px",
+              fontSize: "15px",
               textTransform: "capitalize",
             }}
           >

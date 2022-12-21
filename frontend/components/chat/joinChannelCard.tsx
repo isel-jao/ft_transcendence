@@ -16,7 +16,7 @@ import { status } from "../../types/index";
 import { joinChannel } from "../../services/conversations";
 import CustomButton from "./customButton";
 import { useSnackbar } from "notistack";
-import { webSocketContext } from "../../context/SocketContext";
+import { webSocketContext } from "../../context/socketChatContext";
 
 //TODO please create a custom button component
 //TODO  implement join channel backend

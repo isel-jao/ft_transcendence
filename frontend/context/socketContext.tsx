@@ -37,56 +37,56 @@ const socket: Socket = io("http://localhost:5000", {
   },
 });
 export const SocketContext = ({ children }: any) => {
-  const [roomData, setRoom] = useState<RoomDataType>({
-    player1: "",
-    player2: "",
-    roomName: "",
-    status: "",
-  });
-  const [gameData, setData] = useState<GameDataType>({
-    ball: {
-      x: 0,
-      y: 0,
-      z: 1,
-    },
-    player1: {
-      x: 0,
-      y: -60 / 2 + 3,
-      z: 0,
-    },
-    player2: {
-      x: 0,
-      y: 60 / 2 - 3,
-      z: 0,
-    },
-    speed: 0.1,
-    score: {
-      player1: 0,
-      player2: 0,
-    },
-  });
-  socket.on("joinRoom", (data: RoomDataType) => {
-    setRoom(data);
-    Router.push("/game/" + data.roomName);
-  });
-  useEffect(() => {
-    socket.on("gameData", (data: GameDataType) => {
-      console.log(data);
-      setData(data);
-    });
-    return () => {
-      socket.off("gameData");
-    };
-  }, [gameData.ball]);
-  return (
-    <AppCtx.Provider
-      value={{
-        socket,
-        gameData,
-        roomData,
-      }}
-    >
-      {children}
-    </AppCtx.Provider>
-  );
+  // const [roomData, setRoom] = useState<RoomDataType>({
+  //   player1: "",
+  //   player2: "",
+  //   roomName: "",
+  //   status: "",
+  // });
+  // const [gameData, setData] = useState<GameDataType>({
+  //   ball: {
+  //     x: 0,
+  //     y: 0,
+  //     z: 1,
+  //   },
+  //   player1: {
+  //     x: 0,
+  //     y: -60 / 2 + 3,
+  //     z: 0,
+  //   },
+  //   player2: {
+  //     x: 0,
+  //     y: 60 / 2 - 3,
+  //     z: 0,
+  //   },
+  //   speed: 0.1,
+  //   score: {
+  //     player1: 0,
+  //     player2: 0,
+  //   },
+  // });
+  // socket.on("joinRoom", (data: RoomDataType) => {
+  //   setRoom(data);
+  //   Router.push("/game/" + data.roomName);
+  // });
+  // useEffect(() => {
+  //   socket.on("gameData", (data: GameDataType) => {
+  //     console.log(data);
+  //     setData(data);
+  //   });
+  //   return () => {
+  //     socket.off("gameData");
+  //   };
+  // }, [gameData.ball]);
+  // return (
+  //   <AppCtx.Provider
+  //     value={{
+  //       socket,
+  //       gameData,
+  //       roomData,
+  //     }}
+  //   >
+  //     {children}
+  //   </AppCtx.Provider>
+  // );
 };

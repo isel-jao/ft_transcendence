@@ -1,18 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import DmCard from "./dmCard";
-import { convContext } from "../../context/selectedConversationContext";
 import { useDms } from "../../hooks/useDms";
 
 const DmList = () => {
   //TODO 1 is user_id to be taken from the auth
-  const { data: dms, setData, error } = useDms({ user_id: 1 });
-  const { selected, setSelected } = useContext(convContext);
-
-  //TODO add type
-  const selecetDmHandler = (dm: any) => {
-    setSelected(dm);
-  };
+  const { data: dms } = useDms({ user_id: 1 });
 
   return (
     <Box>

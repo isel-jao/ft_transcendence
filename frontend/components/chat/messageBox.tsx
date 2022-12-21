@@ -2,7 +2,6 @@ import React from "react";
 import { Avatar, Box, Typography } from "@mui/material";
 import { IFMessage } from "../../types";
 import { format } from "date-fns";
-import useConversationMessages from "../../hooks/useConversationMessages";
 
 const messageBox = (props: { message: IFMessage }) => {
   const { message } = props;
