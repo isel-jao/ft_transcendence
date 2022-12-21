@@ -10,12 +10,13 @@ import store from "../app/store";
 import Layout from "../components/layout";
 import axios from "axios";
 import { useRouter } from "next/router";
+import ContextProvider from "../components/provider";
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
 const Muitheme = createTheme(theme);
 import createCache from "@emotion/cache";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 function createEmotionCache() {
   return createCache({ key: "css", prepend: true });
 }
@@ -28,15 +29,17 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.baseURL = `http://localhost:3001`;
 axios.defaults.withCredentials = true;
 
 function MyApp(props: MyAppProps) {
+  const [user, setUser] = useState<any>(null);
   const router = useRouter();
   const testApi = async () => {
     try {
       const res = await axios.get("/");
-      console.log(res.data);
+      console.log("user", res.data);
+      setUser(res.data);
     } catch (e) {
       console.log(e);
       router.push("/login");
@@ -48,8 +51,12 @@ function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
-      <MuiThemeProvider theme={Muitheme}>
-        <Provider store={store}>
+      <ContextProvider
+        value={{
+          user,
+        }}
+      >
+        <MuiThemeProvider theme={Muitheme}>
           <ThemeProvider theme={theme}>
             <Layout>
               <Component {...pageProps} />
@@ -57,8 +64,8 @@ function MyApp(props: MyAppProps) {
             <CssBaseline />
             <GlobalStyle />
           </ThemeProvider>
-        </Provider>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+      </ContextProvider>
     </CacheProvider>
   );
 }

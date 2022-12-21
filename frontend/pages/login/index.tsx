@@ -41,7 +41,7 @@ const LoginPage: NextPage = () => {
         <meta name="ft_transcendence" content="ft_transcendence" />
       </Head>
       <main className="">
-        <a href="http://192.168.10.80:3001/auth/login">
+        <a href={`http://localhost:3001/auth/login`}>
           <Button variant="outlined">login</Button>
         </a>
         <div className="description ">

@@ -1,7 +1,10 @@
+$col-limit: 12;
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat($col-limit, 1fr);
 }
+
 .justify-center {
   justify-content: center;
 }
@@ -18,22 +21,37 @@
   justify-content: space-evenly;
 }
 
-@for $i from 1 through 24 {
+@for $i from 1 through $col-limit {
   .col-#{$i} {
     grid-column: span #{$i};
   }
   .row-#{$i} {
     grid-row: span #{$i};
   }
+  .grid-#{$i} {
+    display: grid;
+    grid-template-columns: repeat(#{$i}, 1fr);
+  }
 }
+
+@for $i from 1 through 40 {
+  .auto-rows-#{$i} {
+    grid-auto-rows: #{$i}rem;
+  }
+}
+
 @each $space, $value in $breaking-points {
   @include media-breakpoint-up($value) {
-    @for $i from 1 through 24 {
+    @for $i from 1 through $col-limit {
       .col-#{$space}-#{$i} {
         grid-column: span #{$i};
       }
       .row-#{$space}-#{$i} {
         grid-row: span #{$i};
+      }
+      .grid-#{$space}-#{$i} {
+        display: grid;
+        grid-template-columns: repeat(#{$i}, 1fr);
       }
     }
   }
