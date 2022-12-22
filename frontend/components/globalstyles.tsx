@@ -81,7 +81,6 @@ export const theme: Theme = {
     dark: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
     light: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
   },
-
   typography: {
     fontSize: 13,
     h2: {

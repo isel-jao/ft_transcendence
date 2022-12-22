@@ -29,10 +29,8 @@ interface IFJoinChannelType {
 
 //to create new channel
 async function createChannel(queryPayload: IFCreateChannelType) {
-  console.log({ queryPayload });
   return poster("rooms", queryPayload)
     .then((result) => {
-      console.log({ result });
       return result;
     })
     .catch((err) => {

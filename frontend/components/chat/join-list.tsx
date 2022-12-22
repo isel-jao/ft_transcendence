@@ -2,64 +2,55 @@ import {
   Box,
   Avatar,
   Typography,
-  Button,
   Divider,
   DialogActions,
   TextField,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { IConversation } from "../../types";
 import { useDialog } from "../../hooks/useDialogue";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
 import { JOINCHANNEL, JOINPROTECETDCHANNEL } from "../../constants/constants";
 import { status } from "../../types/index";
-import { joinChannel } from "../../services/conversations";
 import CustomButton from "./customButton";
-import { useSnackbar } from "notistack";
 import { webSocketContext } from "../../context/socketChatContext";
 
-//TODO please create a custom button component
-//TODO  implement join channel backend
-const JoinChannelCard = (props: {
-  channel: IConversation;
-  refetch: Function;
-}) => {
+//TODO types hereeee
+const JoinList = (props: { channel: IConversation; refetch: Function }) => {
   const { channel, refetch } = props;
   const [passwordInput, setPasswordInput] = useState("");
   const { show, hide, on } = useDialog();
-  const { enqueueSnackbar } = useSnackbar();
   const socket = useContext(webSocketContext);
 
   const passwordHandler = (value: string) => {
     setPasswordInput(value);
   };
 
-  //TODO add notistak
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+
+    socket.on("onJoin", (newJoin: any) => {
+      console.log({ newJoin });
+      if (newJoin) {
+        hide();
+      }
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("onJoin");
+    };
+  }, []);
+
   const joinChannelHandler = () => {
     const queryPayload = {
-      conversation_id: channel.id,
+      id: channel.id,
       user_id: 1, //TODO to get from user when its done
       password: passwordInput,
     };
-
-    // joinChannel(queryPayload)
-    //   .then((res) => {
-    //     enqueueSnackbar("channel joined successfully", { variant: "success" });
-    //     hide();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     enqueueSnackbar(err.error, { variant: "error" });
-    //   })
-    //   .finally(() => {
-    //     refetch();
-    //   });
-
-    //TODO add type
     socket.emit("newJoin", queryPayload);
-    socket.on("onJoin", (newJoin: any) => {
-      if (newJoin) refetch();
-    });
   };
 
   return (
@@ -141,4 +132,4 @@ const JoinChannelCard = (props: {
   );
 };
 
-export default JoinChannelCard;
+export default JoinList;

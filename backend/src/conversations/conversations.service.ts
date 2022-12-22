@@ -86,14 +86,6 @@ export class ConversationsService {
             }
          }
       })
-      // const channel = await this.prisma.conversation.delete({
-      //    where: {
-      //       id: id_conversation
-      //    }
-      // })
-      // if (channel)
-      //    return channel;
-      // throw new createConversationException("channel doesnt exists");
    }
 
    async updateChannel(channelPayload: any, id_conversation: number): Promise<any | null> {
@@ -158,39 +150,17 @@ export class ConversationsService {
             status: true,
          }
       });
-      // const user_conversations = await this.prisma.user_Conv.findMany({
-      //    where: {
-      //       userId: user_id,
-      //    },
-      //    select: {
-      //       conversation: {
-      //          select: {
-      //             id: true,
-      //             name: true,
-      //             status: true
-      //          }
-      //       }
-      //    }
-      // }).then((result) => result.map((item) => {
-      //    return item.conversation;
-      // }))
-
-
-      // //gets all the conversations of a user tha's not already joined
-      // return (conversations.filter(({ id: first }) =>
-      //    !user_conversations.some(({ id: second }) => first == second)))
       return conversations;
    }
 
 
    //TODO add type
    async joinChannel(payload: {
-      conversation_id: number, user_id: number, password?: string
+      id: number, user_id: number, password?: string
    }) {
-
       const constraints = await this.prisma.conversation.findUnique({
          where: {
-            id: payload.conversation_id
+            id: payload.id
          },
          select: {
             status: true,
@@ -199,13 +169,13 @@ export class ConversationsService {
       });
 
       if ((constraints.status != "PUBLIC" &&
-         comparePasswords(payload.password, constraints.password)) ||
+         await comparePasswords(payload.password, constraints.password)) ||
          constraints.status == "PUBLIC") {
          const channel = await this.prisma.user_Conv.create({
             data: {
                conversation: {
                   connect: {
-                     id: payload.conversation_id,
+                     id: payload.id,
                   }
                },
                user: {

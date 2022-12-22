@@ -35,8 +35,8 @@ export const routesBottom: Route[] = [
     icon: <Image src="/icons/Logout.svg" width={24} height={24} />,
   },
   {
-    path: "/channels",
-    name: "channels",
+    path: "/chat",
+    name: "chat",
     icon: <ChannelsIcon />,
   },
 ];

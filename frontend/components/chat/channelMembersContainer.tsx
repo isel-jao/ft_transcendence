@@ -17,7 +17,7 @@ const Mocked_data_members = [
   { user_name: "yarji", status_user: "offline", role: "member" },
 ];
 
-const ChannelMembersContainer = (props: {
+const MembersContainer = (props: {
   refetch: () => void;
   channels: IConversation[];
 }) => {
@@ -144,4 +144,4 @@ const ChannelMembersContainer = (props: {
   );
 };
 
-export default ChannelMembersContainer;
+export default MembersContainer;

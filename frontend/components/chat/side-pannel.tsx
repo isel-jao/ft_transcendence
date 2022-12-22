@@ -4,7 +4,6 @@ import { IConversation } from "../../types";
 import CustomTabs, { TabType } from "./tabs";
 import GroupList from "./groups-list";
 import DmList from "./dm-list";
-import { convContext } from "../../context/selectedConversationContext";
 
 const SidePannel = (props: {
   channels: IConversation[];
@@ -12,7 +11,6 @@ const SidePannel = (props: {
   refetch: Function;
 }) => {
   const { channels, show, refetch } = props;
-
   const tabs: TabType[] = useMemo(
     () => [
       {
@@ -28,8 +26,6 @@ const SidePannel = (props: {
     ],
     [channels]
   );
-
-  // const [activeTab, setActiveTab] = useState<number>(0);
 
   return (
     <Box

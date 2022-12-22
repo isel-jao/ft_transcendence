@@ -29,8 +29,11 @@ const MessageInput = (props: {
 
     //TODO add type
     socket.on("onMessage", (newMessage: any) => {
-      // if (newMessage.conversationId == selected.conversationId)
-      setMessages((prevMessages: any) => [...prevMessages, newMessage]);
+      console.log("------", selected.id);
+      console.log("------", newMessage.conversationId);
+      console.log("------", selected.id == newMessage.conversationId);
+      selected.id == newMessage.conversationId &&
+        setMessages((prevMessages: any) => [...prevMessages, newMessage]);
     });
 
     //unregisted events when comp didunmount
@@ -39,7 +42,7 @@ const MessageInput = (props: {
       socket.off("connect");
       socket.off("onMessage");
     };
-  }, []);
+  }, [selected]);
 
   const handelSendMessage = () => {
     if (message != "") {
@@ -52,7 +55,9 @@ const MessageInput = (props: {
     }
   };
 
-  useEffect(() => {}, [messages]);
+  // useEffect(() => {
+  //   console.log(selected.id);
+  // }, [messages, selected]);
 
   //TODO change any
   const handelPressEnter = (event: any) => {

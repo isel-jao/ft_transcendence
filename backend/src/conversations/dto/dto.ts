@@ -42,7 +42,7 @@ export class JoinChannelDto {
 
     @IsNumber()
     @IsNotEmpty()
-    conversation_id: number;
+    id: number;
 
     @IsNumber()
     @IsNotEmpty()

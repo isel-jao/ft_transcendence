@@ -5,36 +5,30 @@ import SearchIcon from "@mui/icons-material/Search";
 import { IConversation } from "../../types";
 import { isEmpty } from "lodash";
 import ChannelCard from "./channelCard";
-import JoinChannelCard from "./joinChannelCard";
 import UseAllConversations from "../../hooks/useAllConversations";
 import { convContext } from "../../context/selectedConversationContext";
+import JoinList from "./join-list";
 
 const GroupList = (props: {
   channels: IConversation[];
   show: () => void;
   refetch: Function;
 }) => {
-  const { channels, show, refetch: refetchConversations } = props;
+  const { channels, show, refetch: refetchChannels } = props;
   const [query, setQuery] = useState<string>("");
   const { data: joiningChannels, refetch: refetchJoiningChannels } =
     UseAllConversations();
   const { searchOn, setSearchOn } = useContext(convContext);
 
-  // const { refetch: refetchConversations } = useConversations();
-
   const searchHandlerOn = () => {
     setSearchOn(!searchOn);
-    refetchConversations();
+    refetchChannels();
     refetchJoiningChannels();
   };
 
   const searchHandler = (value: string) => {
     setQuery(value);
   };
-
-  useEffect(() => {
-    console.log({ joiningChannels });
-  }, []);
 
   return (
     <Box sx={{}}>
@@ -61,7 +55,7 @@ const GroupList = (props: {
                 color: "#479bea",
               },
             }}
-            placeholder="search for channels to join"
+            placeholder="Search for channels to join"
             onChange={(event) => {
               searchHandler(event.target.value);
             }}
@@ -101,7 +95,7 @@ const GroupList = (props: {
               )
               .map((item, index) => {
                 return (
-                  <JoinChannelCard
+                  <JoinList
                     key={index}
                     channel={item}
                     refetch={refetchJoiningChannels}

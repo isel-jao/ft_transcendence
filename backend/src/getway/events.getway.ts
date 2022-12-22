@@ -64,6 +64,7 @@ export class EventsGeteway implements NestGateway {
         })
     };
 
+
     @SubscribeMessage('newMessage')
     async onNewMessage(@MessageBody() data: any, @ConnectedSocket() client: any) {
         console.log('message is ', data);
@@ -75,10 +76,23 @@ export class EventsGeteway implements NestGateway {
     //TODO check this 
     @SubscribeMessage("newJoin")
     async onNewJoin(@MessageBody() data: any, @ConnectedSocket() client) {
+
+        console.group("-------------------newJoin", data);
         // client.join(data.conversation_id.toString());
         const channel = await this.conversations.joinChannel(data);
         this.server.to(channel.id.toString()).emit("onJoin", channel);
     }
+
+
+
+    //TODO add type
+    @SubscribeMessage("newChannel")
+    async onNewChannel(@MessageBody() data: any, @ConnectedSocket() client) {
+        const channel = await this.conversations.createChannel(data);
+        client.join(channel.id.toString());
+        this.server.to(channel.id.toString()).emit("onChannel", channel);
+    }
+
 
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import {
   Box,
   Typography,
@@ -9,23 +9,48 @@ import {
   FormLabel,
   RadioGroup,
   FormControlLabel,
-  Button,
   Radio,
 } from "@mui/material";
 import { Dialog, DialogTitle } from "../../hooks/useDialogue";
 // import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createChannel } from "../../services/conversations";
 import { status } from "../../types";
-import { useConversations } from "../../hooks/useConversations";
 import CustomButton from "./customButton";
-import { useSnackbar } from "notistack";
+import { webSocketContext } from "../../context/socketChatContext";
 
-//TODO update types
-const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
-  const { on, hide, refetch } = props;
-  const { enqueueSnackbar: showMessage, closeSnackbar } = useSnackbar();
+//TODO update types please
+const CreateChannelForm = (props: {
+  on: any;
+  hide: any;
+  setChannels: Function;
+  channels: any;
+}) => {
+  const { on, hide, setChannels, channels } = props;
+  const socket = useContext(webSocketContext);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+
+    socket.on("onChannel", (newChannel) => {
+      setChannels((prev: any) => [
+        ...prev,
+        {
+          id: newChannel.id,
+          name: newChannel.name,
+          status: newChannel.status,
+        },
+      ]);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("onChannel");
+    };
+  }, []);
+
   // const { enqueueSnackbar } = useSnackbar();
   const RadioStyle = {
     "& .MuiSvgIcon-root": {
@@ -65,19 +90,9 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
     onSubmit: (values, { resetForm }) => {
       console.log({ values });
       //TODO to get the user_id it from the auth or a userContext
-      createChannel({ ...values, user_id: 1 })
-        .then((res) => {
-          showMessage("channel created successfully", { variant: "success" });
-          refetch();
-        })
-        .catch((err) => {
-          console.log(err);
-          showMessage(err.error, { variant: "error" });
-        })
-        .finally(() => {
-          resetForm();
-          hide();
-        });
+      socket.emit("newChannel", { ...values, user_id: 1 });
+      resetForm();
+      hide();
     },
   });
 
@@ -88,8 +103,10 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
       <Box sx={{ p: "10px 20px", display: "grid", gap: "30px" }}>
         <TextField
           sx={{
-            color: "#fff",
             "& .MuiInput-input": {
+              color: "#fff",
+            },
+            "& .MuiInputLabel-root": {
               color: "#fff",
             },
           }}
@@ -110,8 +127,10 @@ const CreateChannelForm = (props: { on: any; hide: any; refetch: any }) => {
         {formik.values.status != status.PUBLIC && (
           <TextField
             sx={{
-              color: "#fff",
               "& .MuiInput-input": {
+                color: "#fff",
+              },
+              "& .MuiInputLabel-root": {
                 color: "#fff",
               },
             }}
