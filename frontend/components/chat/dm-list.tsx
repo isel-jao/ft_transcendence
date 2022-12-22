@@ -19,10 +19,7 @@ const DmList = () => {
         </Box>
       )}
       <Box>
-        {dms &&
-          dms.map((item, index) => (
-            <DmCard key={index} dm={item} setDms={setDms} />
-          ))}
+        {dms && dms.map((item, index) => <DmCard key={index} dm={item} />)}
       </Box>
     </Box>
   );

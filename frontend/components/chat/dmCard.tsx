@@ -10,11 +10,10 @@ interface Props {
   dm: IDm;
   // if action true, a message icon will be showen
   action?: Boolean;
-  setDms: any;
 }
 
 const DmCard = (props: Props) => {
-  const { dm, action = false, setDms } = props;
+  const { dm, action = false } = props;
   const { selected, setSelected } = useContext(convContext);
   const socket = useContext(webSocketContext);
 
