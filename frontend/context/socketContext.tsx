@@ -71,7 +71,6 @@ export const SocketContext = ({ children }: any) => {
   });
   useEffect(() => {
     socket.on("gameData", (data: GameDataType) => {
-      console.log(data);
       setData(data);
     });
     return () => {

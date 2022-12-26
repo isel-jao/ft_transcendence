@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AppCtx } from "../context/socketContext";
 
 export const usePersonControls = () => {
@@ -16,8 +16,7 @@ export const usePersonControls = () => {
     const moveFieldByKey = (key: string) => keys[key];
 
     useEffect(() => {
-      const handleKeyDown = (e) => {
-        console.log(e.code);
+      const handleKeyDown = (e: React.ChangeEvent) => {
         setMovement((m) => ({ ...m, [moveFieldByKey(e.code)]: true }));
       };
       const handleKeyUp = (e) => {
@@ -37,8 +36,8 @@ export const usePersonControls = () => {
 
 export const resize = () => {
   const [size, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: window?.innerWidth,
+    height: window?.innerHeight,
   });
   useEffect(() => {
     const handleResize = () => {

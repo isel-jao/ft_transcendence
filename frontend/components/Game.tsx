@@ -30,13 +30,15 @@ const Game = (props: any) => {
     if (
       (left || right) &&
       (roomData.player1 == socket.id || roomData.player1 == socket.id)
-    )
-      socket.emit("padlleMove", {
+    ) {
+      console.log(left, right);
+      socket.emit("paddleMove", {
         roomName: roomData.roomName,
         socketId: socket.id,
         left,
         right,
       });
+    }
   }, [left, right]);
   useEffect(() => {
     if (size.width < 1000) camera.fov = 110;
