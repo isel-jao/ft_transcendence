@@ -12,7 +12,6 @@ type GameDataType = {
   ball: Position;
   player1: Position;
   player2: Position;
-  speed: Number;
   score: {
     player1: Number;
     player2: Number;
@@ -59,7 +58,6 @@ export const SocketContext = ({ children }: any) => {
       y: 60 / 2 - 3,
       z: 0,
     },
-    speed: 0.1,
     score: {
       player1: 0,
       player2: 0,
@@ -71,6 +69,7 @@ export const SocketContext = ({ children }: any) => {
   });
   useEffect(() => {
     socket.on("gameData", (data: GameDataType) => {
+      console.log("DATA", data);
       setData(data);
     });
     return () => {

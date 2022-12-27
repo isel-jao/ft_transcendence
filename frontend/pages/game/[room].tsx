@@ -7,7 +7,6 @@ import { useContext } from "react";
 
 const Home: NextPage = () => {
   const { socket, gameData, roomData } = useContext(AppCtx);
-  console.log(roomData, socket.id);
   return (
     <>
       {roomData.player1 == socket.id && roomData.status == "pending" && (

@@ -29,9 +29,8 @@ const Game = (props: any) => {
   useEffect(() => {
     if (
       (left || right) &&
-      (roomData.player1 == socket.id || roomData.player1 == socket.id)
+      (roomData.player1 == socket.id || roomData.player2 == socket.id)
     ) {
-      console.log(left, right);
       socket.emit("paddleMove", {
         roomName: roomData.roomName,
         socketId: socket.id,
@@ -49,7 +48,7 @@ const Game = (props: any) => {
   useFrame(({ gl, scene, camera }) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
-    player2.current.position.x = gameData.player1.x;
+    player2.current.position.copy(gameData.player2);
     gl.render(scene, camera);
   }, 1);
   return (
