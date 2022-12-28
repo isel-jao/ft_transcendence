@@ -7,7 +7,7 @@ export const usePersonControls = () => {
     left: false,
     right: false,
   });
-  if (roomData.player1 == socket.id || roomData.player1 == socket.id) {
+  if (roomData.player1 == socket.id || roomData.player2 == socket.id) {
     const keys = {
       ArrowRight: "right",
       ArrowLeft: "left",
