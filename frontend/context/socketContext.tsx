@@ -29,7 +29,7 @@ interface AppContextInterface {
   roomData: RoomDataType;
 }
 export const AppCtx = createContext<AppContextInterface | null>(null);
-const socket: Socket = io("http://10.12.4.14:3001", {
+const socket: Socket = io("http://localhost:3001", {
   query: {
     // token:
     // typeof window != undefined ? window.localStorage.getItem("token") : null,
@@ -67,9 +67,33 @@ export const SocketContext = ({ children }: any) => {
     setRoom(data);
     Router.push("/game/" + data.roomName);
   });
+  socket.on("gameOver", (data) => {
+    const { status, player1, player2 } = data;
+    setRoom({ ...roomData, status: status });
+    setData({
+      ball: {
+        x: 0,
+        y: 0,
+        z: 1,
+      },
+      player1: {
+        x: 0,
+        y: -60 / 2 + 3,
+        z: 0,
+      },
+      player2: {
+        x: 0,
+        y: 60 / 2 - 3,
+        z: 0,
+      },
+      score: {
+        player1: player1,
+        player2: player2,
+      },
+    });
+  });
   useEffect(() => {
     socket.on("gameData", (data: GameDataType) => {
-      console.log("DATA", data);
       setData(data);
     });
     return () => {
