@@ -47,7 +47,7 @@ model User {
   isTfaEnabled Boolean @default(false) @map("is_tfa_enabled")
 
   friends             User[]          @relation("friends")
-  friedsBy            User[]          @relation("friends")
+  friendsBy           User[]          @relation("friends")
   bannedUsers         User[]          @relation("banned_users")
   bannedBy            User[]          @relation("banned_users")
   profile             Profile?
