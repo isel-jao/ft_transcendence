@@ -13,10 +13,8 @@ import { UserService } from './user.service';
 import { User, CreateUserDto, UpdateUserDto } from './entities';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { FindAllQuery, FindOneQuery } from 'src/utils';
-import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('user')
-@Public()
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
