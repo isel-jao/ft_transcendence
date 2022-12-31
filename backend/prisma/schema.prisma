@@ -140,3 +140,12 @@ model Message {
 
   @@map("messages")
 }
+
+model Badge {
+  id          Int    @id @default(autoincrement())
+  name        String
+  descreption String
+
+  @@unique([id, name])
+  @@map("badges")
+}
