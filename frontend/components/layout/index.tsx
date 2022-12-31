@@ -57,7 +57,7 @@ const StyledLayout = styled.div`
     overflow-x: hidden;
     overflow-y: auto;
     & > * {
-      margin: 1rem;
+      margin: 0rem;
     }
   }
 `;

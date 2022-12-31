@@ -3,12 +3,14 @@ import { Canvas } from "@react-three/fiber";
 import Game from "../../components/Game";
 import { AppCtx } from "../../context/socketContext";
 import { useContext } from "react";
+import Overlay from "../../components/Overlay";
 // import { PointLightShadow } from "three";
 
 const Home: NextPage = () => {
   const { socket, gameData, roomData } = useContext(AppCtx);
   return (
     <>
+      {/* <Overlay data /> */}
       {roomData.player1 == socket.id && roomData.status == "pending" && (
         <div
           style={{
