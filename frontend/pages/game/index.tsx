@@ -1,10 +1,12 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Loading from "../../components/Loading";
 import { Div, Container } from "../../components/style/Game";
+import { AppCtx } from "../../context/socketContext";
 import { Button } from "../../components/style/Home";
 const Home: NextPage = () => {
   const [search, setSearch] = useState(false);
+  const { socket } = useContext(AppCtx);
   return (
     <Container>
       <Div>
@@ -24,7 +26,10 @@ const Home: NextPage = () => {
           <Button
             type="submit"
             value="READY"
-            onClick={() => setSearch(!search)}
+            onClick={() => {
+              setSearch(!search);
+              socket.emit("findGame");
+            }}
           />
         ) : (
           <Loading message="Finding a player ..." />
