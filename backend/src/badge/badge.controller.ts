@@ -8,16 +8,17 @@ import {
   Delete,
   ParseIntPipe,
   Query,
-} from '@nestjs/common';
-import { BadgeService } from './badge.service';
-import { Badge, CreateBadgeDto, UpdateBadgeDto } from './entities';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { FindAllQuery, FindOneQuery } from 'src/utils';
+} from "@nestjs/common";
+import { BadgeService } from "./badge.service";
+import { Badge, CreateBadgeDto, UpdateBadgeDto } from "./entities";
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { FindAllQuery, FindOneQuery } from "src/utils";
+import { Public } from "src/auth/decorators/public.decorator";
 
-@ApiTags('badge')
-@Controller('badge')
+@ApiTags("badge")
+@Controller("badge")
 export class BadgeController {
-  constructor(private readonly badgeService: BadgeService) { }
+  constructor(private readonly badgeService: BadgeService) {}
 
   @ApiOkResponse({ type: [Badge] })
   @Get()
@@ -26,8 +27,8 @@ export class BadgeController {
   }
 
   @ApiOkResponse({ type: Badge })
-  @Get(':id')
-  findOne(@Query() query: FindOneQuery, @Param('id', ParseIntPipe) id: number) {
+  @Get(":id")
+  findOne(@Query() query: FindOneQuery, @Param("id", ParseIntPipe) id: number) {
     return this.badgeService.findOne(+id, query);
   }
 
@@ -38,14 +39,14 @@ export class BadgeController {
   }
 
   @ApiOkResponse({ type: Badge })
-  @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateBadgeDto) {
+  @Patch(":id")
+  update(@Param("id", ParseIntPipe) id: number, @Body() data: UpdateBadgeDto) {
     return this.badgeService.update(id, data);
   }
 
   @ApiOkResponse({ type: Badge })
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  @Delete(":id")
+  remove(@Param("id", ParseIntPipe) id: number) {
     return this.badgeService.remove(id);
   }
 }

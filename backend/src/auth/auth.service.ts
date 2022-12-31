@@ -11,7 +11,7 @@ import { CreateUserDto } from "../user/entities";
 
 @Injectable()
 export class AuthService implements AuthenticationProvider {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) { }
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async validateUser(data: CreateUserDto) {
     const user = await this.prisma.user.findUnique({
@@ -28,7 +28,12 @@ export class AuthService implements AuthenticationProvider {
   async createUser(data: CreateUserDto) {
     // console.log("creating user", details);
     return await this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        profile: {
+          create: {},
+        },
+      },
     });
   }
 
@@ -51,7 +56,7 @@ export class AuthService implements AuthenticationProvider {
     };
   }
 
-  async logout(userId: number) { }
+  async logout(userId: number) {}
 
   test() {
     console.log();

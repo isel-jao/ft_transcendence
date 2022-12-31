@@ -59,7 +59,6 @@ model User {
   messages            Message[]       @relation("user_messages")
   createdAt           DateTime        @default(now()) @map("created_at")
   updatedAt           DateTime        @updatedAt @map("updated_at")
-  badges              Badge[]
 
   @@map(name: "user")
 }
@@ -79,36 +78,26 @@ model FriendRequest {
 }
 
 model Profile {
-  id            Int     @id @default(autoincrement())
-  status        Int     @default(0) // 0 : offline, 1 : online, 2 : in-game
-  points        Int     @default(0)
-  userId        Int     @unique @map("user_id")
-  user          User    @relation(fields: [userId], references: [id])
-  winStrike     Int     @default(0)
-  matchesWon    Match[] @relation("won")
-  matchesLose   Match[] @relation("lost")
-  matchesHosted Match[] @relation("host")
-  matchesJoined Match[] @relation("guest")
+  id          Int     @id @default(autoincrement())
+  userId      Int     @unique @map("user_id")
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  matchesWon  Match[] @relation("won")
+  matchesLose Match[] @relation("lost")
+  badges      Badge[]
 
   @@map(name: "profile")
 }
 
 model Match {
-  id         Int      @id @default(autoincrement())
-  status     Int      @default(0) // 0 : waiting, 1 : in-progress, 2 : finished
-  winnerId   Int?     @map("winner_id")
-  loserId    Int?     @map("loser_id")
-  winner     Profile? @relation("won", fields: [winnerId], references: [id])
-  loser      Profile? @relation("lost", fields: [loserId], references: [id])
-  host       Profile  @relation("host", fields: [hostId], references: [id])
-  hostId     Int      @map("host_id")
-  guest      Profile? @relation("guest", fields: [guestId], references: [id])
-  guestId    Int?     @map("guest_id")
-  hostScore  Int      @default(0) @map("host_score")
-  guestScore Int      @default(0) @map("guest_score")
+  id          Int      @id @default(autoincrement())
+  winnerId    Int?     @map("winner_id")
+  loserId     Int?     @map("loser_id")
+  winner      Profile? @relation("won", fields: [winnerId], references: [id])
+  loser       Profile? @relation("lost", fields: [loserId], references: [id])
+  winnerScore Int      @default(0) @map("winner_score")
+  loserScore  Int      @default(0) @map("losers_score")
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map(name: "match")
 }
@@ -144,11 +133,10 @@ model Message {
 }
 
 model Badge {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  user        User   @relation(fields: [userId], references: [id])
   descreption String
-  userId      Int
+  profiles    Profile[]
 
   @@unique([id, name])
   @@map("badges")
