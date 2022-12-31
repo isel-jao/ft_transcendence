@@ -26,16 +26,25 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps,
+    ...AppProps
+  } = props;
   return (
     <CacheProvider value={emotionCache}>
       <SocketContext>
         <MuiThemeProvider theme={Muitheme}>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
-              <Layout>
+              {AppProps.router.pathname !== "/login" ? (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              ) : (
                 <Component {...pageProps} />
-              </Layout>
+              )}
               <CssBaseline />
               <GlobalStyle />
             </ThemeProvider>

@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import { createContext } from "react";
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
+import axios from "axios";
 
 type Position = {
   x: Number;
@@ -18,14 +19,22 @@ type GameDataType = {
     player2: Number;
   };
 };
+interface userDataInterface {
+  id: number;
+  username: string;
+}
 interface AppContextInterface {
   socket?: any | null;
   gameData: GameDataType;
+  userData: userDataInterface | null;
 }
 export const AppCtx = createContext<AppContextInterface | null>(null);
 
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://localhost:3001";
 const socket = io("http://localhost:3001");
 export const SocketContext = ({ children }: any) => {
+  const [userData, setUserData] = useState<userDataInterface | null>(null);
   const [gameData, setData] = useState<GameDataType>({
     ball: {
       x: 0,
@@ -63,13 +72,26 @@ export const SocketContext = ({ children }: any) => {
       socket.off("gameData");
     };
   }, [gameData.ball]);
+  const FetchData = async () => {
+    try {
+      const { data } = await axios.get("/");
+      console.log("data", data);
+      setUserData(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    FetchData();
+  }, []);
+
   return (
     <AppCtx.Provider
       value={{
         socket,
         gameData,
-      }}
-    >
+        userData,
+      }}>
       {children}
     </AppCtx.Provider>
   );
