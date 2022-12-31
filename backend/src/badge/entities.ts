@@ -11,7 +11,7 @@ export class Badge {
   @ApiProperty({ required: false })
   descreption: string;
   @ApiProperty({ required: false })
-  logo: string;
+  userId: number;
 }
 
 export class CreateBadgeDto {
@@ -26,10 +26,8 @@ export class CreateBadgeDto {
   @MaxLength(255)
   descreption: string;
   @ApiProperty({ required: true })
-  @IsString()
-  @MinLength(2)
-  @MaxLength(255)
-  logo: string;
+  @IsInt()
+  userId: number;
 }
 
 export class UpdateBadgeDto {
@@ -46,10 +44,8 @@ export class UpdateBadgeDto {
   @IsOptional()
   descreption: string;
   @ApiProperty({ required: false })
-  @IsString()
-  @MinLength(2)
-  @MaxLength(255)
+  @IsInt()
   @IsOptional()
-  logo: string;
+  userId: number;
 }
 

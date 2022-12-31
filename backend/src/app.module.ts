@@ -1,3 +1,4 @@
+import { BadgeModule } from './badge/badge.module';
 import { MessageModule } from "./message/message.module";
 import { ConversationModule } from "./conversation/conversation.module";
 import { MatchModule } from "./match/match.module";
@@ -20,7 +21,7 @@ import { APP_GUARD } from "@nestjs/core";
 import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard";
 
 @Module({
-  imports: [
+  imports: [BadgeModule, 
     MessageModule,
     ConversationModule,
     MatchModule,
