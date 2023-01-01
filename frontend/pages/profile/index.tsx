@@ -26,9 +26,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   padding: 5rem;
-  * {
-    font-family: "Poppins";
-  }
   flex-direction: column;
   span {
     font-weight: bold;
@@ -204,7 +201,8 @@ export default function Profile() {
                 picProfile ||
                 "https://cdn.intra.42.fr/users/65ffe01475f6bd67b479d2df8887d500/mouarsas.jpg"
               })`,
-            }}>
+            }}
+          >
             <EditIcon
               onClick={() => InputRef.current && InputRef.current.click()}
             />

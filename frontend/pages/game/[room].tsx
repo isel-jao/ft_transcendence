@@ -2,16 +2,21 @@ import type { NextPage } from "next";
 import { Canvas } from "@react-three/fiber";
 import Game from "../../components/Game";
 import { AppCtx } from "../../context/socketContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Overlay from "../../components/Overlay";
+import Router from "next/router";
+
 // import { PointLightShadow } from "three";
 
 const Home: NextPage = () => {
   const { socket, gameData, roomData } = useContext(AppCtx);
+  useEffect(() => {
+    if (roomData.roomName === "") Router.push("/game/");
+  }, []);
   return (
     <>
-      {/* <Overlay data /> */}
-      {roomData.player1 == socket.id && roomData.status == "pending" && (
+      {roomData?.status == "gameOver" && <Overlay data />}
+      {roomData?.player1 == socket.id && roomData?.status == "pending" && (
         <div
           style={{
             color: "white",
@@ -19,7 +24,7 @@ const Home: NextPage = () => {
             fontWeight: "bold",
             backgroundColor: "transparent",
             cursor: "pointer",
-            zIndex: 999,
+            zIndex: 10,
           }}
           onClick={() =>
             socket.emit("startGame", {
@@ -38,7 +43,7 @@ const Home: NextPage = () => {
           backgroundColor: "transparent",
           cursor: "pointer",
           left: "50%",
-          zIndex: 999,
+          zIndex: 10,
         }}
       >
         {gameData.score.player1} - {gameData.score.player2}

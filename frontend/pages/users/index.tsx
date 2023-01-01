@@ -17,9 +17,6 @@ const Container = styled.div`
   justify-content: center;
   padding: 2rem;
   gap: 1rem;
-  * {
-    font-family: "Poppins";
-  }
   @media (max-width: 512px) {
     padding: 1rem;
     margin: 0rem !important;
@@ -201,13 +198,15 @@ const Users = () => {
               key={idx}
               style={{
                 backgroundImage: `url(${imageUrl})`,
-              }}>
+              }}
+            >
               <CardInfo
                 style={
                   isSelected === idx
                     ? ClassStyle
                     : { transition: "0.5s ease-in-out" }
-                }>
+                }
+              >
                 <div className="CardTitle">
                   <div>
                     <h3>#{userName}</h3>

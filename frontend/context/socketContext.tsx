@@ -73,11 +73,12 @@ export const SocketContext = ({ children }: any) => {
     },
   });
   socket.on("joinRoom", (data: RoomDataType) => {
-    console.log("DATA", data);
     setRoom(data);
     Router.push("/game/" + data.roomName);
   });
-  socket.on("leftGame", (data) => {});
+  socket.on("leftGame", (data) => {
+    setRoom(data);
+  });
   socket.on("gameOver", (data) => {
     const { status, player1, player2 } = data;
     setRoom({ ...roomData, status: status });
@@ -131,7 +132,8 @@ export const SocketContext = ({ children }: any) => {
         socket,
         gameData,
         userData,
-      }}>
+      }}
+    >
       {children}
     </AppCtx.Provider>
   );
