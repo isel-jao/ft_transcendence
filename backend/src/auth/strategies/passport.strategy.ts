@@ -14,10 +14,11 @@ export class Passport42Strategy extends PassportStrategy(Strategy) {
     });
   }
   async validate(accessToken: string, refreshToken: string, profile: Profile) {
-    const { username: userName, id, photos, emails } = profile;
+    const { username: userName, _json, emails } = profile;
+    console.log("profiiiiile", profile);
 
     const email = emails[0].value as string;
-    const imageUrl = photos[0].value as string;
+    const imageUrl = _json.image.link as string;
     const rest: any = {};
 
     return await this.authService.validateUser({
