@@ -36,8 +36,8 @@ export const usePersonControls = () => {
 
 export const resize = () => {
   const [size, setSize] = useState({
-    width: window?.innerWidth,
-    height: window?.innerHeight,
+    width: window.innerWidth || 0,
+    height: window.innerHeight || 0,
   });
   useEffect(() => {
     const handleResize = () => {

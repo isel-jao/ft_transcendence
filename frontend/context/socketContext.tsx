@@ -26,17 +26,20 @@ type RoomDataType = {
   player1: string;
   player2: string;
   roomName: string;
+  winner?: string;
   status: string;
 };
 interface AppContextInterface {
   socket: Socket;
   gameData: GameDataType;
   userData: userDataInterface | null;
+  roomData: RoomDataType;
 }
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:3001";
 export const AppCtx = createContext<AppContextInterface | null>(null);
+
 const socket: Socket = io("http://localhost:3001", {
   query: {
     // token:
@@ -50,6 +53,7 @@ export const SocketContext = ({ children }: any) => {
     player2: "",
     roomName: "",
     status: "",
+    winner: "",
   });
   const [gameData, setData] = useState<GameDataType>({
     ball: {
@@ -73,15 +77,24 @@ export const SocketContext = ({ children }: any) => {
     },
   });
   socket.on("joinRoom", (data: RoomDataType) => {
+    console.log(data);
     setRoom(data);
     Router.push("/game/" + data.roomName);
   });
   socket.on("leftGame", (data) => {
-    setRoom(data);
+    setRoom({
+      ...roomData,
+      status: data.status,
+      winner: data.player1 != "" ? roomData.player1 : roomData.player2,
+    });
   });
   socket.on("gameOver", (data) => {
     const { status, player1, player2 } = data;
-    setRoom({ ...roomData, status: status });
+    setRoom({
+      ...roomData,
+      status: status,
+      winner: player1 === 10 ? roomData.player1 : roomData.player2,
+    });
     setData({
       ball: {
         x: 0,
@@ -110,21 +123,8 @@ export const SocketContext = ({ children }: any) => {
     });
     return () => {
       socket.off("gameData");
-      socket.off("leftGame");
     };
   }, [gameData.ball]);
-  const FetchData = async () => {
-    try {
-      const { data } = await axios.get("/");
-      console.log("data", data);
-      setUserData(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    FetchData();
-  }, []);
 
   return (
     <AppCtx.Provider
@@ -132,6 +132,7 @@ export const SocketContext = ({ children }: any) => {
         socket,
         gameData,
         userData,
+        roomData,
       }}
     >
       {children}

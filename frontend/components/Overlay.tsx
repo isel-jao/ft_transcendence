@@ -7,28 +7,40 @@ const Div = styled.div`
   background-color: #000;
   position: absolute;
   z-index: 11;
-  /* opacity: 71%; */
+  opacity: 88%;
   display: flex;
   align-items: center;
   justify-content: center;
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 const Text = styled.div<{ data: boolean }>`
   text-shadow: ${(props) =>
     props.data ? " 2px 2px #d1d718" : "2px 2px #d71818"};
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 700;
   text-align: center;
   cursor: pointer;
 `;
 interface type {
   data: boolean;
+  isAdmin: boolean;
+  onClick?: () => void;
 }
-const Overlay: React.FC<type> = ({ data }: type) => {
+const Overlay: React.FC<type> = ({ data, isAdmin, onClick }: type) => {
   return (
     <Div>
       {data ? (
         <div>
-          <Text data={data}>Play Again</Text>
+          {isAdmin && (
+            <Text data={data} onClick={onClick}>
+              Start New Game
+            </Text>
+          )}
           <Image src={"/images/giphy.gif"} width={250} height={250} />
         </div>
       ) : (

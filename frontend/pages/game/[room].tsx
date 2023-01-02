@@ -11,11 +11,22 @@ import Router from "next/router";
 const Home: NextPage = () => {
   const { socket, gameData, roomData } = useContext(AppCtx);
   useEffect(() => {
-    if (roomData.roomName === "") Router.push("/game/");
+    if (roomData?.roomName === "") Router.push("/game/");
+    console.log(roomData);
   }, []);
   return (
     <>
-      {roomData?.status == "gameOver" && <Overlay data />}
+      {roomData?.status == "gameOver" && (
+        <Overlay
+          data={roomData.winner === socket.id ? true : false}
+          isAdmin={roomData.player1 == socket.id}
+          onClick={() =>
+            socket.emit("startGame", {
+              roomName: roomData.roomName,
+            })
+          }
+        />
+      )}
       {roomData?.player1 == socket.id && roomData?.status == "pending" && (
         <div
           style={{
