@@ -11,22 +11,35 @@ const routes: Route[] = [
   {
     path: "/home",
     name: "Home",
-    icon: <Image src="/icons/home.svg" width={30} height={30} alt="home" />,
+    icon: <Image src="/icons/Home.svg" width={24} height={24} />,
   },
   {
     path: "/game",
     name: "Game",
-    icon: <Image src="/icons/game.svg" width={30} height={30} alt="home" />,
+    icon: <Image src="/icons/Game.svg" width={24} height={24} />,
   },
   {
     path: "/users",
     name: "Users",
-    icon: <Image src="/icons/users.svg" width={30} height={30} alt="home" />,
+    icon: <Image src="/icons/Users.svg" width={24} height={24} />,
   },
   {
     path: "/chat",
     name: "Chat",
-    icon: <Image src="/icons/chat.svg" width={30} height={30} alt="home" />,
+    icon: <Image src="/icons/Chat.svg" width={24} height={24} />,
+  },
+];
+
+export const routesBottom: Route[] = [
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: <Image src="/icons/Param.svg" width={24} height={24} />,
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    icon: <Image src="/icons/Logout.svg" width={24} height={24} />,
   },
 ];
 

@@ -8,9 +8,7 @@ import GlobalStyle, { theme } from "../components/globalstyles";
 import { Provider } from "react-redux";
 import store from "../app/store";
 import Layout from "../components/layout";
-import axios from "axios";
-import { useRouter } from "next/router";
-import ContextProvider from "../components/provider";
+import { SocketContext } from "../context/socketContext";
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
@@ -33,39 +31,32 @@ axios.defaults.baseURL = `http://localhost:3001`;
 axios.defaults.withCredentials = true;
 
 function MyApp(props: MyAppProps) {
-  const [user, setUser] = useState<any>(null);
-  const router = useRouter();
-  const testApi = async () => {
-    try {
-      const res = await axios.get("/");
-      console.log("user", res.data);
-      setUser(res.data);
-    } catch (e) {
-      console.log(e);
-      router.push("/login");
-    }
-  };
-  useEffect(() => {
-    testApi();
-  }, []);
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps,
+    ...AppProps
+  } = props;
   return (
     <CacheProvider value={emotionCache}>
-      <ContextProvider
-        value={{
-          user,
-        }}
-      >
+      <SocketContext>
         <MuiThemeProvider theme={Muitheme}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            <CssBaseline />
-            <GlobalStyle />
-          </ThemeProvider>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              {AppProps.router.pathname !== "/login" ? (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              ) : (
+                <Component {...pageProps} />
+              )}
+              <CssBaseline />
+              <GlobalStyle />
+            </ThemeProvider>
+          </Provider>
         </MuiThemeProvider>
-      </ContextProvider>
+      </SocketContext>
+
     </CacheProvider>
   );
 }

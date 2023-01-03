@@ -1,15 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-const ChatPage: NextPage = () => {
+import { Button } from "@mui/material";
+const Home: NextPage = () => {
   return (
     <div>
-      <Head>
-        <title>about</title>
-        <meta name="about" content="about" />
-      </Head>
-      <main>Chat</main>
+      <h1>Chat</h1>
     </div>
   );
 };
 
-export default ChatPage;
+export default Home;

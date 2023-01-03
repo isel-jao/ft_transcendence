@@ -13,6 +13,10 @@ export interface Theme extends ThemeOptions {
     light: string;
     dark: string;
   };
+  bgNav: {
+    light: string;
+    dark: string;
+  };
   text: {
     light: string;
     dark: string;
@@ -55,10 +59,10 @@ export const theme: Theme = {
   mode: "dark",
   colors: {
     light: "#ddd",
-    dark: "#444",
+    dark: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
   },
   palette: {
-    primary: { main: "#00b0b6" },
+    primary: { main: "#B2ABF2" },
     secondary: { main: "#aaaaaa" },
     success: { main: "#00ff6a" },
     error: { main: "#ff0037" },
@@ -72,6 +76,10 @@ export const theme: Theme = {
   text: {
     dark: "#fff",
     light: "#000",
+  },
+  bgNav: {
+    dark: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
+    light: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
   },
 };
 

@@ -19,8 +19,7 @@ import { LoggerMiddleware } from "./common/middleware/logger.middleware";
 import { AuthModule } from "./auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard";
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { GatwayModule } from "./game/gateway/gateway.module";
 @Module({
   imports: [UserModule, BadgeModule,
     MessageModule,
@@ -29,9 +28,7 @@ import { join } from 'path';
     ProfileModule,
     FriendRequestModule,
     AuthModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-    }),
+    GatwayModule,
   ],
   controllers: [AppController],
   providers: [
