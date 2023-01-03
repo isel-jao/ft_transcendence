@@ -18,14 +18,12 @@ export class Passport42Strategy extends PassportStrategy(Strategy) {
     });
   }
   async validate(accessToken: string, refreshToken: string, profile: Profile) {
-    const { username: userName, id, photos, emails } = profile;
-    console.log(profile);
+    const { username: userName, _json, emails } = profile;
+    console.log("profiiiiile", profile);
 
     const email = emails[0].value as string;
-    const imageUrl = photos[0].value as string;
-    const details = { userName, id, imageUrl, email };
+    const imageUrl = _json.image.link as string;
     const rest: any = {};
-    console.log(typeof id);
 
     return await this.authService.validateUser({
       userName,

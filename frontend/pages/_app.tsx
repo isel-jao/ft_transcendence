@@ -14,6 +14,7 @@ import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
 const Muitheme = createTheme(theme);
 import createCache from "@emotion/cache";
+import { useEffect, useState } from "react";
 function createEmotionCache() {
   return createCache({ key: "css", prepend: true });
 }
@@ -25,6 +26,10 @@ const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
+
+axios.defaults.baseURL = `http://localhost:3001`;
+axios.defaults.withCredentials = true;
+
 function MyApp(props: MyAppProps) {
   const {
     Component,
@@ -51,6 +56,7 @@ function MyApp(props: MyAppProps) {
           </Provider>
         </MuiThemeProvider>
       </SocketContext>
+
     </CacheProvider>
   );
 }

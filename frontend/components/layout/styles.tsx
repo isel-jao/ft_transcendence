@@ -1,8 +1,4 @@
-import React from "react";
-import Nav from "./nav";
-import SideNav from "./side-nav";
-import StyledLayout from "./styles";
-import { useRouter } from "next/router";
+import styled from "styled-components";
 
 const StyledLayout = styled.div`
   position: relative;
@@ -30,23 +26,18 @@ const StyledLayout = styled.div`
 
   .sidenav {
     position: absolute;
-    z-index: 999;
+    z-index: 1;
     left: 0;
     width: 6rem;
     transition: width 0.3s ease;
     height: 100vh;
     bottom: 0;
     box-shadow: 0rem 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
-
-    &:hover,
-    &.open {
-      width: 16rem;
-    }
+    background: linear-gradient(180deg, #4e0044 0%, rgba(78, 0, 68, 0) 100%);
   }
   .nav,
   .sidenav {
     overflow: hidden;
-    background: ${(props) => props.theme.bgNav[props.theme.mode]};
     color: ${(props) => props.theme.text[props.theme.mode]};
   }
   .router-view {
@@ -55,34 +46,9 @@ const StyledLayout = styled.div`
     overflow-x: hidden;
     overflow-y: auto;
     & > * {
-      margin: 0rem;
+      margin: 1rem;
     }
   }
 `;
 
-interface Props {
-  children?: React.ReactNode;
-}
-
-const Layout = ({ children }: Props) => {
-  const router = useRouter();
-
-  const isFullPage =
-    new RegExp(/^\/\d/).test(router.pathname) || router.pathname === "/login";
-
-  return !isFullPage ? (
-    <StyledLayout>
-      <div className={`sidenav`}>
-        <SideNav />
-      </div>
-      <div className={`main ${open && "open"}`}>
-        <div className={`router-view ${open && "open"}`}>{children}</div>
-
-      </div>
-    </StyledLayout>
-  ) : (
-    <>{children}</>
-  );
-};
-
-export default Layout;
+export default StyledLayout;

@@ -5,6 +5,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 export class FindOneQuery {
   @ApiPropertyOptional({ type: 'string', description: `'field1, filde2.subfild' or '{"field1: "true" , "filde2" : {"subfild": "true" }}'(JSON string format)` })
@@ -228,3 +230,13 @@ export function IsPassword(limit?: number) {
   };
 }
 
+export const storage = diskStorage({
+  destination: 'dist/uploads',
+  filename: async (req, file, callback) => {
+    callback(null, generateFilename(file));
+  },
+});
+
+function generateFilename(file) {
+  return `${Date.now()}${extname(file.originalname)}`;
+}

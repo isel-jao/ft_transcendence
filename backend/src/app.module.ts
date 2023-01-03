@@ -1,9 +1,10 @@
+import { UserModule } from './user/user.module';
+import { BadgeModule } from './badge/badge.module';
 import { MessageModule } from "./message/message.module";
 import { ConversationModule } from "./conversation/conversation.module";
 import { MatchModule } from "./match/match.module";
 import { ProfileModule } from "./profile/profile.module";
 import { FriendRequestModule } from "./friendrequest/friendrequest.module";
-import { UserModule } from "./user/user.module";
 
 import {
   MiddlewareConsumer,
@@ -19,15 +20,13 @@ import { AuthModule } from "./auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard";
 import { GatwayModule } from "./game/gateway/gateway.module";
-
 @Module({
-  imports: [
+  imports: [UserModule, BadgeModule,
     MessageModule,
     ConversationModule,
     MatchModule,
     ProfileModule,
     FriendRequestModule,
-    UserModule,
     AuthModule,
     GatwayModule,
   ],

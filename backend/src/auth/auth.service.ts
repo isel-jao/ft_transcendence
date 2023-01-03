@@ -28,7 +28,12 @@ export class AuthService implements AuthenticationProvider {
   async createUser(data: CreateUserDto) {
     // console.log("creating user", details);
     return await this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        profile: {
+          create: {},
+        },
+      },
     });
   }
 

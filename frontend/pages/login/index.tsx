@@ -58,7 +58,6 @@ const ButtonUi = styled.button`
   height: 60px;
   border-radius: 8px;
   background: #f5f5f5;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,3 +105,7 @@ export default function Login() {
     </Container>
   );
 }
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms

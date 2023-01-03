@@ -8,14 +8,19 @@ import {
   Delete,
   ParseIntPipe,
   Query,
-} from '@nestjs/common';
-import { UserService } from './user.service';
-import { User, CreateUserDto, UpdateUserDto } from './entities';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { FindAllQuery, FindOneQuery } from 'src/utils';
+  UseInterceptors,
+  UploadedFile,
+} from "@nestjs/common";
+import { UserService } from "./user.service";
+import { User, CreateUserDto, UpdateUserDto } from "./entities";
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { FindAllQuery, FindOneQuery, storage } from "src/utils";
+import { Public } from "src/auth/decorators/public.decorator";
+import { FileInterceptor } from "@nestjs/platform-express";
 
-@ApiTags('user')
-@Controller('user')
+@ApiTags("user")
+@Public()
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
@@ -26,8 +31,8 @@ export class UserController {
   }
 
   @ApiOkResponse({ type: User })
-  @Get(':id')
-  findOne(@Query() query: FindOneQuery, @Param('id', ParseIntPipe) id: number) {
+  @Get(":id")
+  findOne(@Query() query: FindOneQuery, @Param("id", ParseIntPipe) id: number) {
     return this.userService.findOne(+id, query);
   }
 
@@ -38,14 +43,26 @@ export class UserController {
   }
 
   @ApiOkResponse({ type: User })
-  @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateUserDto) {
-    return this.userService.update(id, data);
+  @Patch(":id")
+  @UseInterceptors(FileInterceptor('imageUrl', {
+    storage,
+  }),)
+  update(@Param("id", ParseIntPipe) id: number,
+    @UploadedFile() imageUrl: Express.Multer.File,
+    @Body() data: UpdateUserDto
+  ) {
+    console.log("data", JSON.stringify(data, null, 2));
+    console.log("imageUrl", imageUrl);
+    return this.userService.update(id, {
+      ...data,
+      imageUrl: imageUrl?.filename ? process.env.HOST + imageUrl.filename : data.imageUrl,
+    });
+
   }
 
   @ApiOkResponse({ type: User })
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  @Delete(":id")
+  remove(@Param("id", ParseIntPipe) id: number) {
     return this.userService.remove(id);
   }
 }
