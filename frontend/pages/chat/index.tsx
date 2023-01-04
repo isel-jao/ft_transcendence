@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 const Home: NextPage = () => {
   return (
     <div>
-      <h1>Chat</h1>
+      <h1>Maroc telecom</h1>
     </div>
   );
 };
