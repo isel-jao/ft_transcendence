@@ -77,7 +77,27 @@ export const SocketContext = ({ children }: any) => {
     },
   });
   socket.on("joinRoom", (data: RoomDataType) => {
-    console.log(data);
+    setData({
+      ball: {
+        x: 0,
+        y: 0,
+        z: 1,
+      },
+      player1: {
+        x: 0,
+        y: -60 / 2 + 3,
+        z: 0,
+      },
+      player2: {
+        x: 0,
+        y: 60 / 2 - 3,
+        z: 0,
+      },
+      score: {
+        player1: 0,
+        player2: 0,
+      },
+    });
     setRoom(data);
     Router.push("/game/" + data.roomName);
   });
