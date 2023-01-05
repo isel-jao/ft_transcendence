@@ -52,6 +52,9 @@ const Game = (props: any) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
     player2.current.position.copy(gameData.player2);
+    if (roomData.type == "hard") {
+      scene.children[0].position.copy(gameData.ball);
+    }
     gl.render(scene, camera);
   }, 1);
   return (

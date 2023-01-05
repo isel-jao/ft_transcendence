@@ -5,13 +5,18 @@ import { AppCtx } from "../../context/socketContext";
 import { useContext, useEffect } from "react";
 import Overlay from "../../components/Overlay";
 import Router from "next/router";
+import Image from "next/image";
 
 // import { PointLightShadow } from "three";
 
-const Home: NextPage = () => {
+const Home = () => {
   const { socket, gameData, roomData } = useContext(AppCtx);
   useEffect(() => {
-    // if (roomData?.roomName === "") Router.push("/game/");
+    if (roomData?.roomName === "") Router.push("/game/");
+    else
+      socket.emit("joinToRoom", {
+        roomName: roomData.roomName,
+      });
     // console.log(roomData);
   }, []);
   return (
@@ -61,6 +66,23 @@ const Home: NextPage = () => {
       </div>
       <div
         style={{
+          position: "absolute",
+          bottom: "5px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          right: "5px",
+        }}
+      >
+        <div
+          style={{ marginRight: "5px", fontWeight: 600, fontSize: "0.9rem" }}
+        >
+          {roomData.watchers?.lenght | 0}
+        </div>
+        <Image src={"/Icons/Eye.svg"} width={"17%"} height={"17%"} />
+      </div>
+      <div
+        style={{
           width: "100%",
           height: "100%",
         }}
@@ -79,12 +101,11 @@ const Home: NextPage = () => {
           <pointLight
             position={[0, 0, 20]}
             color={"white"}
-            intensity={1}
-            // angle={20}
-            // distance={100}
+            intensity={0.7}
+            distance={100}
           />
           <axesHelper args={[200, 200, 200]} />
-          <ambientLight intensity={0.8} color={"white"} />
+          {/* <ambientLight intensity={0.8} color={"white"} /> */}
           <Game socket={socket} gameData={gameData} roomData={roomData} />
         </Canvas>
       </div>

@@ -28,6 +28,8 @@ type RoomDataType = {
   roomName: string;
   winner?: string;
   status: string;
+  watchers?: [string];
+  type: string;
 };
 interface AppContextInterface {
   socket: Socket;
@@ -38,7 +40,7 @@ interface AppContextInterface {
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:3001";
-export const AppCtx = createContext<AppContextInterface | null>(null);
+export const AppCtx = createContext<AppContextInterface>(null);
 
 const socket: Socket = io("http://localhost:3001", {
   query: {
@@ -54,6 +56,8 @@ export const SocketContext = ({ children }: any) => {
     roomName: "",
     status: "",
     winner: "",
+    watchers: [""],
+    type: "hard",
   });
   const [gameData, setData] = useState<GameDataType>({
     ball: {
