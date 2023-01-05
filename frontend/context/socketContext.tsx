@@ -28,7 +28,7 @@ type RoomDataType = {
   roomName: string;
   winner?: string;
   status: string;
-  watchers?: [string];
+  watchers: [string?];
   type: string;
 };
 interface AppContextInterface {
@@ -56,7 +56,7 @@ export const SocketContext = ({ children }: any) => {
     roomName: "",
     status: "",
     winner: "",
-    watchers: [""],
+    watchers: [],
     type: "hard",
   });
   const [gameData, setData] = useState<GameDataType>({
@@ -105,6 +105,7 @@ export const SocketContext = ({ children }: any) => {
     setRoom(data);
     Router.push("/game/" + data.roomName);
   });
+
   socket.on("leftGame", (data) => {
     setRoom({
       ...roomData,
@@ -112,6 +113,14 @@ export const SocketContext = ({ children }: any) => {
       winner: data.player1 != "" ? roomData.player1 : roomData.player2,
     });
   });
+  useEffect(() => {
+    socket.on("watcher", (data) => {
+      let tmp = roomData.watchers;
+      tmp.push(data.socketId);
+      console.log(data, tmp);
+      setRoom({ ...roomData, watchers: tmp });
+    });
+  }, []);
   socket.on("gameOver", (data) => {
     const { status, player1, player2 } = data;
     setRoom({

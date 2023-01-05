@@ -77,7 +77,7 @@ const Home = () => {
         <div
           style={{ marginRight: "5px", fontWeight: 600, fontSize: "0.9rem" }}
         >
-          {roomData.watchers?.lenght | 0}
+          {roomData.watchers?.length | 0}
         </div>
         <Image src={"/Icons/Eye.svg"} width={"17%"} height={"17%"} />
       </div>
