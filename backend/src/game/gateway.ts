@@ -60,17 +60,17 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
     }
 
     @SubscribeMessage('joinToRoom')
-    JoinToRoom(@MessageBody() data: any, @ConnectedSocket() socket: Socket) {
+    JoinToRoom(@MessageBody() data: gameDto, @ConnectedSocket() socket: Socket) {
         let roomName = data.roomName
-        socket.join(roomName)
-        let socketArray = this.roomData.get(roomName)
+        socket.join(data.roomName)
+        let socketArray = this.roomData.get(data.roomName)
         if (socketArray) {
-            socketArray[3].watchers.push(socket.id)
+            this.roomData.get(data.roomName).watchers.push(socket.id)
+            this.server.to(roomName).emit("watcher", {
+                "socketId": socket.id,
+                "message": "joined to room"
+            })
         }
-        this.server.to(roomName).emit("watcher", {
-            "socketId": socket.id,
-            "message": "joined to room"
-        })
     }
 
     @SubscribeMessage('findGame')
@@ -146,10 +146,11 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
             })
         }
         this.count++
+        console.log(this.roomData)
     }
     
     @SubscribeMessage('acceptGame')
-    acceptGame(@MessageBody() data: any, @ConnectedSocket() socket: Socket) {
+    acceptGame(@MessageBody() data: gameDto, @ConnectedSocket() socket: Socket) {
         let room = this.roomData.get(data.roomName)
         let roomName = data.roomName
         let player2Id = room.player2.socketId
@@ -169,15 +170,17 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
 
 
     @SubscribeMessage('startGame')
-    startGame(@MessageBody() data: any) {
+    startGame(@MessageBody() data: gameDto) {
         let room = this.roomData.get(data.roomName)
         let roomName = data.roomName
-        let speed = 1
+        let speed = 0.5
         if (!room || !roomName)
             return
-        let signalX = Math.random() > 0.5 ? 1 : -1
-        let signalY = Math.random() > 0.5 ? 1 : -1
+        let signalX = Math.random() > 0.5 ? speed : -speed
+        let signalY = Math.random() > 0.5 ? speed : -speed
 
+
+        const time  = 30
         this.roomData.get(data.roomName).interval = setInterval(() => {
             this.roomData.get(data.roomName).status2 = "started"
             this.server.to(data.roomName).emit("gameData", {
@@ -213,7 +216,7 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
                         player2: this.roomData.get(data.roomName).player2.score
                     })
                     speed = this.roomData.get(data.roomName).ball.speed
-                    this.speedUpBall(data.roomName)
+                    // this.speedUpBall(data.roomName)
                     clearInterval(this.roomData.get(data.roomName).interval)
                     this.roomData.delete(data.roomName)
                     return
@@ -223,11 +226,11 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
             }
             this.roomData.get(data.roomName).ball.position.x += signalX
             this.roomData.get(data.roomName).ball.position.y += signalY
-        }, 80)
+        }, time)
     }
 
     @SubscribeMessage('paddleMove')
-    paddleMove(@MessageBody() data: any) {
+    paddleMove(@MessageBody() data: gameDto) {
         const roomName = data.roomName
         const room = this.roomData.get(roomName)
         const socketId = data.socketId
@@ -279,11 +282,10 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
         if (ball1.y + signalY == h1 || ball1.y + signalY == h2) {
             let w = player.position.x  + player1.size / 2
             let w2 = player.position.x - player1.size / 2
-            if (ball1.x + signalX >= w2 && ball1.x + signalX <= w)
+            if (ball1.x + signalX  >= w2 && ball1.x + signalX <= w)
                 return 1
         }
-        else {
-            
+        else { 
             if (player.position.y > 0) {
                 if (ball1.y + signalY > player.position.y) {
                     return -1
@@ -307,12 +309,12 @@ export class Mygeteway implements OnGatewayInit, OnGatewayConnection{
         this.roomData.get(roomName).player2.position.x = 0
     }
 
-    speedUpBall(roomName: string) {
-        setInterval(() => {
-            if (this.roomData.get(roomName).ball.speed < 10)
-                this.roomData.get(roomName).ball.speed += 0.5
-        }, 3000)
-    }
+    // speedUpBall(roomName: string) {
+    //     setInterval(() => {
+    //         if (this.roomData.get(roomName).ball.speed < 10)
+    //             this.roomData.get(roomName).ball.speed += 0.5
+    //     }, 3000)
+    // }
 }
 
 
