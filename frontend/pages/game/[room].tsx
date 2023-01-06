@@ -4,21 +4,24 @@ import Game from "../../components/Game";
 import { AppCtx } from "../../context/socketContext";
 import { useContext, useEffect } from "react";
 import Overlay from "../../components/Overlay";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import Image from "next/image";
-
+import { resize } from "../../hooks/movement";
 // import { PointLightShadow } from "three";
 
 const Home = () => {
+  const router = useRouter();
+  const { room } = router.query;
   const { socket, gameData, roomData } = useContext(AppCtx);
+  let size = resize();
   useEffect(() => {
-    if (roomData?.roomName === "") Router.push("/game/");
-    else
+    if (room)
       socket.emit("joinToRoom", {
-        roomName: roomData.roomName,
+        roomName: room,
       });
+
     // console.log(roomData);
-  }, []);
+  }, [room]);
   return (
     <>
       {roomData?.status == "gameOver" && (
@@ -106,7 +109,12 @@ const Home = () => {
           />
           <axesHelper args={[200, 200, 200]} />
           {/* <ambientLight intensity={0.8} color={"white"} /> */}
-          <Game socket={socket} gameData={gameData} roomData={roomData} />
+          <Game
+            socket={socket}
+            gameData={gameData}
+            roomData={roomData}
+            size={size}
+          />
         </Canvas>
       </div>
     </>

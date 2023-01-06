@@ -120,7 +120,13 @@ export const SocketContext = ({ children }: any) => {
       console.log(data, tmp);
       setRoom({ ...roomData, watchers: tmp });
     });
+    return () => {
+      socket.off("gameData");
+    };
   }, []);
+  socket.on("error", () => {
+    console.error("Error");
+  });
   socket.on("gameOver", (data) => {
     const { status, player1, player2 } = data;
     setRoom({

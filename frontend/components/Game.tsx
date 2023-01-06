@@ -4,11 +4,14 @@ import Stage from "./modules/Stage";
 import Padle from "./modules/Padle";
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { usePersonControls, resize } from "../hooks/movement";
+import { usePersonControls } from "../hooks/movement";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-
+// interface gameType {
+//   socket
+//   , gameData, roomData
+// }
 const PADDLE_SIZE = 40 / 5;
-const Game = (props: any) => {
+const Game = ({ socket, gameData, roomData, size }: any) => {
   const { camera, gl, scene }: any = useThree();
   const player = useRef<any>();
   const player2 = useRef<any>();
@@ -17,9 +20,7 @@ const Game = (props: any) => {
   const cornerBottom = useRef<any>();
   const cornerLeft = useRef<any>();
   const cornerRight = useRef<any>();
-  const { socket, gameData, roomData } = props;
   let { left, right } = usePersonControls();
-  let size = resize();
   useEffect(() => {
     const controls = new OrbitControls(camera, gl.domElement);
     return () => {
