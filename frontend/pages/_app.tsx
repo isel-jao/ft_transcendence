@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "../app/store";
 import Layout from "../components/layout";
 import { SocketContext } from "../context/socketContext";
+import axios from "axios";
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
@@ -56,7 +57,6 @@ function MyApp(props: MyAppProps) {
           </Provider>
         </MuiThemeProvider>
       </SocketContext>
-
     </CacheProvider>
   );
 }

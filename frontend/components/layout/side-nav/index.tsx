@@ -1,5 +1,4 @@
 import React from "react";
-
 import styled from "styled-components";
 import routes, { Route, routesBottom } from "../../../routes";
 import { useRouter } from "next/router";
@@ -122,14 +121,9 @@ const RouterLink = ({ route }: { route: Route }) => {
       </div>
     </Link>
   );
+};
 
-};
-const logoutRoute = {
-  path: "http://localhost:3001/auth/logout",
-  name: "Logout",
-  icon: <Image src="/icons/logout.svg" width={30} height={30} alt="home" />,
-};
-export const SideNav = () => {
+export const SideNav = ({ open }: NavProps) => {
   return (
     <StyledNav className={` ${open && "open"}`}>
       <div className="logo text-primary">
@@ -150,7 +144,6 @@ export const SideNav = () => {
             <RouterLink route={route} key={index} />
           ))}
         </div>
-
       </div>
     </StyledNav>
   );

@@ -1,8 +1,10 @@
+import { AppProps } from "next/app";
 import React from "react";
+import { Button } from "@mui/material";
 import Nav from "./nav";
 import SideNav from "./side-nav";
-import StyledLayout from "./styles";
-import { useRouter } from "next/router";
+import { darken, lighten } from "polished";
+import styled, { StyledInterface } from "styled-components";
 
 const StyledLayout = styled.div`
   position: relative;
@@ -59,29 +61,26 @@ const StyledLayout = styled.div`
     }
   }
 `;
-
 interface Props {
   children?: React.ReactNode;
 }
 
 const Layout = ({ children }: Props) => {
-  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
 
-  const isFullPage =
-    new RegExp(/^\/\d/).test(router.pathname) || router.pathname === "/login";
+  const toggleSideNav = () => {
+    setOpen(!open);
+  };
 
-  return !isFullPage ? (
+  return (
     <StyledLayout>
-      <div className={`sidenav`}>
-        <SideNav />
+      <div className={`sidenav ${open && "open"}`}>
+        <SideNav open={open} />
       </div>
       <div className={`main ${open && "open"}`}>
         <div className={`router-view ${open && "open"}`}>{children}</div>
-
       </div>
     </StyledLayout>
-  ) : (
-    <>{children}</>
   );
 };
 
