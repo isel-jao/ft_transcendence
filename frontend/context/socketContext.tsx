@@ -28,6 +28,8 @@ type RoomDataType = {
   roomName: string;
   winner?: string;
   status: string;
+  watchers: [string?];
+  type: string;
 };
 interface AppContextInterface {
   socket: Socket;
@@ -38,7 +40,7 @@ interface AppContextInterface {
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:3001";
-export const AppCtx = createContext<AppContextInterface | null>(null);
+export const AppCtx = createContext<AppContextInterface>(null);
 
 const socket: Socket = io("http://localhost:3001", {
   query: {
@@ -54,6 +56,8 @@ export const SocketContext = ({ children }: any) => {
     roomName: "",
     status: "",
     winner: "",
+    watchers: [],
+    type: "hard",
   });
   const [gameData, setData] = useState<GameDataType>({
     ball: {
@@ -77,10 +81,31 @@ export const SocketContext = ({ children }: any) => {
     },
   });
   socket.on("joinRoom", (data: RoomDataType) => {
-    console.log(data);
+    setData({
+      ball: {
+        x: 0,
+        y: 0,
+        z: 1,
+      },
+      player1: {
+        x: 0,
+        y: -60 / 2 + 3,
+        z: 0,
+      },
+      player2: {
+        x: 0,
+        y: 60 / 2 - 3,
+        z: 0,
+      },
+      score: {
+        player1: 0,
+        player2: 0,
+      },
+    });
     setRoom(data);
     Router.push("/game/" + data.roomName);
   });
+
   socket.on("leftGame", (data) => {
     setRoom({
       ...roomData,
@@ -88,6 +113,14 @@ export const SocketContext = ({ children }: any) => {
       winner: data.player1 != "" ? roomData.player1 : roomData.player2,
     });
   });
+  useEffect(() => {
+    socket.on("watcher", (data) => {
+      let tmp = roomData.watchers;
+      tmp.push(data.socketId);
+      console.log(data, tmp);
+      setRoom({ ...roomData, watchers: tmp });
+    });
+  }, []);
   socket.on("gameOver", (data) => {
     const { status, player1, player2 } = data;
     setRoom({

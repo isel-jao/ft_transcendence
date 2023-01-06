@@ -9,7 +9,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const PADDLE_SIZE = 40 / 5;
 const Game = (props: any) => {
-  const { camera, gl }: any = useThree();
+  const { camera, gl, scene }: any = useThree();
   const player = useRef<any>();
   const player2 = useRef<any>();
   const ball = useRef<any>();
@@ -26,6 +26,9 @@ const Game = (props: any) => {
       controls.dispose();
     };
   }, [camera, gl]);
+  useEffect(() => {
+    if (roomData.player2 == socket.id) scene.rotateZ(Math.PI);
+  }, []);
   useEffect(() => {
     if (
       (left || right) &&
@@ -49,6 +52,9 @@ const Game = (props: any) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
     player2.current.position.copy(gameData.player2);
+    if (roomData.type == "hard") {
+      scene.children[0].position.copy(gameData.ball);
+    }
     gl.render(scene, camera);
   }, 1);
   return (
