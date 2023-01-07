@@ -29,16 +29,12 @@ const MessageInput = (props: {
 
     //TODO add type
     socket.on("onMessage", (newMessage: any) => {
-      console.log("------", selected.id);
-      console.log("------", newMessage.conversationId);
-      console.log("------", selected.id == newMessage.conversationId);
       selected.id == newMessage.conversationId &&
         setMessages((prevMessages: any) => [...prevMessages, newMessage]);
     });
 
     //unregisted events when comp didunmount
     return () => {
-      console.log("unregistring events");
       socket.off("connect");
       socket.off("onMessage");
     };

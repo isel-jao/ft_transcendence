@@ -88,7 +88,6 @@ const CreateChannelForm = (props: {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log({ values });
       //TODO to get the user_id it from the auth or a userContext
       socket.emit("newChannel", { ...values, user_id: 1 });
       resetForm();

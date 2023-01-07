@@ -58,7 +58,6 @@ const poster = async (
     JSON.parse(JSON.stringify(queryPayload))
   ).toString();
 
-  console.log({ payload });
   return fetch(`${url}${path}?${queryString}`, {
     method: "POST",
     headers: {

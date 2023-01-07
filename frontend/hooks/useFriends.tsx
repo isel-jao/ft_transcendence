@@ -7,7 +7,7 @@ const useFriends = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [retry, setRetry] = useState(0);
-  const refetch = () => setRetry(retry);
+  const refetch = () => setRetry(retry + 1);
 
   useEffect(() => {
     setLoading(true);

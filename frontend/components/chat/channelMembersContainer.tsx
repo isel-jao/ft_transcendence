@@ -1,5 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { Box, Typography, Button, Divider, DialogActions } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Divider,
+  DialogActions,
+  Avatar,
+} from "@mui/material";
 import { deleteConversationById } from "../../services/conversations";
 import { IConversation } from "../../types";
 import { useDialog } from "../../hooks/useDialogue";
@@ -10,12 +17,9 @@ import Usercard from "./usercard";
 import DmCard from "./dmCard";
 import { useFriends } from "../../hooks/useFriends";
 import FriendsList from "./friends-list";
+import useMembers from "../../hooks/useMembers";
 
-const Mocked_data_members = [
-  { user_name: "fmehdaou", status_user: "online", role: "owner" },
-  { user_name: "isel-user", status_user: "offline", role: "admin" },
-  { user_name: "yarji", status_user: "offline", role: "member" },
-];
+//TODO Add type to the componenet
 
 const MembersContainer = (props: {
   refetch: () => void;
@@ -25,7 +29,7 @@ const MembersContainer = (props: {
   const { selected, setSelected } = useContext(convContext);
   const { show, hide, on } = useDialog();
   const { activeTab } = useContext(convContext);
-  const { data: friends } = useFriends();
+  const { data: members } = useMembers();
 
   const leaveChannelHandler = () => {
     deleteConversationById(selected?.id)
@@ -73,47 +77,44 @@ const MembersContainer = (props: {
               <CustomButton title="Leave" onClick={leaveChannelHandler} />
             </DialogActions>
           </Dialog>
-          <Box sx={{ p: "61px 10px 4px" }}>
-            <Box>
-              <Typography variant="h2">Owners</Typography>
-              {Mocked_data_members.filter(
-                (member) => member.role == "owner"
-              ).map((item, index) => (
-                <Usercard
-                  key={index}
-                  user={{ name: item.user_name, status: item.status_user }}
-                  type="room"
-                />
-              ))}
-            </Box>
-            <Box>
-              <Typography variant="h2">Admins</Typography>
-              {Mocked_data_members.filter(
-                (member) => member.role == "admin"
-              ).map((item, index) => (
-                <Usercard
-                  key={index}
-                  user={{ name: item.user_name, status: item.status_user }}
-                  type="room"
-                />
-              ))}
-            </Box>
-            <Box>
-              <Box>
-                <Typography variant="h2">Members</Typography>
-                {Mocked_data_members.filter(
-                  (member) => member.role == "member"
-                ).map((item, index) => (
-                  <Usercard
-                    key={index}
-                    user={{ name: item.user_name, status: item.status_user }}
-                    type="room"
-                  />
-                ))}
-              </Box>
-            </Box>
+          <Box
+            sx={{
+              p: "10px",
+              display: "grid",
+              gap: "10px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "#9b988c",
+                fontSize: "14px",
+              }}
+            >
+              Members
+            </Typography>
+            {members &&
+              members?.map((memeber: any, index) => {
+                return (
+                  <Box sx={{ display: "flex", gap: "6px" }} key={index}>
+                    <Avatar
+                      sx={{
+                        backgroundColor: "#413A4E",
+                        width: 30,
+                        height: 30,
+                      }}
+                    />
+                    <Typography
+                      sx={{
+                        color: "#fff",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {`${memeber.firstName} ${memeber.lastName}`}
+                    </Typography>
+                  </Box>
+                );
+              })}
           </Box>
-
           <Box
             sx={{
               backgroundColor: "#1C1625",

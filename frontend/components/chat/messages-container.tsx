@@ -83,10 +83,6 @@ const MessagesContainer = () => {
     // bottomRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    console.log("message Container", { selected });
-  }, []);
-
   return (
     <Box
       sx={{

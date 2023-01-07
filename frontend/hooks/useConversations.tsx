@@ -14,7 +14,6 @@ const useConversations = () => {
     setLoading(true);
     getConversations()
       .then((conversations) => {
-        console.log("useConvertation", { conversations });
         setData(conversations);
       })
       .catch((err) => {

@@ -5,7 +5,6 @@ import { status } from "../types";
 async function getConversations() {
   return fetcher({ path: "rooms/1" }) // ToRemove 1: replace it with user id
     .then((result) => {
-      console.log(result);
       return result;
     })
     .catch((error) => {
@@ -94,6 +93,17 @@ async function getAllDmsOfuser(user_id: number) {
     });
 }
 
+//get members users of a channel(room) passing the id conversation
+async function getChannelMembers(id_conversation: number) {
+  return fetcher({ path: `rooms/members/${id_conversation}` })
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
+}
+
 export {
   getConversations,
   createChannel,
@@ -102,4 +112,5 @@ export {
   getAllConvrsations,
   joinChannel,
   getAllDmsOfuser,
+  getChannelMembers,
 };

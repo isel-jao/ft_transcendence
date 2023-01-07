@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 import { useDialog } from "../../hooks/useDialogue";
 import Head from "next/head";

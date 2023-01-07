@@ -6,6 +6,7 @@ import { CreateChannelDto, CreateConversationDto } from "./dto/dto";
 import { ConversationExistException } from "./exceptions/conversationExists";
 import { createConversationException } from "./exceptions/createConversationException";
 import { conversation } from "./Interface";
+import { channel } from "diagnostics_channel";
 
 
 @Injectable()
@@ -39,6 +40,7 @@ export class ConversationsService {
                },
                //the user who creates the channel it ownes it until he leave 
                is_admin: true,
+               is_owner: true,
             }
          })
       if (recordExists)
@@ -184,6 +186,7 @@ export class ConversationsService {
                   }
                },
                is_admin: false, //TODO to be changed
+               is_owner: false
             }
          })
          return channel;
@@ -191,5 +194,36 @@ export class ConversationsService {
          throw new
             createConversationException("Wrong password, can't access to the channel");
       }
+   }
+
+
+   //get all members of a conversation_id
+   async getChannelMembers(id: number) {
+
+      const channel = await this.prisma.conversation.findUnique({
+         where: {
+            id: id
+         }
+      })
+
+      const members = await this.prisma.user_Conv.findMany({
+         where: {
+            conversationId: id,
+            conversation: {
+               type: "room"
+            }
+         },
+         select: {
+            conversation: {
+               select: {
+                  members: true
+               }
+            },
+         }
+      }).then((result) => {
+         return (result[0].conversation.members);
+      });
+
+      return members;
    }
 }

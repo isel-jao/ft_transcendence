@@ -22,8 +22,6 @@ const useConversationMessages = (props: Props) => {
     setLoading(true);
     getConversationMessages(id_conversation ?? -1)
       .then((res) => {
-        console.log("useConvmessage =>>", res);
-
         setData(res);
       })
       .catch((error) => {

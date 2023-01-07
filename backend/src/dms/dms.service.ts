@@ -14,23 +14,17 @@ export class DmsServices {
     async getAllDmsOfUser(userId: number) {
         const conversationIds = await this.prisma.user_Conv.findMany({
             where: {
-                conversation: {
-                    type: "dm",
-                },
-                user: {
-                    id: userId
-                },
+                conversation: { type: "dm" },
+                user: { id: userId },
             },
-            select: {
-                conversationId: true,
-            }
+            select: { conversationId: true }
         }).then((result) => result.map(({ conversationId }) => conversationId));
 
         const dms = await this.prisma.user_Conv.findMany({
             where: {
                 user: {
                     isNot: {
-                        id: userId,
+                        id: userId
                     }
                 },
                 conversation: {
@@ -90,6 +84,7 @@ export class DmsServices {
                     conversation: { connect: { id: createDm.id } },
                     user: { connect: { id: data.senderId } },
                     is_admin: false,
+                    is_owner: false,
                 },
             });
             await this.prisma.user_Conv.create({
@@ -97,6 +92,7 @@ export class DmsServices {
                     conversation: { connect: { id: createDm.id } },
                     user: { connect: { id: data.recieverId } },
                     is_admin: false,
+                    is_owner: false
                 },
             })
         }
