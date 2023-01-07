@@ -6,12 +6,19 @@ import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { usePersonControls } from "../hooks/movement";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-// interface gameType {
-//   socket
-//   , gameData, roomData
-// }
+import { Socket } from "socket.io-client";
+import { GameDataType, RoomDataType } from "../context/types";
+interface gameType {
+  socket: Socket;
+  gameData: GameDataType;
+  roomData: RoomDataType;
+  size: {
+    width: Number;
+    height: Number;
+  };
+}
 const PADDLE_SIZE = 40 / 5;
-const Game = ({ socket, gameData, roomData, size }: any) => {
+const Game = ({ socket, gameData, roomData, size }: gameType) => {
   const { camera, gl, scene }: any = useThree();
   const player = useRef<any>();
   const player2 = useRef<any>();
@@ -53,9 +60,6 @@ const Game = ({ socket, gameData, roomData, size }: any) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
     player2.current.position.copy(gameData.player2);
-    if (roomData.type == "hard") {
-      scene.children[0].position.copy(gameData.ball);
-    }
     gl.render(scene, camera);
   }, 1);
   return (

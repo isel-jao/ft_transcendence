@@ -3,34 +3,7 @@ import { createContext } from "react";
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
 import axios from "axios";
-
-type Position = {
-  x: Number;
-  y: Number;
-  z: Number;
-};
-type GameDataType = {
-  ball: Position;
-  player1: Position;
-  player2: Position;
-  score: {
-    player1: Number;
-    player2: Number;
-  };
-};
-interface userDataInterface {
-  id: number;
-  username: string;
-}
-type RoomDataType = {
-  player1: string;
-  player2: string;
-  roomName: string;
-  winner?: string;
-  status: string;
-  watchers: [string?];
-  type: string;
-};
+import { GameDataType, userDataInterface, RoomDataType } from "./types";
 interface AppContextInterface {
   socket: Socket;
   gameData: GameDataType;
@@ -59,6 +32,7 @@ export const SocketContext = ({ children }: any) => {
     watchers: [],
     type: "hard",
   });
+  const [watchers, setWatchers] = useState<[string?]>([]);
   const [gameData, setData] = useState<GameDataType>({
     ball: {
       x: 0,
@@ -115,14 +89,15 @@ export const SocketContext = ({ children }: any) => {
   });
   useEffect(() => {
     socket.on("watcher", (data) => {
-      let tmp = roomData.watchers;
-      tmp.push(data.socketId);
-      console.log(data, tmp);
-      setRoom({ ...roomData, watchers: tmp });
+      let tmp = watchers;
+      if (!tmp.includes(data.socketId)) {
+        tmp.push(data.socketId);
+        setWatchers([...tmp]);
+      }
     });
     socket.on("error", () => Router.push("/game/"));
     return () => {
-      socket.off("gameData");
+      socket.off("watcher");
       socket.off("error");
     };
   }, []);

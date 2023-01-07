@@ -23,11 +23,16 @@ const Home = () => {
     // console.log(roomData);
   }, [room]);
   return (
-    <>
+    <div style={{ width: "100vw", height: "100vh" }}>
       {roomData?.status == "gameOver" && (
         <Overlay
           data={roomData.winner === socket.id ? true : false}
           isAdmin={roomData.player1 == socket.id}
+          hidden={
+            roomData.player1 == socket.id || roomData.player2 == socket.id
+              ? true
+              : false
+          }
           onClick={() =>
             socket.emit("startGame", {
               roomName: roomData.roomName,
@@ -117,7 +122,7 @@ const Home = () => {
           />
         </Canvas>
       </div>
-    </>
+    </div>
   );
 };
 
