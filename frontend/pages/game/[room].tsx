@@ -12,7 +12,7 @@ import { resize } from "../../hooks/movement";
 const Home = () => {
   const router = useRouter();
   const { room } = router.query;
-  const { socket, gameData, roomData } = useContext(AppCtx);
+  const { socket, gameData, roomData, watchers } = useContext(AppCtx);
   let size = resize();
   useEffect(() => {
     if (room)
@@ -79,13 +79,13 @@ const Home = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          right: "5px",
+          left: "80%",
         }}
       >
         <div
           style={{ marginRight: "5px", fontWeight: 600, fontSize: "0.9rem" }}
         >
-          {roomData.watchers?.length | 0}
+          {watchers.length | 0}
         </div>
         <Image src={"/Icons/Eye.svg"} width={"17%"} height={"17%"} />
       </div>

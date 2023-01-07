@@ -9,6 +9,7 @@ interface AppContextInterface {
   gameData: GameDataType;
   userData: userDataInterface | null;
   roomData: RoomDataType;
+  watchers: [string?];
 }
 
 axios.defaults.withCredentials = true;
@@ -146,6 +147,7 @@ export const SocketContext = ({ children }: any) => {
         gameData,
         userData,
         roomData,
+        watchers
       }}
     >
       {children}
