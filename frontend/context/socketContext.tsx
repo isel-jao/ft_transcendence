@@ -2,8 +2,9 @@ import { io, Socket } from "socket.io-client";
 import { createContext } from "react";
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
-import axios from "axios";
+// import axios from "axios";
 import { GameDataType, userDataInterface, RoomDataType } from "./types";
+import { changeRoute } from "../hooks/changeRoute";
 interface AppContextInterface {
   socket: Socket;
   gameData: GameDataType;
@@ -12,8 +13,9 @@ interface AppContextInterface {
   watchers: [string?];
 }
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://localhost:3001";
+// axios.defaults.withCredentials = true;
+// axios.defaults.baseURL = "http://localhost:3001";
+// @ts-ignore
 export const AppCtx = createContext<AppContextInterface>(null);
 
 const socket: Socket = io("http://localhost:3001", {
@@ -55,6 +57,14 @@ export const SocketContext = ({ children }: any) => {
       player2: 0,
     },
   });
+  const [changed, init] = changeRoute();
+
+  useEffect(() => {
+    console.log(changed);
+    if (changed && roomData.roomName)
+      socket.emit("leftRoom", { roomName: roomData.roomName });
+    return () => init();
+  }, [changed]);
   socket.on("joinRoom", (data: RoomDataType) => {
     setData({
       ball: {
@@ -88,13 +98,20 @@ export const SocketContext = ({ children }: any) => {
       winner: data.player1 != "" ? roomData.player1 : roomData.player2,
     });
   });
+
   useEffect(() => {
     socket.on("watcher", (data) => {
       let tmp = watchers;
-      if (!tmp.includes(data.socketId)) {
-        tmp.push(data.socketId);
-        setWatchers([...tmp]);
-      }
+      const { socketId, type, roomName, watchersRoom } = data;
+      if (type != "LEAVE") {
+        if (!tmp.includes(socketId)) {
+          tmp.push(socketId);
+          setWatchers([...tmp]);
+        }
+        if (socketId == socket.id)
+          setRoom({ ...roomData, roomName, watchers: watchersRoom });
+      } else setWatchers(tmp.filter((e: string) => e != socketId));
+      // intialise the data
     });
     socket.on("error", () => Router.push("/game/"));
     return () => {
@@ -147,7 +164,7 @@ export const SocketContext = ({ children }: any) => {
         gameData,
         userData,
         roomData,
-        watchers
+        watchers,
       }}
     >
       {children}

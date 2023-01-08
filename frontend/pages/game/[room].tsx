@@ -59,6 +59,7 @@ const Home = () => {
           PLAY
         </div>
       )}
+      {/* @ts-ignore */}
       <div
         style={{
           color: "white",
@@ -112,6 +113,7 @@ const Home = () => {
             intensity={0.7}
             distance={100}
           />
+          {/* @ts-ignore */}
           <axesHelper args={[200, 200, 200]} />
           {/* <ambientLight intensity={0.8} color={"white"} /> */}
           <Game
