@@ -2,8 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import DmCard from "./dmCard";
 import { useDms } from "../../hooks/useDms";
-import useConversationMessages from "../../hooks/useConversationMessages";
-import { convContext } from "../../context/selectedConversationContext";
 
 const DmList = () => {
   //TODO 1 is user_id to be taken from the auth

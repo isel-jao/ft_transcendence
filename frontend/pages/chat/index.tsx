@@ -8,7 +8,7 @@ import MessagesContainer from "../../components/chat/messages-container";
 import SidePannel from "../../components/chat/side-pannel";
 import { SelectedConversationProvider } from "../../context/selectedConversationContext";
 import { WebSocketProvider } from "../../context/socketChatContext";
-import MembersContainer from "../../components/chat/channelMembersContainer";
+import MembersPannel from "../../components/chat/members-pannel";
 
 // background: "linear-gradient( #171221 10%, #171328 80.61%)",
 
@@ -45,7 +45,7 @@ const Chat = () => {
           >
             <SidePannel channels={channels} show={show} refetch={refetch} />
             <MessagesContainer />
-            <MembersContainer refetch={refetch} channels={channels} />
+            <MembersPannel refetch={refetch} channels={channels} />
           </Box>
         </Box>
       </SelectedConversationProvider>

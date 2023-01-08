@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getAllFriends } from "../services/dms";
 
 //TODO add types here
-const useFriends = () => {
+const useFriends = (user_id: number) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -11,7 +11,7 @@ const useFriends = () => {
 
   useEffect(() => {
     setLoading(true);
-    getAllFriends()
+    getAllFriends(user_id)
       .then((result) => {
         setData(result);
       })
@@ -21,7 +21,7 @@ const useFriends = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [retry]);
+  }, [user_id]);
 
   return { data, setData, error, setError, refetch };
 };

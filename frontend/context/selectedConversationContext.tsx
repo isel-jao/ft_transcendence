@@ -1,13 +1,18 @@
 import React, { createContext, useEffect, useState } from "react";
 import { IConversation, IDm } from "../types";
 
-export const convContext = createContext({
-  selected: {
-    name: "",
-    type: "",
-    id: 0,
-  }, // the selected conversation dm or room
-  setSelected: (conversation: IConversation) => {},
+export interface convContextxDTO {
+  selected: null | IConversation;
+  setSelected: (conversation: IConversation | null) => void;
+  searchOn: boolean;
+  setSearchOn: (n: boolean) => void;
+  activeTab: number;
+  handleTabChange: (_: any, value: number) => void;
+}
+
+export const convContext = createContext<convContextxDTO>({
+  selected: null, // the selected conversation dm or room
+  setSelected: (conversation: IConversation | null) => {},
   searchOn: false,
   setSearchOn: (n: boolean) => {},
   activeTab: 0,
@@ -15,7 +20,7 @@ export const convContext = createContext({
 });
 
 export const SelectedConversationProvider = ({ children }: any) => {
-  const [selected, setSelected] = useState<IConversation>({});
+  const [selected, setSelected] = useState<IConversation | null>(null);
   const [searchOn, setSearchOn] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<number>(0);
   const handleTabChange = (_: any, newValue: number) => setActiveTab(newValue);

@@ -63,9 +63,7 @@ const MessagesContainer = () => {
   const [query, setQuery] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { data: messages, setData: setMessages } = useConversationMessages({
-    id_conversation: selected?.id,
-  });
+  const { data: messages, setData: setMessages } = useConversationMessages();
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
@@ -259,7 +257,14 @@ const MessagesContainer = () => {
       >
         {messages &&
           messages.map((item, index) => {
-            return <Message key={index} message={item} />;
+            // to show or not the avatar in cas of successive messages
+            const display =
+              index === 0 || messages[index - 1]?.sentBy.id !== item?.sentBy.id
+                ? true
+                : false;
+            return (
+              <Message key={index} message={item} displayAvatar={display} />
+            );
           })}
         {/* <div ref={bottomRef} /> */}
       </Box>

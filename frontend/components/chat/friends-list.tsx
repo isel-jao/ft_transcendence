@@ -4,7 +4,7 @@ import { useFriends } from "../../hooks/useFriends";
 import DmCard from "./dmCard";
 
 const FriendsList = () => {
-  const { data } = useFriends();
+  const { data } = useFriends(1); // TODO 1 is the userid change it
 
   return (
     <Box sx={{ p: "20px 0px" }}>

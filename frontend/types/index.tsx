@@ -1,9 +1,17 @@
+enum userStatus {
+  MUTED = "muted",
+  ACTIVE = "active",
+  BANNED = "banned",
+  PENDING = "pending",
+}
+
 //TODO remove all not used types
 
 interface IFMessage {
   body: string;
   createdAt: string;
   sentBy: {
+    id: number;
     firstName: string;
     lastName: string;
   };
@@ -34,4 +42,16 @@ interface IDm {
   userName: string;
 }
 
-export type { IFMessage, IFUser, IConversation, IDm };
+//a channel memebr type
+interface IMember {
+  id: 3;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  imageUrl: string;
+  status: userStatus;
+  is_admin: boolean;
+  is_owner: boolean;
+}
+
+export type { IFMessage, IFUser, IConversation, IDm, IMember };
