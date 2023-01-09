@@ -3,6 +3,7 @@ import { createContext } from "react";
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
 // import axios from "axios";
+import { intialValue } from "./helpers";
 import { GameDataType, userDataInterface, RoomDataType } from "./types";
 import { changeRoute } from "../hooks/changeRoute";
 interface AppContextInterface {
@@ -32,61 +33,19 @@ export const SocketContext = ({ children }: any) => {
     roomName: "",
     status: "",
     winner: "",
-    watchers: [],
     type: "hard",
   });
   const [watchers, setWatchers] = useState<[string?]>([]);
-  const [gameData, setData] = useState<GameDataType>({
-    ball: {
-      x: 0,
-      y: 0,
-      z: 1,
-    },
-    player1: {
-      x: 0,
-      y: -60 / 2 + 3,
-      z: 0,
-    },
-    player2: {
-      x: 0,
-      y: 60 / 2 - 3,
-      z: 0,
-    },
-    score: {
-      player1: 0,
-      player2: 0,
-    },
-  });
+  const [gameData, setData] = useState<GameDataType>(intialValue);
   const [changed, init] = changeRoute();
 
   useEffect(() => {
-    console.log(changed);
     if (changed && roomData.roomName)
       socket.emit("leftRoom", { roomName: roomData.roomName });
     return () => init();
   }, [changed]);
   socket.on("joinRoom", (data: RoomDataType) => {
-    setData({
-      ball: {
-        x: 0,
-        y: 0,
-        z: 1,
-      },
-      player1: {
-        x: 0,
-        y: -60 / 2 + 3,
-        z: 0,
-      },
-      player2: {
-        x: 0,
-        y: 60 / 2 - 3,
-        z: 0,
-      },
-      score: {
-        player1: 0,
-        player2: 0,
-      },
-    });
+    setData(intialValue);
     setRoom(data);
     Router.push("/game/" + data.roomName);
   });
@@ -101,19 +60,19 @@ export const SocketContext = ({ children }: any) => {
 
   useEffect(() => {
     socket.on("watcher", (data) => {
-      let tmp = watchers;
       const { socketId, type, roomName, watchersRoom } = data;
       if (type != "LEAVE") {
-        if (!tmp.includes(socketId)) {
-          tmp.push(socketId);
-          setWatchers([...tmp]);
-        }
-        if (socketId == socket.id)
-          setRoom({ ...roomData, roomName, watchers: watchersRoom });
-      } else setWatchers(tmp.filter((e: string) => e != socketId));
-      // intialise the data
+        setRoom({ ...roomData, roomName });
+        setWatchers([watchersRoom]);
+      } else {
+        let newArray: [string?] = watchers.filter((e) => e != socketId);
+        setWatchers([...newArray]);
+      }
+      console.log(watchers);
     });
-    socket.on("error", () => Router.push("/game/"));
+    socket.on("error", () => {
+      Router.push("/game/");
+    });
     return () => {
       socket.off("watcher");
       socket.off("error");
@@ -127,21 +86,7 @@ export const SocketContext = ({ children }: any) => {
       winner: player1 === 10 ? roomData.player1 : roomData.player2,
     });
     setData({
-      ball: {
-        x: 0,
-        y: 0,
-        z: 1,
-      },
-      player1: {
-        x: 0,
-        y: -60 / 2 + 3,
-        z: 0,
-      },
-      player2: {
-        x: 0,
-        y: 60 / 2 - 3,
-        z: 0,
-      },
+      ...intialValue,
       score: {
         player1: player1,
         player2: player2,

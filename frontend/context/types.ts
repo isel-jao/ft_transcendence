@@ -22,6 +22,5 @@ export type RoomDataType = {
   roomName: string;
   winner?: string;
   status: string;
-  watchers: [string?];
   type: string;
 };

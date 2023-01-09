@@ -266,7 +266,7 @@ const Users = () => {
             </Card>
           )
         )}
-        {userData.length === 0 && <h4>players list is empty</h4>}
+        {userData?.length === 0 && <h4>players list is empty</h4>}
       </Container>
     </>
   );
