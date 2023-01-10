@@ -4,7 +4,7 @@ import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSo
 import { NestGateway } from "@nestjs/websockets/interfaces/nest-gateway.interface";
 import { getMetadataStorage, isArray } from "class-validator";
 import { Server, Socket } from 'socket.io'
-import { ICreateDm } from "src/conversations/Interface";
+import { ICreateDm, IMember } from "src/conversations/Interface";
 import { ConversationsService } from "src/conversations/conversations.service";
 import { DmsServices } from "src/dms/dms.service";
 import { MessagesService } from "src/messages/messages.service";
@@ -77,10 +77,11 @@ export class EventsGeteway implements NestGateway {
     @SubscribeMessage("newJoin")
     async onNewJoin(@MessageBody() data: any, @ConnectedSocket() client) {
 
-        console.group("-------------------newJoin", data);
-        // client.join(data.conversation_id.toString());
+        console.log("-------------------newJoin", data);
         const channel = await this.conversations.joinChannel(data);
+        client.join(channel.id.toString());
         this.server.to(channel.id.toString()).emit("onJoin", channel);
+
     }
 
 
@@ -108,5 +109,18 @@ export class EventsGeteway implements NestGateway {
         console.log("-------onDm", { dm })
         this.server.to(dm.id.toString()).emit("onDm", dm);
     }
+
+
+
+    // @SubscribeMessage("newMember")
+    // async onNewMember(@MessageBody() data: IMember, @ConnectedSocket() client) {
+
+    //     console.log("***************", data);
+
+    // }
+
+
+
+
 }
 

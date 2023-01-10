@@ -32,9 +32,10 @@ const JoinList = (props: { channel: IConversation; refetch: Function }) => {
     });
 
     socket.on("onJoin", (newJoin: any) => {
-      console.log({ newJoin });
+      console.log("--------------------------", newJoin);
       if (newJoin) {
         hide();
+        refetch();
       }
     });
 
@@ -51,6 +52,7 @@ const JoinList = (props: { channel: IConversation; refetch: Function }) => {
       password: passwordInput,
     };
     socket.emit("newJoin", queryPayload);
+    console.log("joined room", queryPayload);
   };
 
   return (

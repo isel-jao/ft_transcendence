@@ -26,6 +26,7 @@ export class MessagesService {
                 conversationId: true,
                 sentBy: {
                     select: {
+                        id: true,
                         firstName: true,
                         lastName: true,
                     }

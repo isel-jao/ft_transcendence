@@ -20,3 +20,9 @@ export interface ICreateDm {
     senderId: number;
     recieverId: number;
 }
+
+export interface IMember {
+
+
+
+}

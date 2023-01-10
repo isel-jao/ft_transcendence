@@ -187,9 +187,15 @@ export class ConversationsService {
                },
                is_admin: false, //TODO to be changed
                is_owner: false
+            },
+            select: {
+               user: true,
             }
          })
-         return channel;
+         // console.log("-----------", channel);
+         if (channel)
+            return channel;
+         throw new createConversationException("join channel: something went wrong", 400);
       } else {
          throw new
             createConversationException("Wrong password, can't access to the channel");
@@ -199,13 +205,6 @@ export class ConversationsService {
 
    //get all members of a conversation_id
    async getChannelMembers(id: number) {
-
-      const channel = await this.prisma.conversation.findUnique({
-         where: {
-            id: id
-         }
-      })
-
       const members = await this.prisma.user_Conv.findMany({
          where: {
             conversationId: id,
@@ -214,16 +213,35 @@ export class ConversationsService {
             }
          },
          select: {
-            conversation: {
+            user: {
                select: {
-                  members: true
+                  id: true,
+                  firstName: true,
+                  lastName: true,
+                  userName: true,
+                  imageUrl: true,
                }
             },
+            status: true,
+            is_admin: true,
+            is_owner: true,
          }
       }).then((result) => {
-         return (result[0].conversation.members);
-      });
+         return result.map(({ user, status, is_admin, is_owner }) => {
+            user["status"] = status;
+            user["is_admin"] = is_admin;
+            user["is_owner"] = is_owner;
+            return user;
+         })
+      })
 
       return members;
+
    }
+
+
+
+
+
+
 }

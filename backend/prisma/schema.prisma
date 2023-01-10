@@ -24,17 +24,17 @@ model User {
     tfaSecret    String? @unique @map("tfa_secret")
     isTfaEnabled Boolean @default(false) @map("is_tfa_enabled")
 
-    friends             User[]          @relation("friends")
-    friedsBy            User[]          @relation("friends")
-    bannedUsers         User[]          @relation("banned_users")
-    bannedBy            User[]          @relation("banned_users")
+    friends           User[]          @relation("friends")
+    friedsBy          User[]          @relation("friends")
+    bannedUsers       User[]          @relation("banned_users")
+    bannedBy          User[]          @relation("banned_users")
     // profile           Profile?
-    friendRequestFrom   FriendRequest[] @relation("friend_request_from")
-    friendRequestTo     FriendRequest[] @relation("friend_request_to")
-    conversationsAdmin  Conversation[]  @relation("admins")
-    conversationsMember Conversation[]  @relation("members")
-    createdAt           DateTime        @default(now()) @map("created_at")
-    updatedAt           DateTime        @updatedAt @map("updated_at")
+    friendRequestFrom FriendRequest[] @relation("friend_request_from")
+    friendRequestTo   FriendRequest[] @relation("friend_request_to")
+    // conversationsAdmin  Conversation[]  @relation("admins")
+    // conversationsMember Conversation[]  @relation("members")
+    createdAt         DateTime        @default(now()) @map("created_at")
+    updatedAt         DateTime        @updatedAt @map("updated_at")
 
     messages       Message[]       @relation("user_messages")
     User_Conv      User_Conv[]
@@ -104,6 +104,13 @@ enum roomStatus {
     PRIVATE
 }
 
+enum userState {
+    MUTED
+    ACTIVE
+    BANNED
+    PENDING
+}
+
 model Conversation {
     // participants User[]
     id        Int         @id @default(autoincrement())
@@ -112,8 +119,8 @@ model Conversation {
     name      String      @unique
     status    roomStatus  @default(PUBLIC) // 0: public, 1: private , 2: locked
     password  String?
-    admins    User[]      @relation("admins")
-    members   User[]      @relation("members")
+    // admins    User[]      @relation("admins")
+    // members   User[]      @relation("members")
     createdAt DateTime    @default(now())
     messages  Message[]
     User_Conv User_Conv[]
@@ -134,7 +141,7 @@ model User_Conv {
 
     is_admin Boolean // true or false i sadmin of user
     is_owner Boolean //true or false of room 
-    // status   String  //banned/blocke or muted  
+    status   userState @default(ACTIVE) //banned/blocke, mute, active
 
     @@unique([userId, conversationId])
     @@map("User_Conv")
