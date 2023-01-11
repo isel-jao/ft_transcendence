@@ -5,8 +5,8 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import GlobalStyle, { theme } from "../components/globalstyles";
-import { Provider } from "react-redux";
-import store from "../app/store";
+// import { Provider } from "react-redux";
+// import store from "../app/store";
 import Layout from "../components/layout";
 import { SocketContext } from "../context/socketContext";
 // //////////////////////
@@ -37,19 +37,19 @@ function MyApp(props: MyAppProps) {
     <CacheProvider value={emotionCache}>
       <SocketContext>
         <MuiThemeProvider theme={Muitheme}>
-          <Provider store={store}>
-            <ThemeProvider theme={theme}>
-              {AppProps.router.pathname !== "/login" ? (
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              ) : (
+          {/* <Provider store={store}> */}
+          <ThemeProvider theme={theme}>
+            {AppProps.router.pathname !== "/login" ? (
+              <Layout>
                 <Component {...pageProps} />
-              )}
-              <CssBaseline />
-              <GlobalStyle />
-            </ThemeProvider>
-          </Provider>
+              </Layout>
+            ) : (
+              <Component {...pageProps} />
+            )}
+            <CssBaseline />
+            <GlobalStyle />
+          </ThemeProvider>
+          {/* </Provider> */}
         </MuiThemeProvider>
       </SocketContext>
     </CacheProvider>

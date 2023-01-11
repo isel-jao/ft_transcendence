@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import Overlay from "../../components/Overlay";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { resize } from "../../hooks/movement";
+import { useResize } from "../../hooks/movement";
 // import { PointLightShadow } from "three";
 
 const Home = () => {
@@ -14,7 +14,8 @@ const Home = () => {
   const { room } = router.query;
   const { socket, gameData, roomData, watchers } = useContext(AppCtx);
   const [sym, setSym] = useState(false);
-  let size = resize();
+  let size = useResize();
+
   useEffect(() => {
     if (room)
       socket.emit("joinToRoom", {

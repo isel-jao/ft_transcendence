@@ -34,7 +34,7 @@ export const usePersonControls = () => {
   return movement;
 };
 
-export const resize = () => {
+export const useResize = () => {
   const [size, setSize] = useState({
     width: 1440,
     height: 1380,

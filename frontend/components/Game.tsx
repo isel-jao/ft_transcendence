@@ -23,65 +23,58 @@ const Game = ({ socket, gameData, roomData, size }: gameType) => {
   const player = useRef<any>();
   const player2 = useRef<any>();
   const ball = useRef<any>();
-  const cornerTop = useRef<any>();
-  const cornerBottom = useRef<any>();
-  const cornerLeft = useRef<any>();
-  const cornerRight = useRef<any>();
+
   let { left, right } = usePersonControls();
-  useEffect(() => {
-    const controls = new OrbitControls(camera, gl.domElement);
-    return () => {
-      controls.dispose();
-    };
-  }, [camera, gl]);
+  // useEffect(() => {
+  //   const controls = new OrbitControls(camera, gl.domElement);
+  //   return () => {
+  //     controls.dispose();
+  //   };
+  // }, [camera, gl]);
   useEffect(() => {
     if (roomData.player2 == socket.id) scene.rotateZ(Math.PI);
     console.log("RENDER");
   }, []);
-  // useEffect(() => {
-  //   if (
-  //     (left || right) &&
-  //     (roomData.player1 == socket.id || roomData.player2 == socket.id)
-  //   ) {
-  //     if (roomData.player2 == socket.id)
-  //       socket.emit("paddleMove", {
-  //         roomName: roomData.roomName,
-  //         socketId: socket.id,
-  //         right: left,
-  //         left: right,
-  //       });
-  //     else
-  //       socket.emit("paddleMove", {
-  //         roomName: roomData.roomName,
-  //         socketId: socket.id,
-  //         left,
-  //         right,
-  //       });
-  //   }
-  // }, [left, right]);
-  // useEffect(() => {
-  //   if (size.width < 1000) camera.fov = 110;
-  //   if (size.width > 1000) camera.fov = 100;
-  //   if (size.width < 700) camera.fov = 150;
-  //   camera.updateProjectionMatrix();
-  // }, [size]);
-  // useFrame(({ gl, scene, camera }) => {
-  //   ball.current.position.copy(gameData.ball);
-  //   player.current.position.copy(gameData.player1);
-  //   player2.current.position.copy(gameData.player2);
-  //   gl.render(scene, camera);
-  // }, 1);
+  useEffect(() => {
+    if (
+      (left || right) &&
+      (roomData.player1 == socket.id || roomData.player2 == socket.id)
+    ) {
+      if (roomData.player2 == socket.id)
+        socket.emit("paddleMove", {
+          roomName: roomData.roomName,
+          socketId: socket.id,
+          right: left,
+          left: right,
+        });
+      else
+        socket.emit("paddleMove", {
+          roomName: roomData.roomName,
+          socketId: socket.id,
+          left,
+          right,
+        });
+    }
+  }, [left, right]);
+
+  useEffect(() => {
+    if (size.width < 1000) camera.fov = 110;
+    if (size.width > 1000) camera.fov = 100;
+    if (size.width < 700) camera.fov = 150;
+    camera.updateProjectionMatrix();
+  }, [size]);
+
+  useFrame(({ gl, scene, camera }) => {
+    ball.current.position.copy(gameData.ball);
+    player.current.position.copy(gameData.player1);
+    player2.current.position.copy(gameData.player2);
+    gl.render(scene, camera);
+  }, 1);
+
   return (
     <>
-      {/* <Ball ref={ball} />
-      <Stage
-        ref={{
-          refBottom: cornerBottom,
-          refTop: cornerTop,
-          refLeft: cornerLeft,
-          refRight: cornerRight,
-        }}
-      />
+      <Ball ref={ball} />
+      <Stage />
       <Padle
         position={[0, -60 / 2 + 3, 0]}
         args={[1.5, 2, PADDLE_SIZE]}
@@ -90,7 +83,7 @@ const Game = ({ socket, gameData, roomData, size }: gameType) => {
         color="#C70039"
         name="player1"
         ref={player}
-        />
+      />
 
       <Padle
         position={[0, 60 / 2 - 3, 0]}
@@ -100,7 +93,7 @@ const Game = ({ socket, gameData, roomData, size }: gameType) => {
         color="#00FF00"
         name="player2"
         ref={player2}
-        /> */}
+      />
     </>
   );
 };
