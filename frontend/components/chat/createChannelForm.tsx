@@ -34,7 +34,7 @@ const CreateChannelForm = (props: {
       console.log("connected");
     });
 
-    socket.on("onChannel", (newChannel) => {
+    socket.on("onRoom", (newChannel) => {
       setChannels((prev: any) => [
         ...prev,
         {
@@ -47,7 +47,7 @@ const CreateChannelForm = (props: {
 
     return () => {
       socket.off("connect");
-      socket.off("onChannel");
+      socket.off("onRoom");
     };
   }, []);
 
@@ -88,8 +88,10 @@ const CreateChannelForm = (props: {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
+      console.log({ values });
+
       //TODO to get the user_id it from the auth or a userContext
-      socket.emit("newChannel", { ...values, user_id: 1 });
+      socket.emit("newRoom", { ...values, user_id: 1 });
       resetForm();
       hide();
     },
@@ -151,8 +153,8 @@ const CreateChannelForm = (props: {
           )}
 
         <FormControl>
-          <FormLabel id="demo-radio-buttons-group-label">
-            Channel Type
+          <FormLabel>
+            <Typography>Channel Type</Typography>
           </FormLabel>
           <RadioGroup
             row

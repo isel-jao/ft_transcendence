@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Param, Delete, Put, } from "@nestjs/common";
 import { Routes } from "../utils/constants"
 import { ConversationsService } from "./conversations.service";
-import { CreateChannelDto, JoinChannelDto } from "./dto/dto";
+import { createRoomDto, JoinChannelDto } from "./dto/dto";
 import { Conversation } from "./Interface";
 import { Public } from "src/auth/decorators/public.decorator";
 
@@ -33,9 +33,8 @@ export class ConversationsController {
 
     //post request to get the conversation
     @Post()
-    async createChannel(@Body() createChannelPayload: CreateChannelDto) {
-        // console.log({ createChannelPayload });
-        return await this.conversationsService.createChannel(createChannelPayload);
+    async createRoom(@Body() createRoomPayload: createRoomDto) {
+        return await this.conversationsService.createRoom(createRoomPayload);
     }
 
     @Get(':user_id')

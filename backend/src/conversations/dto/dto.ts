@@ -16,7 +16,7 @@ export class CreateConversationDto {
 
 }
 
-export class CreateChannelDto {
+export class createRoomDto {
 
     @IsString()
     @IsNotEmpty()

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -35,16 +35,15 @@ const MemberList = (props: {
     if (selected) {
       deleteConversationById(selected?.id)
         .then((res) => {
-          //TODO show message of succ
           refetch();
-          // setSelectChannel(channels[0]);
-          // hide();
         })
         .catch((err) => {
           //TODO she message of fail
+          console.log({ err });
         })
         .finally(() => {
-          setSelected(channels[0]);
+          if (channels.length > 0) setSelected(channels[0]);
+          else setSelected(null);
           hide();
         });
     }

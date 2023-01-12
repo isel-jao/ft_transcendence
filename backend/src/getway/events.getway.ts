@@ -6,6 +6,7 @@ import { getMetadataStorage, isArray } from "class-validator";
 import { Server, Socket } from 'socket.io'
 import { ICreateDm, IMember } from "src/conversations/Interface";
 import { ConversationsService } from "src/conversations/conversations.service";
+import { createRoomDto } from "src/conversations/dto/dto";
 import { DmsServices } from "src/dms/dms.service";
 import { MessagesService } from "src/messages/messages.service";
 
@@ -79,19 +80,21 @@ export class EventsGeteway implements NestGateway {
 
         console.log("-------------------newJoin", data);
         const channel = await this.conversations.joinChannel(data);
-        client.join(channel.id.toString());
-        this.server.to(channel.id.toString()).emit("onJoin", channel);
+        client.join(channel.user.id.toString());
+        this.server.to(channel.user.id.toString()).emit("onJoin", channel);
 
     }
 
 
 
-    //TODO add type
-    @SubscribeMessage("newChannel")
-    async onNewChannel(@MessageBody() data: any, @ConnectedSocket() client) {
-        const channel = await this.conversations.createChannel(data);
-        client.join(channel.id.toString());
-        this.server.to(channel.id.toString()).emit("onChannel", channel);
+    //TODO refactored, need check on socket  
+    @SubscribeMessage("newRoom")
+    async onNewChannel(@MessageBody() data: createRoomDto, @ConnectedSocket() client) {
+        const room = await this.conversations.createRoom(data);
+        if (room) {
+            client.join(room.id.toString());
+            this.server.to(room.id.toString()).emit("onRoom", room);
+        }
     }
 
 

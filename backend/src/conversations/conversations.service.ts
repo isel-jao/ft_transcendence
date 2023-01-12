@@ -2,11 +2,12 @@ import { Body, HttpStatus, Injectable } from "@nestjs/common";
 import { Conversation } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
 import { comparePasswords, encodePassword } from "src/utils/bycrypt";
-import { CreateChannelDto, CreateConversationDto } from "./dto/dto";
+import { createRoomDto, CreateConversationDto } from "./dto/dto";
 import { ConversationExistException } from "./exceptions/conversationExists";
 import { createConversationException } from "./exceptions/createConversationException";
 import { conversation } from "./Interface";
 import { channel } from "diagnostics_channel";
+
 
 
 @Injectable()
@@ -14,23 +15,29 @@ export class ConversationsService {
    constructor(private prisma: PrismaService) { }
 
    //TODO add return type 
-   //TODO gandel errors and throw exception doesnt work
-   async createChannel(data): Promise<Conversation | null> {
+   async createRoom(data: any): Promise<Conversation | null> {
       const user_id = data.user_id;
+      var password;
       delete data.user_id;
+
       const recordExists = await this.prisma.conversation.findUnique({
          where: {
             name: data.name
          }
       })
-      const password = encodePassword(data.password);
-      const channel = await this.prisma.conversation.create({ data: { ...data, password } });
-      if (channel)
+      if (recordExists)
+         throw new ConversationExistException();
+
+      if (password != "")
+         password = encodePassword(data.password);
+
+      const room = await this.prisma.conversation.create({ data: { ...data, password } });
+      if (room) {
          await this.prisma.user_Conv.create({
             data: {
                conversation: {
                   connect: {
-                     id: channel.id,
+                     id: room.id,
                   }
                },
                user: {
@@ -43,10 +50,10 @@ export class ConversationsService {
                is_owner: true,
             }
          })
-      if (recordExists)
-         throw new ConversationExistException()
-      return (channel);
-
+      }
+      else
+         throw new createConversationException("Room doesn't exist", 404);
+      return (room);
    }
 
    //TODO change the way of getting id_user
