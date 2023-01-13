@@ -14,6 +14,7 @@ import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
 const Muitheme = createTheme(theme);
 import createCache from "@emotion/cache";
+import Notif from "../components/Notification";
 
 function createEmotionCache() {
   return createCache({ key: "css", prepend: true });
@@ -41,6 +42,7 @@ function MyApp(props: MyAppProps) {
           <ThemeProvider theme={theme}>
             {AppProps.router.pathname !== "/login" ? (
               <Layout>
+                <Notif />
                 <Component {...pageProps} />
               </Layout>
             ) : (

@@ -22,10 +22,10 @@ export const intialValue: GameDataType = {
 };
 
 export const initialRoom: RoomDataType = {
-  player1: "q",
-  player2: "q",
-  roomName: "q",
+  player1: "",
+  player2: "",
+  roomName: "",
   status: "",
   winner: "",
-  type: "easy",
+  type: "hard",
 };
