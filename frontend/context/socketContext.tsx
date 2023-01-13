@@ -25,6 +25,8 @@ const socket: Socket = io("http://localhost:3001", {
     // typeof window != undefined ? window.localStorage.getItem("token") : null,
   },
 });
+
+let tmpRoom: RoomDataType = initialRoom;
 export const SocketContext = ({ children }: any) => {
   const [userData, setUserData] = useState<userDataInterface | null>(null);
   const [roomData, setRoom] = useState<RoomDataType>(initialRoom);
@@ -58,16 +60,36 @@ export const SocketContext = ({ children }: any) => {
     });
     socket.on("joinRoom", (data: RoomDataType) => {
       setData(intialValue);
+      console.log("data in join room", data);
       setRoom(data);
+      tmpRoom = data;
       Router.push("/game/" + data.roomName);
+      console.log("JOINROOM", data);
     });
 
     socket.on("leftGame", (data) => {
-      console.log(data);
+      console.log("inside LEFT GAME", tmpRoom);
       setRoom({
         ...roomData,
         status: data.status,
         winner: data.player1 != "" ? roomData.player1 : roomData.player2,
+      });
+    });
+
+    socket.on("gameOver", (data) => {
+      const { status, player1, player2 } = data;
+      console.log("GameOVER", roomData);
+      setRoom({
+        ...roomData,
+        status: status,
+        winner: player1 === 10 ? roomData.player1 : roomData.player2,
+      });
+      setData({
+        ...intialValue,
+        score: {
+          player1: player1,
+          player2: player2,
+        },
       });
     });
     return () => {
@@ -75,23 +97,10 @@ export const SocketContext = ({ children }: any) => {
       socket.off("error");
       socket.off("joinRoom");
       socket.off("leftGame");
+      socket.off("gameOver");
     };
-  }, []);
-  socket.on("gameOver", (data) => {
-    const { status, player1, player2 } = data;
-    setRoom({
-      ...roomData,
-      status: status,
-      winner: player1 === 10 ? roomData.player1 : roomData.player2,
-    });
-    setData({
-      ...intialValue,
-      score: {
-        player1: player1,
-        player2: player2,
-      },
-    });
-  });
+  }, [roomData]);
+
   useEffect(() => {
     socket.on("gameData", (data: GameDataType) => {
       setData(data);
