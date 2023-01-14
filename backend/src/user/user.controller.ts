@@ -10,6 +10,7 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  Req,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { User, CreateUserDto, UpdateUserDto } from "./entities";
@@ -26,8 +27,8 @@ export class UserController {
 
   @ApiOkResponse({ type: [User] })
   @Get()
-  findAll(@Query() query: FindAllQuery) {
-    return this.userService.findAll(query);
+  findAll(@Query() query: FindAllQuery, @Req() req: any) {
+    return this.userService.findAll(query, req.user);
   }
 
   @ApiOkResponse({ type: User })

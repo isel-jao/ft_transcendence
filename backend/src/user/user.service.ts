@@ -11,14 +11,29 @@ export class UserService {
   @HandleRequestErrors()
   async findAll(options?: any, user?: { id: number }) {
     const totalResult = await this.prisma.user.count({
+      where: options.where,
+    });
+    const results = await this.prisma.user.findMany({
+      select: {
+        id: true,
+        userName: true,
+        imageUrl: true,
+        status: true,
+        profile: {
+          select: {
+            _count: true,
+            badges: true,
+          }
+        }
+      },
       where: {
-        ...options.where,
         id: {
           not: user?.id
         }
       }
+
+
     });
-    const results = await this.prisma.user.findMany(options);
     return { totalResult, results };
   }
 
