@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { Box } from "@mui/material";
-import { deleteConversationById } from "../../services/conversations";
 import { IConversation } from "../../types";
 import { convContext } from "../../context/selectedConversationContext";
 import FriendsList from "./friends-list";
@@ -10,10 +9,10 @@ import MemberList from "./member-list";
 //TODO Add type to the componenet
 
 const MembersPannel = (props: {
-  refetch: () => void;
+  setChannels: () => void;
   channels: IConversation[];
 }) => {
-  const { refetch, channels } = props;
+  const { channels, setChannels } = props;
   const { activeTab } = useContext(convContext);
 
   return (
@@ -28,7 +27,7 @@ const MembersPannel = (props: {
       {activeTab > 0 ? (
         <FriendsList />
       ) : (
-        <MemberList refetch={refetch} channels={channels} />
+        <MemberList setChannels={setChannels} channels={channels} />
       )}
     </Box>
   );

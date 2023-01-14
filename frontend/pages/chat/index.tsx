@@ -45,7 +45,7 @@ const Chat = () => {
           >
             <SidePannel channels={channels} show={show} refetch={refetch} />
             <MessagesContainer />
-            <MembersPannel refetch={refetch} channels={channels} />
+            <MembersPannel setChannels={setChannels} channels={channels} />
           </Box>
         </Box>
       </SelectedConversationProvider>

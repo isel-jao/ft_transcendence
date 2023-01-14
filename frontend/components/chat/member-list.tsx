@@ -13,41 +13,48 @@ import {
 import useMembers from "../../hooks/useMembers";
 import CustomButton from "./customButton";
 import { Dialog, DialogTitle, useDialog } from "../../hooks/useDialogue";
-import { deleteConversationById } from "../../services/conversations";
 import { IConversation, IMember } from "../../types";
 import { convContext } from "../../context/selectedConversationContext";
 import { LEAVECHANNEL, USERSETTING } from "../../constants/constants";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { leaveConversation } from "../../services/conversations";
 
 const ITEM_HEIGHT = 48;
 
 //TODO add type
 const MemberList = (props: {
-  refetch: () => void;
   channels: IConversation[];
+  setChannels: Function;
 }) => {
   const { data: members } = useMembers();
   const { show, hide, on } = useDialog();
-  const { refetch, channels } = props;
+  const { setChannels, channels } = props;
   const { selected, setSelected } = useContext(convContext);
 
   const leaveChannelHandler = () => {
     if (selected) {
-      deleteConversationById(selected?.id)
+      leaveConversation(selected?.id)
         .then((res) => {
-          refetch();
+          setChannels((prev: IConversation[]) => {
+            const updates = prev.filter((item) => {
+              return item.id != res.conversationId;
+            });
+            return updates;
+          });
         })
         .catch((err) => {
-          //TODO she message of fail
           console.log({ err });
         })
         .finally(() => {
-          if (channels.length > 0) setSelected(channels[0]);
-          else setSelected(null);
+          setSelected(channels.length == 0 ? null : channels[0]);
           hide();
         });
     }
   };
+
+  useEffect(() => {
+    return console.log(channels);
+  }, [channels, setChannels]);
 
   return (
     <>

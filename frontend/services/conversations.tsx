@@ -51,7 +51,7 @@ async function getConversationMessages(id_conversation?: number) {
     });
 }
 
-async function deleteConversationById(id_conversation: number) {
+async function leaveConversation(id_conversation: number) {
   return poster(`rooms/${id_conversation}`)
     .then((result) => {
       return result;
@@ -108,7 +108,7 @@ export {
   getConversations,
   createChannel,
   getConversationMessages,
-  deleteConversationById,
+  leaveConversation,
   getAllConvrsations,
   joinChannel,
   getAllDmsOfuser,
