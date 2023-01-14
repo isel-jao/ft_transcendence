@@ -19,7 +19,7 @@ import { LoggerMiddleware } from "./common/middleware/logger.middleware";
 import { AuthModule } from "./auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard";
-import { GatwayModule } from "./game/gateway/gateway.module";
+// import { GatwayModule } from "./game/gateway/gateway.module";
 @Module({
   imports: [UserModule, BadgeModule,
     MessageModule,
@@ -28,7 +28,7 @@ import { GatwayModule } from "./game/gateway/gateway.module";
     ProfileModule,
     FriendRequestModule,
     AuthModule,
-    GatwayModule,
+    // GatwayModule,
   ],
   controllers: [AppController],
   providers: [
