@@ -176,7 +176,7 @@ const Users = () => {
     setSearchInput(e.target.value);
   };
 
-  console.log(accepteReq);
+  console.log(data);
 
   return (
     <>
@@ -253,7 +253,9 @@ const Users = () => {
                       </button>
                     </div>
                   )}
-                  {reqStatus === "friend" && <span>Friend</span>}
+                  {reqStatus === "friend" && (
+                    <Image src="/icons/friend.svg" width={25} height={25} />
+                  )}
                 </div>
                 <img
                   src={
@@ -268,23 +270,15 @@ const Users = () => {
                 />
                 {idx === isSelected && (
                   <BadgesStyle>
-                    <h3>Badges :</h3>
+                    {profile?.badges.length !== 0 && <h3>Badges :</h3>}
                     <div className="badges">
-                      <img
-                        src="/icons/badges/achiv1.svg"
-                        width={30}
-                        height={30}
-                      />
-                      <img
-                        src="/icons/badges/achiv2.svg"
-                        width={30}
-                        height={30}
-                      />
-                      <img
-                        src="/icons/badges/achiv3.svg"
-                        width={45}
-                        height={45}
-                      />
+                      {profile?.badges?.map((_: any, idx: number) => (
+                        <img
+                          src={`/icons/badges/achiv${idx + 1}.svg`}
+                          width={30}
+                          height={30}
+                        />
+                      ))}
                     </div>
                     <div className="average">
                       <h3>AVG: </h3>

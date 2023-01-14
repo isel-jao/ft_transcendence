@@ -96,11 +96,7 @@ export default function Login() {
               <h3>Intra</h3>
             </ButtonUi>
           </a>
-          <Lottie
-            animationData={PingPongJson}
-            loop={true}
-            style={LottieStyle}
-          />
+          <Lottie animationData={PingPongJson} loop style={LottieStyle} />
         </NextWrapper>
       </Wrapper>
     </Container>

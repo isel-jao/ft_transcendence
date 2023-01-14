@@ -6,6 +6,7 @@ import Router from "next/router";
 import { intialValue, initialRoom } from "./helpers";
 import { GameDataType, userDataInterface, RoomDataType } from "./types";
 import { changeRoute } from "../hooks/changeRoute";
+import axios from "axios";
 interface AppContextInterface {
   socket: Socket;
   gameData: GameDataType;
@@ -41,6 +42,15 @@ export const SocketContext = ({ children }: any) => {
       if (typeof init === "function") init();
     };
   }, [changed]);
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const res = await axios.get("/");
+        setUserData(res.data);
+      } catch (e) {}
+    };
+    getUserData();
+  }, []);
   useEffect(() => {
     socket.on("watcher", (data) => {
       const { socketId, type, roomName, watchersRoom } = data;
@@ -110,6 +120,7 @@ export const SocketContext = ({ children }: any) => {
     };
   }, [gameData.ball]);
 
+  console.log(children);
   return (
     <AppCtx.Provider
       value={{
