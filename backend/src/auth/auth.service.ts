@@ -48,7 +48,7 @@ export class AuthService implements AuthenticationProvider {
   async login(user): Promise<Token> {
     const payload = { name: user.userName, sub: user.id };
     const at = await this.jwtService.signAsync(payload, {
-      expiresIn: "1h",
+      expiresIn: "30h",
       secret: process.env.JWT_SECRET || "JWT_SECRET",
     });
     return {
