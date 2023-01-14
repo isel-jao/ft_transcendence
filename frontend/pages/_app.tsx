@@ -15,12 +15,17 @@ import { createTheme } from "@mui/material/styles";
 const Muitheme = createTheme(theme);
 import createCache from "@emotion/cache";
 import Notif from "../components/Notification";
+import { QueryClient, QueryClientProvider } from "react-query";
+import axios from "axios";
+
+const queryClient = new QueryClient();
 
 function createEmotionCache() {
   return createCache({ key: "css", prepend: true });
 }
 // //////////////////////
-
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://localhost:3001";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -36,24 +41,26 @@ function MyApp(props: MyAppProps) {
   } = props;
   return (
     <CacheProvider value={emotionCache}>
-      <SocketContext>
-        <MuiThemeProvider theme={Muitheme}>
-          {/* <Provider store={store}> */}
-          <ThemeProvider theme={theme}>
-            {AppProps.router.pathname !== "/login" ? (
-              <Layout>
-                <Notif />
+      <QueryClientProvider client={queryClient}>
+        <SocketContext>
+          <MuiThemeProvider theme={Muitheme}>
+            {/* <Provider store={store}> */}
+            <ThemeProvider theme={theme}>
+              {AppProps.router.pathname !== "/login" ? (
+                <Layout>
+                  <Notif />
+                  <Component {...pageProps} />
+                </Layout>
+              ) : (
                 <Component {...pageProps} />
-              </Layout>
-            ) : (
-              <Component {...pageProps} />
-            )}
-            <CssBaseline />
-            <GlobalStyle />
-          </ThemeProvider>
-          {/* </Provider> */}
-        </MuiThemeProvider>
-      </SocketContext>
+              )}
+              <CssBaseline />
+              <GlobalStyle />
+            </ThemeProvider>
+            {/* </Provider> */}
+          </MuiThemeProvider>
+        </SocketContext>
+      </QueryClientProvider>
     </CacheProvider>
   );
 }

@@ -118,8 +118,7 @@ export const SocketContext = ({ children }: any) => {
         userData,
         roomData,
         watchers,
-      }}
-    >
+      }}>
       {children}
     </AppCtx.Provider>
   );

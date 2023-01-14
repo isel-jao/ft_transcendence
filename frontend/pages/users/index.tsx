@@ -3,6 +3,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { Button } from "../../components/style/Home";
 import axios from "axios";
+import { useMutation, useQuery } from "react-query";
 
 const ClassStyle = {
   height: "340px",
@@ -140,42 +141,42 @@ const Users = () => {
   const [userData, setUserData] = useState<any>([]);
   const [searchInput, setSearchInput] = useState<string>("");
 
+  const { data, isLoading } = useQuery<any>(["user", searchInput], async () => {
+    const res = await axios.get("/user", {
+      params: {
+        where: JSON.stringify({
+          userName: {
+            contains: searchInput,
+          },
+        }),
+      },
+    });
+    return res?.data?.results;
+  });
+  const { mutate, data: sendReq } = useMutation(async (newTodo: any) => {
+    const res = await axios.post("/user/request", newTodo);
+    return res.data;
+  });
+  const { mutate: mutateAccepte, data: accepteReq } = useMutation(
+    async (newTodo: any) => {
+      const res = await axios.post("/user/accept", newTodo);
+      return res.data;
+    }
+  );
+  const { mutate: mutateReject, data: rejectReq } = useMutation(
+    async (newTodo: any) => {
+      const res = await axios.post("/user/reject", newTodo);
+      return res.data;
+    }
+  );
   const onSearch = (e: any) => {
     e.preventDefault();
-    getUsers();
   };
   const onHandleChangeInput = (e: any) => {
     setSearchInput(e.target.value);
   };
 
-  const getUsers = async () => {
-    try {
-      const { data }: any = await axios.get("/user", {
-        params: {
-          where: JSON.stringify({
-            userName: {
-              contains: searchInput,
-            },
-          }),
-          include: JSON.stringify({
-            _count: true,
-            profile: {
-              include: {
-                _count: true,
-              },
-            },
-          }),
-        },
-      });
-      setUserData(data.results);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
+  console.log(accepteReq);
 
   return (
     <>
@@ -192,28 +193,67 @@ const Users = () => {
         </form>
       </SearchLayout>
       <Container>
-        {userData?.map(
-          ({ userName, imageUrl, status, profile }: any, idx: number) => (
+        {data?.map(
+          (
+            { userName, imageUrl, status, profile, id, reqStatus }: any,
+            idx: number
+          ) => (
             <Card
               key={idx}
               style={{
                 backgroundImage: `url(${imageUrl})`,
-              }}
-            >
+              }}>
               <CardInfo
                 style={
                   isSelected === idx
                     ? ClassStyle
                     : { transition: "0.5s ease-in-out" }
-                }
-              >
+                }>
                 <div className="CardTitle">
                   <div>
                     <h3>#{userName}</h3>
                     <span>{status}</span>
                   </div>
-
-                  <Image src="/icons/add.svg" width={25} height={25} />
+                  {reqStatus === "nothing" && (
+                    <Image
+                      onClick={() =>
+                        mutate({
+                          id,
+                        })
+                      }
+                      src="/icons/add.svg"
+                      width={25}
+                      height={25}
+                    />
+                  )}
+                  {reqStatus === "pending" && <span>pending</span>}
+                  {reqStatus === "sent" && (
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <button
+                        onClick={() =>
+                          mutateReject({
+                            id,
+                          })
+                        }
+                        style={{
+                          cursor: "pointer",
+                          background: "red",
+                          padding: 5,
+                        }}>
+                        Decline
+                      </button>
+                      <button
+                        onClick={() => mutateAccepte({ id })}
+                        style={{
+                          cursor: "pointer",
+                          background: "green",
+                          padding: 5,
+                        }}>
+                        Accepte
+                      </button>
+                    </div>
+                  )}
+                  {reqStatus === "friend" && <span>Friend</span>}
                 </div>
                 <img
                   src={
@@ -266,7 +306,7 @@ const Users = () => {
             </Card>
           )
         )}
-        {userData?.length === 0 && <h4>players list is empty</h4>}
+        {data?.length === 0 && <h4>players list is empty</h4>}
       </Container>
     </>
   );
