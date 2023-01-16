@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsString, MinLength, MaxLength, IsDateString, IsOptional } from 'class-validator'
+import { IsInt, IsString, MinLength, MaxLength, IsDateString, IsOptional, IsBoolean } from 'class-validator'
 import { IsPassword, IsPhoneNumber } from 'src/utils';
 
 export class User {
@@ -24,6 +24,8 @@ export class User {
   createdAt: Date;
   @ApiProperty({ required: false })
   updatedAt: Date;
+  @ApiProperty({ required: false })
+  isFistSignIn: boolean;
 }
 
 export class CreateUserDto {
@@ -69,6 +71,10 @@ export class CreateUserDto {
   @MaxLength(255)
   @IsOptional()
   status: string;
+  @ApiProperty({ required: false })
+  @IsBoolean()
+  @IsOptional()
+  isFistSignIn: boolean;
 }
 
 export class UpdateUserDto {
@@ -114,5 +120,9 @@ export class UpdateUserDto {
   @MaxLength(255)
   @IsOptional()
   status: string;
+  @ApiProperty({ required: false })
+  @IsBoolean()
+  @IsOptional()
+  isFistSignIn: boolean;
 }
 
