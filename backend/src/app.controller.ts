@@ -6,8 +6,8 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Get()
-  getHello(@Req() req: any): string {
+  getUser(@Req() req: { user: { id: number } }) {
 
-    return req.user;
+    return this.appService.getUser(req.user.id);
   }
 }
