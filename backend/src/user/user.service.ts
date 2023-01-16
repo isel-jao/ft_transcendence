@@ -5,7 +5,7 @@ import { CreateUserDto, UpdateUserDto } from "./entities";
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   @FindAllOptions({})
   @HandleRequestErrors()
@@ -63,7 +63,18 @@ export class UserService {
 
   @HandleRequestErrors()
   async findOne(id: number, query?: any) {
-    return await this.prisma.user.findUnique({ where: { id }, ...query });
+    return await this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        profile: {
+          include: {
+            badges: true,
+            matchesWon: true,
+            matchesLose: true,
+          }
+        }
+      }
+    });
   }
 
   @HandleRequestErrors()

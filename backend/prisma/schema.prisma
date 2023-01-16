@@ -59,6 +59,7 @@ model User {
   messages            Message[]       @relation("user_messages")
   createdAt           DateTime        @default(now()) @map("created_at")
   updatedAt           DateTime        @updatedAt @map("updated_at")
+  isFistSignIn        Boolean         @default(true) @map("is_first_sign_in")
 
   @@map(name: "user")
 }
