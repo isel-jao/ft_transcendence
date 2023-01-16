@@ -76,7 +76,7 @@ a:visited {
 }
 
 .shadow {
-  box-shadow: 0 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.05);
+  @extend .shadow-md;
 }
 
 .card {
@@ -124,23 +124,4 @@ a:visited {
     .dark\:text-light,
     .rounded-lg,
     .shadow-sm;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.options {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  & > * {
-    width: 100%;
-    min-height: 2rem;
-    display: flex;
-    align-items: center;
-    &:hover {
-      background: rgba(0, 0, 0, 0.05);
-    }
-  }
 }

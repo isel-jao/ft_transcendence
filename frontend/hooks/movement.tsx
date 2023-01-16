@@ -34,10 +34,10 @@ export const usePersonControls = () => {
   return movement;
 };
 
-export const resize = () => {
+export const useResize = () => {
   const [size, setSize] = useState({
-    width: window.innerWidth || 0,
-    height: window.innerHeight || 0,
+    width: 1440,
+    height: 1380,
   });
   useEffect(() => {
     const handleResize = () => {

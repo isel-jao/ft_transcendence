@@ -4,71 +4,77 @@ import Stage from "./modules/Stage";
 import Padle from "./modules/Padle";
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { usePersonControls, resize } from "../hooks/movement";
+import { usePersonControls } from "../hooks/movement";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-
+import { Socket } from "socket.io-client";
+import { GameDataType, RoomDataType } from "../context/types";
+interface gameType {
+  socket: Socket;
+  gameData: GameDataType;
+  roomData: RoomDataType;
+  size: {
+    width: Number;
+    height: Number;
+  };
+}
 const PADDLE_SIZE = 40 / 5;
-const Game = (props: any) => {
+const Game = ({ socket, gameData, roomData, size }: gameType) => {
   const { camera, gl, scene }: any = useThree();
   const player = useRef<any>();
   const player2 = useRef<any>();
   const ball = useRef<any>();
-  const cornerTop = useRef<any>();
-  const cornerBottom = useRef<any>();
-  const cornerLeft = useRef<any>();
-  const cornerRight = useRef<any>();
-  const { socket, gameData, roomData } = props;
+
   let { left, right } = usePersonControls();
-  let size = resize();
-  useEffect(() => {
-    const controls = new OrbitControls(camera, gl.domElement);
-    return () => {
-      controls.dispose();
-    };
-  }, [camera, gl]);
+  // useEffect(() => {
+  //   const controls = new OrbitControls(camera, gl.domElement);
+  //   return () => {
+  //     controls.dispose();
+  //   };
+  // }, [camera, gl]);
   useEffect(() => {
     if (roomData.player2 == socket.id) scene.rotateZ(Math.PI);
+    console.log("RENDER");
   }, []);
   useEffect(() => {
     if (
       (left || right) &&
       (roomData.player1 == socket.id || roomData.player2 == socket.id)
     ) {
-      socket.emit("paddleMove", {
-        roomName: roomData.roomName,
-        socketId: socket.id,
-        left,
-        right,
-      });
+      if (roomData.player2 == socket.id)
+        socket.emit("paddleMove", {
+          roomName: roomData.roomName,
+          socketId: socket.id,
+          right: left,
+          left: right,
+        });
+      else
+        socket.emit("paddleMove", {
+          roomName: roomData.roomName,
+          socketId: socket.id,
+          left,
+          right,
+        });
     }
   }, [left, right]);
+
   useEffect(() => {
     if (size.width < 1000) camera.fov = 110;
     if (size.width > 1000) camera.fov = 100;
     if (size.width < 700) camera.fov = 150;
     camera.updateProjectionMatrix();
   }, [size]);
+
   useFrame(({ gl, scene, camera }) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
     player2.current.position.copy(gameData.player2);
-    if (roomData.type == "hard") {
-      scene.children[0].position.copy(gameData.ball);
-    }
     gl.render(scene, camera);
   }, 1);
+
   return (
     <>
       <Ball ref={ball} />
-      <Stage
-        ref={{
-          refBottom: cornerBottom,
-          refTop: cornerTop,
-          refLeft: cornerLeft,
-          refRight: cornerRight,
-        }}
-      />
-      {/* Player 1 */}
+      <Stage />
       <Padle
         position={[0, -60 / 2 + 3, 0]}
         args={[1.5, 2, PADDLE_SIZE]}
@@ -78,7 +84,7 @@ const Game = (props: any) => {
         name="player1"
         ref={player}
       />
-      {/* Player 2 */}
+
       <Padle
         position={[0, 60 / 2 - 3, 0]}
         args={[1.5, 2, PADDLE_SIZE]}

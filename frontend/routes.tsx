@@ -3,7 +3,7 @@ import Image from "next/image";
 export interface Route {
   path: string;
   name: string;
-  icon?: React.ReactNode;
+  icon?: any;
   routes?: Route[];
 }
 

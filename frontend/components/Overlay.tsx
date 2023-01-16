@@ -29,22 +29,32 @@ const Text = styled.div<{ data: boolean }>`
 interface type {
   data: boolean;
   isAdmin: boolean;
+  hidden: boolean;
   onClick?: () => void;
 }
-const Overlay: React.FC<type> = ({ data, isAdmin, onClick }: type) => {
+const Overlay: React.FC<type> = ({
+  data,
+  isAdmin,
+  onClick,
+  hidden = false,
+}: type) => {
   return (
     <Div>
-      {data ? (
-        <div>
-          {isAdmin && (
-            <Text data={data} onClick={onClick}>
-              Start New Game
-            </Text>
-          )}
-          <Image src={"/images/giphy.gif"} width={250} height={250} />
-        </div>
+      {hidden ? (
+        data ? (
+          <div>
+            {isAdmin && (
+              <Text data={data} onClick={onClick}>
+                Start New Game
+              </Text>
+            )}
+            <Image src={"/images/giphy.gif"} width={250} height={250} />
+          </div>
+        ) : (
+          <Image src={"/images/loser.gif"} width={300} height={300} />
+        )
       ) : (
-        <Image src={"/images/loser.gif"} width={300} height={300} />
+        <Text data={data}>Game Over</Text>
       )}
     </Div>
   );

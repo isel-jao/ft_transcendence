@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import styled from "styled-components";
 import { Button } from "../../components/style/Home";
-import Card from "../../components/cardGame";
+import Card from "../../components/CardGame";
 import Router from "next/router";
 
 const Div = styled.div`

@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import { Div, Container } from "../../components/style/Game";
 import { AppCtx } from "../../context/socketContext";
 import { Button } from "../../components/style/Home";
+import Image from "next/image";
 const Home: NextPage = () => {
   const [search, setSearch] = useState(false);
   const { socket } = useContext(AppCtx);
@@ -23,14 +24,23 @@ const Home: NextPage = () => {
           earned when one fails to return the ball to the other.
         </p>
         {!search ? (
-          <Button
-            type="submit"
-            value="READY"
-            onClick={() => {
-              setSearch(!search);
-              socket.emit("findGame");
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
-          />
+          >
+            <Button
+              type="submit"
+              value="READY"
+              onClick={() => {
+                setSearch(!search);
+                socket.emit("findGame");
+              }}
+            />
+            <Image src={"/Icons/Keys.svg"} width={150} height={150} />
+          </div>
         ) : (
           <Loading message="Finding a player ..." />
         )}

@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import { Card, Cover, Details } from "./style/Home";
+import { Card, Cover, Details } from "./style/home";
 import Image from "next/image";
 
 type dataType = {
@@ -12,7 +12,7 @@ type dataType = {
     img?: string;
     score?: number;
   };
-  watchers?: number;
+  watchers: number;
 };
 
 const cardGame = (data: dataType) => {
@@ -24,7 +24,7 @@ const cardGame = (data: dataType) => {
           <div>3 goals left</div>
           <div className="seen">
             <Image src="/icons/Watcher.svg" width={15} height={15} />
-            <span style={{ marginLeft: "10px" }}>{data?.watchers | 0}</span>
+            <span style={{ marginLeft: "10px" }}>{data.watchers | 0}</span>
           </div>
         </div>
         <div className="result">
