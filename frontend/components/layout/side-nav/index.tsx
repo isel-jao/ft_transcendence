@@ -114,12 +114,12 @@ const RouterLink = ({ route }: { route: Route }) => {
   const router = useRouter();
   const isActive = router.pathname === route.path;
   return (
-    <Link href={route.path}>
+    <div onClick={() => router.push(route.path)}>
       <div className={` link ${isActive && "contained"}`}>
         <div className="icon">{route.icon}</div>
         <div className="name">{route.name}</div>
       </div>
-    </Link>
+    </div>
   );
 };
 

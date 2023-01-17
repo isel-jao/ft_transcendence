@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getConversations } from "../services/conversations";
-import { IConversation } from "../types";
+import { IConversation } from "../context/types";
 
 const useConversations = () => {
   const [loading, setLoading] = useState(true);

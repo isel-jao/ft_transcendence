@@ -23,8 +23,7 @@ const Chat = () => {
           sx={{
             height: "100%",
             background: "linear-gradient( #171221 10%, #171328 80.61%)",
-          }}
-        >
+          }}>
           <Head>
             <title>Chat</title>
           </Head>
@@ -41,11 +40,13 @@ const Chat = () => {
               border: "1px solid #2C2039",
               backgroundColor: "#fff",
               height: "100%",
-            }}
-          >
+            }}>
             <SidePannel channels={channels} show={show} refetch={refetch} />
             <MessagesContainer />
-            <MembersPannel setChannels={setChannels} channels={channels} />
+            <MembersPannel
+              setChannels={() => setChannels}
+              channels={channels}
+            />
           </Box>
         </Box>
       </SelectedConversationProvider>

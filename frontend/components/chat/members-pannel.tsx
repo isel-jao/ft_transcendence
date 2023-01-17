@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Box } from "@mui/material";
-import { IConversation } from "../../types";
+import { IConversation } from "../../context/types";
 import { convContext } from "../../context/selectedConversationContext";
 import FriendsList from "./friends-list";
 
@@ -22,8 +22,7 @@ const MembersPannel = (props: {
         display: "grid",
         alignContent: "space-between",
         gridTemplateRows: " auto min-content",
-      }}
-    >
+      }}>
       {activeTab > 0 ? (
         <FriendsList />
       ) : (

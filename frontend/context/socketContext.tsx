@@ -118,7 +118,6 @@ export const SocketContext = ({ children }: any) => {
     };
   }, [gameData.ball]);
 
-  console.log(children);
   return (
     <AppCtx.Provider
       value={{
@@ -127,8 +126,7 @@ export const SocketContext = ({ children }: any) => {
         userData,
         roomData,
         watchers,
-      }}
-    >
+      }}>
       {children}
     </AppCtx.Provider>
   );

@@ -4,7 +4,6 @@ type Position = {
   z: Number;
 };
 type GameDataType = {
-
   ball: Position;
   player1: Position;
   player2: Position;
@@ -16,6 +15,17 @@ type GameDataType = {
 type userDataInterface = {
   id: number;
   username: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  userName: string;
+  imageUrl: string;
+  tfaSecret: string | null;
+  isTfaEnabled: boolean;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  isFistSignIn: true;
 };
 type RoomDataType = {
   player1: string;
@@ -93,4 +103,3 @@ export type {
   userDataInterface,
   RoomDataType,
 };
-
