@@ -8,16 +8,22 @@ import {
   Delete,
   ParseIntPipe,
   Query,
-} from '@nestjs/common';
-import { FriendRequestService } from './friendrequest.service';
-import { FriendRequest, CreateFriendRequestDto, UpdateFriendRequestDto } from './entities';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { FindAllQuery, FindOneQuery } from 'src/utils';
+} from "@nestjs/common";
+import { FriendRequestService } from "./friendrequest.service";
+import {
+  FriendRequest,
+  CreateFriendRequestDto,
+  UpdateFriendRequestDto,
+} from "./entities";
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { FindAllQuery, FindOneQuery } from "src/utils";
+import { Public } from "src/auth/decorators/public.decorator";
 
-@ApiTags('friendrequest')
-@Controller('friendrequest')
+@ApiTags("friendrequest")
+// @Public()
+@Controller("friendrequest")
 export class FriendRequestController {
-  constructor(private readonly friendrequestService: FriendRequestService) { }
+  constructor(private readonly friendrequestService: FriendRequestService) {}
 
   @ApiOkResponse({ type: [FriendRequest] })
   @Get()
@@ -26,8 +32,8 @@ export class FriendRequestController {
   }
 
   @ApiOkResponse({ type: FriendRequest })
-  @Get(':id')
-  findOne(@Query() query: FindOneQuery, @Param('id', ParseIntPipe) id: number) {
+  @Get(":id")
+  findOne(@Query() query: FindOneQuery, @Param("id", ParseIntPipe) id: number) {
     return this.friendrequestService.findOne(+id, query);
   }
 
@@ -38,14 +44,17 @@ export class FriendRequestController {
   }
 
   @ApiOkResponse({ type: FriendRequest })
-  @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateFriendRequestDto) {
+  @Patch(":id")
+  update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() data: UpdateFriendRequestDto
+  ) {
     return this.friendrequestService.update(id, data);
   }
 
   @ApiOkResponse({ type: FriendRequest })
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  @Delete(":id")
+  remove(@Param("id", ParseIntPipe) id: number) {
     return this.friendrequestService.remove(id);
   }
 }

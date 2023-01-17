@@ -2,7 +2,6 @@ import { io, Socket } from "socket.io-client";
 import { createContext } from "react";
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
-// import axios from "axios";
 import { intialValue, initialRoom } from "./helpers";
 import { GameDataType, userDataInterface, RoomDataType } from "./types";
 import { changeRoute } from "../hooks/changeRoute";
@@ -20,7 +19,7 @@ interface AppContextInterface {
 // @ts-ignore
 export const AppCtx = createContext<AppContextInterface>(null);
 
-const socket: Socket = io("http://localhost:3001", {
+const socket: Socket = io("http://localhost:5000", {
   query: {
     // token:
     // typeof window != undefined ? window.localStorage.getItem("token") : null,
@@ -85,7 +84,6 @@ export const SocketContext = ({ children }: any) => {
         winner: data.player1 != "" ? roomData.player1 : roomData.player2,
       });
     });
-
     socket.on("gameOver", (data) => {
       const { status, player1, player2 } = data;
       console.log("GameOVER", roomData);
@@ -129,7 +127,8 @@ export const SocketContext = ({ children }: any) => {
         userData,
         roomData,
         watchers,
-      }}>
+      }}
+    >
       {children}
     </AppCtx.Provider>
   );

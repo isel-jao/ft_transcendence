@@ -94,6 +94,7 @@ function MyApp(props: MyAppProps) {
             <ThemeProvider theme={theme}>
               {AppProps.router.pathname !== "/login" && !isLoading ? (
                 <Layout>
+                  <Notif />
                   <Component {...pageProps} />
                   <Notif />
                 </Layout>

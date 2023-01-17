@@ -175,9 +175,6 @@ const Users = () => {
   const onHandleChangeInput = (e: any) => {
     setSearchInput(e.target.value);
   };
-
-  console.log(data);
-
   return (
     <>
       <SearchLayout>

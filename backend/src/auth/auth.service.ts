@@ -28,7 +28,12 @@ export class AuthService implements AuthenticationProvider {
   async createUser(data: CreateUserDto) {
     // console.log("creating user", details);
     return await this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        profile: {
+          create: {},
+        },
+      },
     });
   }
 
@@ -43,7 +48,7 @@ export class AuthService implements AuthenticationProvider {
   async login(user): Promise<Token> {
     const payload = { name: user.userName, sub: user.id };
     const at = await this.jwtService.signAsync(payload, {
-      expiresIn: "1h",
+      expiresIn: "30h",
       secret: process.env.JWT_SECRET || "JWT_SECRET",
     });
     return {
