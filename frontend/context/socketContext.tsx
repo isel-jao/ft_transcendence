@@ -6,6 +6,7 @@ import { intialValue, initialRoom } from "./helpers";
 import { GameDataType, userDataInterface, RoomDataType } from "./types";
 import { changeRoute } from "../hooks/changeRoute";
 import axios from "axios";
+import BasicModal from "../components/Modal/Modal";
 interface AppContextInterface {
   socket: Socket;
   gameData: GameDataType;
@@ -127,7 +128,15 @@ export const SocketContext = ({ children }: any) => {
         roomData,
         watchers,
       }}>
-      {children}
+      {userData?.isFistSignIn ? (
+        <BasicModal
+          userName={userData.userName}
+          imageUrl={userData.imageUrl}
+          id={userData.id}
+        />
+      ) : (
+        children
+      )}
     </AppCtx.Provider>
   );
 };
