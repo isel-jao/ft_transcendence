@@ -2,10 +2,10 @@ import { io, Socket } from "socket.io-client";
 import { createContext } from "react";
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
-// import axios from "axios";
 import { intialValue, initialRoom } from "./helpers";
 import { GameDataType, userDataInterface, RoomDataType } from "./types";
 import { changeRoute } from "../hooks/changeRoute";
+import axios from "axios";
 interface AppContextInterface {
   socket: Socket;
   gameData: GameDataType;
@@ -42,6 +42,15 @@ export const SocketContext = ({ children }: any) => {
     };
   }, [changed]);
   useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const res = await axios.get("/");
+        setUserData(res.data);
+      } catch (e) {}
+    };
+    getUserData();
+  }, []);
+  useEffect(() => {
     socket.on("watcher", (data) => {
       const { socketId, type, roomName, watchersRoom } = data;
       if (type != "LEAVE") {
@@ -75,7 +84,6 @@ export const SocketContext = ({ children }: any) => {
         winner: data.player1 != "" ? roomData.player1 : roomData.player2,
       });
     });
-
     socket.on("gameOver", (data) => {
       const { status, player1, player2 } = data;
       console.log("GameOVER", roomData);
@@ -110,6 +118,7 @@ export const SocketContext = ({ children }: any) => {
     };
   }, [gameData.ball]);
 
+  console.log(children);
   return (
     <AppCtx.Provider
       value={{

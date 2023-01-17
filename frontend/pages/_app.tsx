@@ -17,13 +17,17 @@ import createCache from "@emotion/cache";
 import Notif from "../components/Notification";
 import { QueryClient, QueryClientProvider } from "react-query";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Lottie from "lottie-react";
+import AppLoading from "../public/Apploading.json";
 
 const queryClient = new QueryClient();
+
 function createEmotionCache() {
   return createCache({ key: "css", prepend: true });
 }
 // //////////////////////
-
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:3001";
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -33,12 +37,54 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 function MyApp(props: MyAppProps) {
+  const navigate = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const {
     Component,
     emotionCache = clientSideEmotionCache,
     pageProps,
     ...AppProps
   } = props;
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const res = await axios.get("/");
+        if (res.data) {
+          if (AppProps.router.pathname === "/login") {
+            await navigate.replace("/home");
+          }
+          setTimeout(() => setIsLoading(false), 1500);
+        }
+      } catch (e) {
+        if (AppProps.router.pathname !== "/login") {
+          await navigate.replace("/login");
+        }
+        setTimeout(() => setIsLoading(false), 1500);
+      }
+    };
+    getCurrentUser();
+  }, []);
+
+  if (isLoading)
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}>
+        <Lottie
+          animationData={AppLoading}
+          loop
+          style={{
+            width: 500,
+            height: 500,
+          }}
+        />
+      </div>
+    );
   return (
     <CacheProvider value={emotionCache}>
       <QueryClientProvider client={queryClient}>
@@ -46,10 +92,11 @@ function MyApp(props: MyAppProps) {
           <MuiThemeProvider theme={Muitheme}>
             {/* <Provider store={store}> */}
             <ThemeProvider theme={theme}>
-              {AppProps.router.pathname !== "/login" ? (
+              {AppProps.router.pathname !== "/login" && !isLoading ? (
                 <Layout>
                   <Notif />
                   <Component {...pageProps} />
+                  <Notif />
                 </Layout>
               ) : (
                 <Component {...pageProps} />

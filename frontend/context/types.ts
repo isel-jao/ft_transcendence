@@ -4,6 +4,7 @@ type Position = {
   z: Number;
 };
 type GameDataType = {
+
   ball: Position;
   player1: Position;
   player2: Position;
@@ -92,3 +93,4 @@ export type {
   userDataInterface,
   RoomDataType,
 };
+
