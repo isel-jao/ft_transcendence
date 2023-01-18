@@ -7,6 +7,8 @@ import { GameDataType, userDataInterface, RoomDataType } from "./types";
 import { changeRoute } from "../hooks/changeRoute";
 import axios from "axios";
 import BasicModal from "../components/Modal/Modal";
+import { useCookies } from "react-cookie";
+
 interface AppContextInterface {
   socket: Socket;
   gameData: GameDataType;
@@ -14,7 +16,6 @@ interface AppContextInterface {
   roomData: RoomDataType;
   watchers: [string?];
 }
-// PROBLEM WHEN SETROOM AGAIN AFTER ONE OF THE PLAYER LEAVE RERENDER !!!!!!!!!!!!!!
 // axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = "http://localhost:3001";
 // @ts-ignore
@@ -23,7 +24,6 @@ export const AppCtx = createContext<AppContextInterface>(null);
 const socket: Socket = io("http://localhost:5000", {
   query: {
     // token:
-    // typeof window != undefined ? window.localStorage.getItem("token") : null,
   },
 });
 
@@ -127,7 +127,8 @@ export const SocketContext = ({ children }: any) => {
         userData,
         roomData,
         watchers,
-      }}>
+      }}
+    >
       {userData?.isFistSignIn ? (
         <BasicModal
           userName={userData.userName}
