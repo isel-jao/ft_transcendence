@@ -7,6 +7,7 @@ const Div = styled.div`
   align-content: center;
   width: 80%;
   max-width: 1000px;
+  z-index: 1;
   > span {
     font-weight: 700;
     font-size: 3.5rem;
@@ -26,6 +27,27 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  .bottom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 30%;
+    width: 30%;
+  }
+  .top {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: scaleX(-1) rotate(179deg);
+    height: 30%;
+    width: 30%;
+  }
+  @media (max-width: 450px) {
+    .top,
+    .bottom {
+      display: none;
+    }
+  }
 `;
 
 export { Div, Container };

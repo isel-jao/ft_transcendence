@@ -38,7 +38,7 @@ interface MyAppProps extends AppProps {
 }
 function MyApp(props: MyAppProps) {
   const navigate = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     Component,
     emotionCache = clientSideEmotionCache,
@@ -47,23 +47,23 @@ function MyApp(props: MyAppProps) {
   } = props;
 
   useEffect(() => {
-    const getCurrentUser = async () => {
-      try {
-        const res = await axios.get("/");
-        if (res.data) {
-          if (AppProps.router.pathname === "/login") {
-            await navigate.replace("/home");
-          }
-          setTimeout(() => setIsLoading(false), 1500);
-        }
-      } catch (e) {
-        if (AppProps.router.pathname !== "/login") {
-          await navigate.replace("/login");
-        }
-        setTimeout(() => setIsLoading(false), 1500);
-      }
-    };
-    getCurrentUser();
+    // const getCurrentUser = async () => {
+    //   try {
+    //     const res = await axios.get("/");
+    //     if (res.data) {
+    //       if (AppProps.router.pathname === "/login") {
+    //         await navigate.replace("/home");
+    //       }
+    //       setTimeout(() => setIsLoading(false), 1500);
+    //     }
+    //   } catch (e) {
+    //     if (AppProps.router.pathname !== "/login") {
+    //       await navigate.replace("/login");
+    //     }
+    //     setTimeout(() => setIsLoading(false), 1500);
+    //   }
+    // };
+    // getCurrentUser();
   }, []);
 
   if (isLoading)
@@ -74,7 +74,8 @@ function MyApp(props: MyAppProps) {
           alignItems: "center",
           justifyContent: "center",
           height: "100vh",
-        }}>
+        }}
+      >
         <Lottie
           animationData={AppLoading}
           loop
