@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 import { useResize } from "../../hooks/movement";
 import MatchInfos from "../../components/MatchInfos";
+import HowToPlay from "../../components/HowToPlay";
 // import { PointLightShadow } from "three";
 
 const Home = () => {
@@ -44,6 +45,7 @@ const Home = () => {
         />
       )}
       <MatchInfos />
+      <HowToPlay hidden={true} />
       <div
         style={{
           width: "100%",
