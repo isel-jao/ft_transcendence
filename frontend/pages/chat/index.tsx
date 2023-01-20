@@ -17,6 +17,7 @@ const Chat = () => {
   const { data: channels, setData: setChannels, refetch } = useConversations();
 
   return (
+<<<<<<< HEAD
     <WebSocketProvider>
       <SelectedConversationProvider>
         <Box
@@ -50,6 +51,11 @@ const Chat = () => {
         </Box>
       </SelectedConversationProvider>
     </WebSocketProvider>
+=======
+    <div>
+      <h1>Maroc telecom</h1>
+    </div>
+>>>>>>> main
   );
 };
 

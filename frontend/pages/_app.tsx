@@ -11,11 +11,13 @@ import Layout from "../components/layout";
 import { SnackbarProvider } from "notistack";
 
 import { SocketContext } from "../context/socketContext";
+import axios from "axios";
 // //////////////////////
 import { createTheme } from "@mui/material/styles";
 // Create a theme instance.
 const Muitheme = createTheme(theme);
 import createCache from "@emotion/cache";
+import { useEffect, useState } from "react";
 function createEmotionCache() {
   return createCache({ key: "css", prepend: true });
 }
@@ -27,9 +29,19 @@ const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
+
+axios.defaults.baseURL = `http://localhost:3001`;
+axios.defaults.withCredentials = true;
+
 function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps,
+    ...AppProps
+  } = props;
   return (
+<<<<<<< HEAD
     <SnackbarProvider
       autoHideDuration={3000}
       anchorOrigin={{
@@ -55,6 +67,27 @@ function MyApp(props: MyAppProps) {
         </CacheProvider>
       </CacheProvider>
     </SnackbarProvider>
+=======
+    <CacheProvider value={emotionCache}>
+      <SocketContext>
+        <MuiThemeProvider theme={Muitheme}>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              {AppProps.router.pathname !== "/login" ? (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              ) : (
+                <Component {...pageProps} />
+              )}
+              <CssBaseline />
+              <GlobalStyle />
+            </ThemeProvider>
+          </Provider>
+        </MuiThemeProvider>
+      </SocketContext>
+    </CacheProvider>
+>>>>>>> main
   );
 }
 

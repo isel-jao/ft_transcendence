@@ -3,82 +3,49 @@
 }
 @keyframes slide-up {
   from {
-    margin-top: 0.5rem;
+    transform: translateY(100%);
   }
   to {
-    margin-top: inherit;
-    // transform: scale(1);
+    transform: translateY(0);
   }
 }
-@keyframes slide-right {
+@keyframes slide-down {
   from {
-    transform: translateX(-2rem) scale(0.8);
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes slide-left {
+  from {
+    transform: translateX(100%);
   }
   to {
     transform: translateX(0);
   }
 }
-
-@keyframes slide-up-large {
+@keyframes slide-right {
   from {
-    margin-top: 5rem;
+    transform: translateX(0);
   }
   to {
-    margin-top: inherit;
-    transform: scale(1);
-  }
-}
-@keyframes shake {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-2deg);
-  }
-  50% {
-    transform: rotate(2deg);
-  }
-  75% {
-    transform: rotate(-2deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(45deg);
-  }
-  to {
-    transform: rotate(deg);
-  }
-}
-@keyframes rotate-left {
-  from {
-    transform: rotate(-45deg);
-  }
-  to {
-    transform: rotate(0deg);
+    transform: translateX(100%);
   }
 }
 
 .slide-up {
-  z-index: 2;
-  animation: slide-up 0.5s ease;
+  animation: slide-up 0.3s ease;
 }
-.slide-up-large {
-  animation: slide-up-large 0.5s ease;
+
+.slide-down {
+  animation: slide-down 0.3s ease;
+}
+
+.slide-left {
+  animation: slide-left 0.3s ease;
 }
 
 .slide-right {
-  animation: slide-right 0.5s ease;
-}
-
-.shake {
-  animation: shake 0.5s ease;
-}
-
-.rotate {
-  animation: rotate 0.5s ease;
+  animation: slide-right 0.3s ease;
 }

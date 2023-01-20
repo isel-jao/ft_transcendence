@@ -10,7 +10,10 @@ const Span = styled.div`
   align-content: center;
   width: 100%;
 `;
-const Loading: NextPage = ({ message }: string) => {
+interface LoadingType {
+  message: string;
+}
+const Loading: NextPage<LoadingType> = ({ message }: LoadingType) => {
   return (
     <Span>
       <Player

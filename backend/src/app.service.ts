@@ -1,8 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from "src/prisma.service";
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'api is running';
+  constructor(private prisma: PrismaService) { }
+
+  getUser(id: number) {
+
+    return this.prisma.user.findUnique({
+      where: {
+        id: id
+      }
+    });
   }
 }

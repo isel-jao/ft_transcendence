@@ -9,7 +9,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const PADDLE_SIZE = 40 / 5;
 const Game = (props: any) => {
-  const { camera, gl }: any = useThree();
+  const { camera, gl, scene }: any = useThree();
   const player = useRef<any>();
   const player2 = useRef<any>();
   const ball = useRef<any>();
@@ -27,16 +27,20 @@ const Game = (props: any) => {
     };
   }, [camera, gl]);
   useEffect(() => {
+    if (roomData.player2 == socket.id) scene.rotateZ(Math.PI);
+  }, []);
+  useEffect(() => {
     if (
       (left || right) &&
-      (roomData.player1 == socket.id || roomData.player1 == socket.id)
-    )
-      socket.emit("padlleMove", {
+      (roomData.player1 == socket.id || roomData.player2 == socket.id)
+    ) {
+      socket.emit("paddleMove", {
         roomName: roomData.roomName,
         socketId: socket.id,
         left,
         right,
       });
+    }
   }, [left, right]);
   useEffect(() => {
     if (size.width < 1000) camera.fov = 110;
@@ -47,7 +51,10 @@ const Game = (props: any) => {
   useFrame(({ gl, scene, camera }) => {
     ball.current.position.copy(gameData.ball);
     player.current.position.copy(gameData.player1);
-    player2.current.position.x = gameData.player1.x;
+    player2.current.position.copy(gameData.player2);
+    if (roomData.type == "hard") {
+      scene.children[0].position.copy(gameData.ball);
+    }
     gl.render(scene, camera);
   }, 1);
   return (

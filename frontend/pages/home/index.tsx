@@ -3,6 +3,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { Button } from "../../components/style/Home";
 import Card from "../../components/cardGame";
+import Router from "next/router";
 
 const Div = styled.div`
   display: flex;
@@ -49,7 +50,11 @@ const Home: NextPage = () => {
         <div className="title">
           <span>Win a Game</span>
           <p>Let’s start a game against your friend or a random people.</p>
-          <Button type="submit" value="PLAY NOW" />
+          <Button
+            type="submit"
+            value="PLAY NOW"
+            onClick={() => Router.push("/game")}
+          />
         </div>
         <div className="player">
           <Image src="/icons/Player.svg" width={500} height={500} />

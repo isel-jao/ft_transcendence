@@ -1,29 +1,32 @@
-import { ThemedStyledInterface } from "styled-components";
-import { IconButton } from "@mui/material";
-import { Menu, MenuOpen } from "@mui/icons-material";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-
+import { useProvider } from "../../provider";
 const StyledNav = styled.nav`
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* background-color: ${(props) => props.theme.palette.success.main}; */
   padding: 0 1rem;
 `;
-interface NavProps {
-  toggleOpen: () => void;
-  open: boolean;
+
+interface User {
+  id: number;
+  username: string;
 }
 
-export const Nav = (props: NavProps) => {
+interface Context {
+  user: User;
+}
+
+export const Nav = () => {
+  const context = useProvider<Context>();
+  const { user } = context;
   return (
     <StyledNav className="">
-      <IconButton onClick={props.toggleOpen}>
-        {props.open ? <MenuOpen /> : <Menu />}
-      </IconButton>
+      <div className="route-descreption">route descreption</div>
+      <div className="ml-auto user-descreption">
+        {user ? user.username : "user infos"}
+      </div>
     </StyledNav>
   );
 };

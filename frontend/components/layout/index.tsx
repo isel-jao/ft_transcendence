@@ -32,7 +32,7 @@ const StyledLayout = styled.div`
 
   .sidenav {
     position: absolute;
-    z-index: 1;
+    z-index: 999;
     left: 0;
     width: 6rem;
     transition: width 0.3s ease;
@@ -57,7 +57,7 @@ const StyledLayout = styled.div`
     overflow-x: hidden;
     overflow-y: auto;
     & > * {
-      // margin: 1rem;
+      margin: 0rem;
     }
   }
 `;

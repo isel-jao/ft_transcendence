@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AppCtx } from "../context/socketContext";
 
 export const usePersonControls = () => {
@@ -7,7 +7,7 @@ export const usePersonControls = () => {
     left: false,
     right: false,
   });
-  if (roomData.player1 == socket.id || roomData.player1 == socket.id) {
+  if (roomData?.player1 == socket.id || roomData?.player2 == socket.id) {
     const keys = {
       ArrowRight: "right",
       ArrowLeft: "left",
@@ -16,8 +16,7 @@ export const usePersonControls = () => {
     const moveFieldByKey = (key: string) => keys[key];
 
     useEffect(() => {
-      const handleKeyDown = (e) => {
-        console.log(e.code);
+      const handleKeyDown = (e: React.ChangeEvent) => {
         setMovement((m) => ({ ...m, [moveFieldByKey(e.code)]: true }));
       };
       const handleKeyUp = (e) => {
@@ -37,8 +36,8 @@ export const usePersonControls = () => {
 
 export const resize = () => {
   const [size, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: window.innerWidth || 0,
+    height: window.innerHeight || 0,
   });
   useEffect(() => {
     const handleResize = () => {

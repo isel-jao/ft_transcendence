@@ -10,7 +10,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
     // prisma middleware  
     this.$use(async (params, next) => {
-      console.log('prisma middleware', params);
 
       const { model, action, args } = params;
       if (action == 'create' || action == 'update') {
