@@ -8,6 +8,7 @@ import Select from "../../components/Select";
 const Home: NextPage = () => {
   const [search, setSearch] = useState(false);
   const { socket } = useContext(AppCtx);
+  const [select, setSelected] = useState("Easy");
   return (
     <Container>
       <Icon className={"top"} />
@@ -33,13 +34,13 @@ const Home: NextPage = () => {
               gap: "35px",
             }}
           >
-            <Select />
+            <Select select={select} setSelected={setSelected} />
             <Button
               type="submit"
               value="READY"
               onClick={() => {
                 setSearch(!search);
-                socket.emit("findGame");
+                socket.emit("findGame", { type: select });
               }}
             />
           </div>

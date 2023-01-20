@@ -22,8 +22,9 @@ const Chat = () => {
         <Box
           sx={{
             height: "100%",
-            background: "linear-gradient( #171221 10%, #171328 80.61%)",
-          }}>
+            background: "#000",
+          }}
+        >
           <Head>
             <title>Chat</title>
           </Head>
@@ -37,10 +38,10 @@ const Chat = () => {
             sx={{
               display: "grid",
               gridTemplateColumns: "2fr 5fr 2fr",
-              border: "1px solid #2C2039",
               backgroundColor: "#fff",
               height: "100%",
-            }}>
+            }}
+          >
             <SidePannel channels={channels} show={show} refetch={refetch} />
             <MessagesContainer />
             <MembersPannel

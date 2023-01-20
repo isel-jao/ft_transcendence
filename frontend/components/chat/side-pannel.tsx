@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useContext, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
-import { IConversation } from "../../types";
+import React, { useMemo } from "react";
+import { Box } from "@mui/material";
+import { IConversation } from "../../context/types";
 import CustomTabs, { TabType } from "./tabs";
 import GroupList from "./groups-list";
 import DmList from "./dm-list";
@@ -31,7 +31,7 @@ const SidePannel = (props: {
     <Box
       sx={{
         borderRight: "2px solid #2C2039",
-        background: "linear-gradient( #171221 10%, #171328 80.61%)",
+        background: "#000",
         p: "10px",
       }}
     >

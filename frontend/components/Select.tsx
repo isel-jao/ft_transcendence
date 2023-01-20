@@ -1,4 +1,8 @@
 import styled from "styled-components";
+interface selectType {
+  select: string;
+  setSelected: (e: string) => void;
+}
 const Sl = styled.select`
   background-color: transparent;
   font-size: 1.3rem;
@@ -15,9 +19,9 @@ const Sl = styled.select`
     background: #2c2c2c;
   }
 `;
-const Select = () => {
+const Select = ({ select, setSelected }: selectType) => {
   return (
-    <Sl>
+    <Sl onChange={(e) => setSelected(e.target.value)} value={select}>
       <option>Easy</option>
       <option>Medium</option>
       <option>Hard</option>

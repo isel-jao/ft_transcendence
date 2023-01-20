@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { IConversation, IDm } from "../types";
+import { IConversation, IDm } from "../context/types";
 
 export interface convContextxDTO {
   selected: null | IConversation;

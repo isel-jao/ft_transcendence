@@ -1,18 +1,18 @@
-import type { NextPage } from "next";
 import { Canvas } from "@react-three/fiber";
 import Game from "../../components/Game";
 import { AppCtx } from "../../context/socketContext";
 import { useContext, useEffect, useState } from "react";
 import Overlay from "../../components/Overlay";
 import { useRouter } from "next/router";
-import Image from "next/image";
+
 import { useResize } from "../../hooks/movement";
+import MatchInfos from "../../components/MatchInfos";
 // import { PointLightShadow } from "three";
 
 const Home = () => {
   const router = useRouter();
   const { room } = router.query;
-  const { socket, gameData, roomData, watchers } = useContext(AppCtx);
+  const { socket, gameData, roomData } = useContext(AppCtx);
   const [sym, setSym] = useState(false);
   let size = useResize();
 
@@ -43,56 +43,7 @@ const Home = () => {
           }
         />
       )}
-      {roomData?.player1 == socket.id && roomData?.status == "pending" && (
-        <div
-          style={{
-            color: "white",
-            position: "absolute",
-            fontWeight: "bold",
-            backgroundColor: "transparent",
-            cursor: "pointer",
-            zIndex: 10,
-          }}
-          onClick={() =>
-            socket.emit("startGame", {
-              roomName: roomData.roomName,
-            })
-          }
-        >
-          PLAY
-        </div>
-      )}
-      {/* @ts-ignore */}
-      <div
-        style={{
-          color: "white",
-          position: "absolute",
-          fontWeight: "bolder",
-          backgroundColor: "transparent",
-          cursor: "pointer",
-          left: "50%",
-          zIndex: 10,
-        }}
-      >
-        {gameData.score.player1} - {gameData.score.player2}
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          bottom: "5px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          left: "80%",
-        }}
-      >
-        <div
-          style={{ marginRight: "5px", fontWeight: 600, fontSize: "0.9rem" }}
-        >
-          {watchers?.length | 0}
-        </div>
-        <Image src={"/Icons/Eye.svg"} width={"17%"} height={"17%"} />
-      </div>
+      <MatchInfos />
       <div
         style={{
           width: "100%",

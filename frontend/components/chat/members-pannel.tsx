@@ -18,11 +18,12 @@ const MembersPannel = (props: {
   return (
     <Box
       sx={{
-        background: "linear-gradient( #171221 10%, #171328 80.61%)",
+        background: "#000",
         display: "grid",
         alignContent: "space-between",
         gridTemplateRows: " auto min-content",
-      }}>
+      }}
+    >
       {activeTab > 0 ? (
         <FriendsList />
       ) : (

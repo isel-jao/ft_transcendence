@@ -61,6 +61,9 @@ export const theme: Theme = {
     light: "#ddd",
     dark: "linear-gradient(180deg, #4E0044 0%, rgba(78, 0, 68, 0) 100%);",
   },
+  typography: {
+    fontFamily: `'Poppins', sans-serif`,
+  },
   palette: {
     primary: { main: "#B2ABF2" },
     secondary: { main: "#aaaaaa" },

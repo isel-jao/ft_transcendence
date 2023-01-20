@@ -1,14 +1,6 @@
-import React, {
-  HtmlHTMLAttributes,
-  ReactElement,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
-  Button,
   IconButton,
   Typography,
   Menu,
@@ -18,7 +10,6 @@ import {
 } from "@mui/material";
 import MessageInput from "./MessageInput";
 import Message from "./messageBox";
-import { IConversation, IFMessage } from "../../types";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { ITEM_HEIGHT } from "../../constants/constants";
 import CustomButton from "./customButton";
@@ -65,7 +56,6 @@ const MessagesContainer = () => {
   const open = Boolean(anchorEl);
   const { data: messages, setData: setMessages } = useConversationMessages();
 
-  const bottomRef = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
 
   const handelClose = () => {
@@ -87,16 +77,13 @@ const MessagesContainer = () => {
         borderRight: "2px solid #2C2039",
         display: "grid",
         gridTemplateRows: "min-content auto min-content",
-        background: "linear-gradient( #171221 10%, #171328 80.61%)",
+        background: "#000",
         overflow: "hidden",
       }}
     >
       <Box
         sx={{
-          // p: "25px 15px",
-          borderBottom: "1px solid #2c2039",
-          // position: "fixed",
-          backgroundColor: "#171221",
+          backgroundColor: "#2600219e",
           width: "100%",
         }}
       >
@@ -139,7 +126,7 @@ const MessagesContainer = () => {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              background: "linear-gradient( #171221 10%, #171328 80.61%)",
+              background: "#000",
               width: "400px",
               border: "1px solid #2c1f3b",
             },
