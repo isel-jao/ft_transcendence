@@ -21,14 +21,20 @@ interface AppContextInterface {
 // @ts-ignore
 export const AppCtx = createContext<AppContextInterface>(null);
 
-const socket: Socket = io("http://localhost:5000", {
-  query: {
-    // token:
-  },
-});
+let socket: Socket = io("http://localhost:3001");
 
 let tmpRoom: RoomDataType = initialRoom;
 export const SocketContext = ({ children }: any) => {
+  const [cookies] = useCookies(["access_token"]);
+  console.log(cookies.access_token);
+  useEffect(() => {
+    if (cookies.access_token)
+      socket = io("http://localhost:3001", {
+        query: {
+          token: cookies.access_token,
+        },
+      });
+  }, [cookies.access_token]);
   const [userData, setUserData] = useState<userDataInterface | null>(null);
   const [roomData, setRoom] = useState<RoomDataType>(initialRoom);
   const [watchers, setWatchers] = useState<[string?]>([]);

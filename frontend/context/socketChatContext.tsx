@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { io, Socket } from "socket.io-client";
 
-const server_url = "http://localhost:5000";
+const server_url = "http://localhost:3001";
 
 const socket: Socket = io(server_url, {
   //   autoConnect: false,

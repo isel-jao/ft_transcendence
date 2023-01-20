@@ -31,7 +31,7 @@ const Card = styled.div`
   height: 450px;
   border-radius: 12px;
   background-image: url("");
-  /* box-shadow: inset 0px -100px 100px #151521; */
+  box-shadow: inset 0px -100px 100px #151521;
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
@@ -51,7 +51,7 @@ const CardInfo = styled.div`
   height: 150px;
   padding: 1rem;
   background: #151521;
-  box-shadow: 0px 0px 120px 40px #151521;
+  box-shadow: rgb(21 21 33) 0px -11px 100px 40px;
   .CardTitle {
     display: flex;
     align-items: center;
@@ -199,13 +199,15 @@ const Users = () => {
               key={idx}
               style={{
                 backgroundImage: `url(${imageUrl})`,
-              }}>
+              }}
+            >
               <CardInfo
                 style={
                   isSelected === idx
                     ? ClassStyle
                     : { transition: "0.5s ease-in-out" }
-                }>
+                }
+              >
                 <div className="CardTitle">
                   <div>
                     <h3>#{userName}</h3>
@@ -236,7 +238,8 @@ const Users = () => {
                           cursor: "pointer",
                           background: "red",
                           padding: 5,
-                        }}>
+                        }}
+                      >
                         Decline
                       </button>
                       <button
@@ -245,7 +248,8 @@ const Users = () => {
                           cursor: "pointer",
                           background: "green",
                           padding: 5,
-                        }}>
+                        }}
+                      >
                         Accepte
                       </button>
                     </div>
