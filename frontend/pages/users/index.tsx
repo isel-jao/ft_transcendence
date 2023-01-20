@@ -31,7 +31,7 @@ const Card = styled.div`
   height: 450px;
   border-radius: 12px;
   background-image: url("");
-  /* box-shadow: inset 0px -100px 100px #151521; */
+  box-shadow: inset 0px -100px 100px #151521;
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
@@ -51,7 +51,7 @@ const CardInfo = styled.div`
   height: 150px;
   padding: 1rem;
   background: #151521;
-  box-shadow: 0px -60px 100px 40px #151521;
+  box-shadow: rgb(21 21 33) 0px -11px 100px 40px;
   .CardTitle {
     display: flex;
     align-items: center;
