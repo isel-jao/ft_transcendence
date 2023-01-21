@@ -15,6 +15,7 @@ const Home = () => {
   const { room } = router.query;
   const { socket, gameData, roomData } = useContext(AppCtx);
   const [sym, setSym] = useState(false);
+  const [hidden, setHidden] = useState(false);
   let size = useResize();
 
   useEffect(() => {
@@ -44,8 +45,8 @@ const Home = () => {
           }
         />
       )}
-      <MatchInfos />
-      <HowToPlay hidden={true} />
+      <MatchInfos setHidden={setHidden} />
+      <HowToPlay hidden={hidden} setHidden={setHidden} />
       {sym && (
         <div
           style={{

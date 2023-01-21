@@ -8,7 +8,7 @@ const Container = styled.div`
   height: 100%;
   filter: blur(18.5px);
   -webkit-filter: blur(18.5px);
-  background: #00000063;
+  background: #5e535354;
   position: absolute;
 `;
 const Card = styled.div`
@@ -29,7 +29,13 @@ const Card = styled.div`
     margin-top: 1rem;
   }
 `;
-const HowToPlay = ({ hidden }: { hidden: boolean }) => {
+const HowToPlay = ({
+  hidden,
+  setHidden,
+}: {
+  hidden: boolean;
+  setHidden: (v: boolean) => void;
+}) => {
   return hidden ? (
     <div
       style={{
@@ -41,6 +47,7 @@ const HowToPlay = ({ hidden }: { hidden: boolean }) => {
         alignItems: "center",
         zIndex: 9,
       }}
+      onClick={() => setHidden(false)}
     >
       <Container></Container>
       <Card>

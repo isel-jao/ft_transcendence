@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 import { AppCtx } from "../context/socketContext";
 
-const MatchInfos = () => {
+const MatchInfos = ({ setHidden }: { setHidden: (v: boolean) => void }) => {
   const { socket, gameData, roomData, watchers } = useContext(AppCtx);
 
   return (
@@ -15,7 +15,7 @@ const MatchInfos = () => {
             fontWeight: "bold",
             backgroundColor: "transparent",
             cursor: "pointer",
-            zIndex: 10,
+            zIndex: 1,
           }}
           onClick={() =>
             socket.emit("startGame", {
@@ -35,7 +35,7 @@ const MatchInfos = () => {
           backgroundColor: "transparent",
           cursor: "pointer",
           left: "50%",
-          zIndex: 10,
+          zIndex: 1,
         }}
       >
         {gameData.score.player1} - {gameData.score.player2}
@@ -47,7 +47,7 @@ const MatchInfos = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          left: "80%",
+          left: "85%",
         }}
       >
         <div
@@ -56,6 +56,16 @@ const MatchInfos = () => {
           {watchers?.length | 0}
         </div>
         <Image src={"/Icons/Eye.svg"} width={"17%"} height={"17%"} />
+        <div
+          style={{
+            marginLeft: "10px",
+            fontWeight: "bolder",
+            cursor: "pointer",
+          }}
+          onClick={() => setHidden(true)}
+        >
+          ?
+        </div>
       </div>
     </div>
   );

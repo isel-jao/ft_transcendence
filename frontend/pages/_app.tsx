@@ -95,9 +95,8 @@ function MyApp(props: MyAppProps) {
             <ThemeProvider theme={theme}>
               {AppProps.router.pathname !== "/login" && !isLoading ? (
                 <Layout>
-                  <Notif />
+                  {!AppProps.router.pathname.match(/\/game\/.*/g) && <Notif />}
                   <Component {...pageProps} />
-                  <Notif />
                 </Layout>
               ) : (
                 <Component {...pageProps} />
