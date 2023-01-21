@@ -27,7 +27,7 @@ const Home = () => {
     if (roomData.roomName != "") setSym(true);
   }, [roomData.roomName]);
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
       {roomData?.status == "gameOver" && (
         <Overlay
           data={roomData.winner === socket.id ? true : false}
@@ -46,13 +46,13 @@ const Home = () => {
       )}
       <MatchInfos />
       <HowToPlay hidden={true} />
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {sym && (
+      {sym && (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        >
           <Canvas
             shadows={true}
             camera={{
@@ -78,8 +78,8 @@ const Home = () => {
               size={size}
             />
           </Canvas>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
