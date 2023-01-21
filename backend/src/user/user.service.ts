@@ -84,7 +84,13 @@ export class UserService {
 
   @HandleRequestErrors()
   async update(id: number, data: UpdateUserDto) {
-    return await this.prisma.user.update({ where: { id }, data });
+    const { isFirstSignIn, ...rest } = data;
+    return await this.prisma.user.update({
+      where: { id }, data: {
+        ...rest,
+        isFirstSignIn: (isFirstSignIn == "true" || isFirstSignIn == true) ? true : false
+      }
+    });
   }
   @HandleRequestErrors()
   async sendRequest(data: { id: number }, id: number) {

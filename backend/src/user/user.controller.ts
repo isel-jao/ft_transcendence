@@ -23,7 +23,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 // @Public()
 @Controller("user")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @ApiOkResponse({ type: [User] })
   @Get()
@@ -67,8 +67,6 @@ export class UserController {
     @UploadedFile() imageUrl: Express.Multer.File,
     @Body() data: UpdateUserDto
   ) {
-    console.log("data", JSON.stringify(data, null, 2));
-    console.log("imageUrl", imageUrl);
     return this.userService.update(id, {
       ...data,
       imageUrl: imageUrl?.filename

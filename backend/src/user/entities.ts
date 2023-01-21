@@ -72,9 +72,8 @@ export class CreateUserDto {
   @IsOptional()
   status: string;
   @ApiProperty({ required: false })
-  @IsBoolean()
   @IsOptional()
-  isFistSignIn: boolean;
+  isFirstSignIn: boolean;
 }
 
 export class UpdateUserDto {
@@ -121,8 +120,10 @@ export class UpdateUserDto {
   @IsOptional()
   status: string;
   @ApiProperty({ required: false })
-  @IsBoolean()
   @IsOptional()
-  isFistSignIn: boolean;
+  isFirstSignIn: boolean | string;
 }
+
+
+
 

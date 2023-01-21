@@ -234,7 +234,7 @@ export function IsPassword(limit?: number) {
 }
 
 export const storage = diskStorage({
-  destination: "dist/uploads",
+  destination: "uploads",
   filename: async (req, file, callback) => {
     callback(null, generateFilename(file));
   },
