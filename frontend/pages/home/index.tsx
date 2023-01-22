@@ -49,7 +49,10 @@ const Home: NextPage = () => {
       <Div>
         <div className="title">
           <span>Win a Game</span>
-          <p>Let’s start a game against your friend or a random people.</p>
+          <p>
+            Bringing the ping pong experience to your fingertips, Let’s start a
+            game against your friend or a random people.
+          </p>
           <Button
             type="submit"
             value="PLAY NOW"
