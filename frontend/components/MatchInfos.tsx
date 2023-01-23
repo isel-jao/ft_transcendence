@@ -15,7 +15,7 @@ const MatchInfos = ({ setHidden }: { setHidden: (v: boolean) => void }) => {
             fontWeight: "bold",
             backgroundColor: "transparent",
             cursor: "pointer",
-            zIndex: 1,
+            zIndex: 9,
           }}
           onClick={() =>
             socket.emit("startGame", {
@@ -48,6 +48,7 @@ const MatchInfos = ({ setHidden }: { setHidden: (v: boolean) => void }) => {
           alignItems: "center",
           justifyContent: "center",
           left: "85%",
+          zIndex: 9,
         }}
       >
         <div

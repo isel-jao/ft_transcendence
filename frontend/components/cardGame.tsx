@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import { Card, Cover, Details } from "./style/home";
+import { Card, Cover, Details } from "./style/Home";
 import Image from "next/image";
 
 type dataType = {

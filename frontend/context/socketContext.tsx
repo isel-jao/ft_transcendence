@@ -26,7 +26,6 @@ let socket: Socket = io("http://localhost:3001");
 let tmpRoom: RoomDataType = initialRoom;
 export const SocketContext = ({ children }: any) => {
   const [cookies] = useCookies(["access_token"]);
-  console.log(cookies.access_token);
   useEffect(() => {
     if (cookies.access_token)
       socket = io("http://localhost:3001", {
