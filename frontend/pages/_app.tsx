@@ -31,6 +31,13 @@ interface MyAppProps extends AppProps {
 axios.defaults.baseURL = `http://localhost:3001`;
 axios.defaults.withCredentials = true;
 
+async function testApi() {
+  const response = await axios.get("/user").catch((err) => {
+    console.log("error", err);
+  });
+  if (response) console.log("response", response);
+}
+
 function MyApp(props: MyAppProps) {
   const {
     Component,
@@ -38,6 +45,11 @@ function MyApp(props: MyAppProps) {
     pageProps,
     ...AppProps
   } = props;
+
+  useEffect(() => {
+    testApi();
+  }, []);
+
   return (
     <CacheProvider value={emotionCache}>
       <SocketContext>

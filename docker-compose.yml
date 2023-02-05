@@ -1,1 +1,48 @@
 
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: ft_postgres
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./db/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - default
+  
+  back:
+    build: ./backend
+    container_name: ft_back
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/app
+    restart: always
+    networks:
+      - default
+    depends_on:
+      - postgres
+    
+  front:
+    build: ./frontend
+    container_name: ft_front
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./frontend:/app 
+    restart: always
+    networks:
+      - default
+    depends_on:
+      - back
+
+networks:
+  default:
+    driver: bridge

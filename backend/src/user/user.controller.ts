@@ -20,10 +20,10 @@ import { Public } from "src/auth/decorators/public.decorator";
 import { FileInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("user")
-// @Public()
+@Public()
 @Controller("user")
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @ApiOkResponse({ type: [User] })
   @Get()
